@@ -1,0 +1,133 @@
+#include "ServerPch.h"
+#include "Server.h"
+#include "GameRoom.h"
+#include "GameSession.h"
+#include "GameObject.h"
+#include "CharacterBody2D.h"
+#include "ServerPacketHandler.h"
+#include "MyGameServerProtocol/PacketHeader.h"
+#include "MyGameServerLibrary/SendBuffer.h"
+#include "MyGameServerLibrary/BufferReader.h"
+#include "MyGameServerLibrary/BufferWriter.h"
+
+#include "PlayerController.h"
+
+namespace MGSL::Net
+{
+	void ServerPacketHandler::HandlePacketImpl
+	(
+		PacketSessionPtr session,
+		BYTE* buffer, 
+		Shared::int32 len
+	)
+	{
+		BufferReader br(buffer, len);
+
+		Protocol::PacketHeader header;
+		br.Peek(&header);
+
+		auto gameSession = std::static_pointer_cast<GameSession>(session);
+		switch (static_cast<EPacketID>(header.id))
+		{
+		case EPacketID::C_EnterGame:
+			Handle_C_ENTER_GAME(gameSession, buffer, len);
+			break;
+
+		case EPacketID::C_Move:
+			Handle_C_MOVE(gameSession, buffer, len);
+			break;
+
+		case EPacketID::C_Jump:
+			Handle_C_JUMP(gameSession, buffer, len);
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	/*=================================//
+	//    default packet generators    //
+	//=================================*/
+	SendBufferPtr ServerPacketHandler::Create_S_EnterGame(bool success, const Protobuf::ObjectInfo& player)
+	{
+		// Protobuf를 이용한 패킷 생성
+		::Protobuf::S_EnterGame pkt;
+
+		pkt.set_success(success);
+		*pkt.mutable_player() = player;
+
+		return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::S_EnterGame));
+	}
+
+	/*========================//
+	//   Packet Test Methods  //
+	//========================*/
+	void ServerPacketHandler::Handle_C_MOVE(GameSessionPtr session, BYTE* buffer, Shared::int32 len)
+	{
+		if (!session) return;
+		Protocol::PacketHeader* header = reinterpret_cast<Protocol::PacketHeader*>(buffer);
+		
+		::Protobuf::C_Move pkt;
+		pkt.ParseFromArray(&header[1], header->size - sizeof(Protocol::PacketHeader));
+
+		Server::GameObjectPtr player = session->GetGameObject();
+		if (!player) return;
+		
+		auto* playerController = player->GetComponent<Server::PlayerController>();
+		if (!playerController) return;
+
+		const auto dir = pkt.dir();
+		playerController->SetMoveDirection(dir);
+		MGSL_LOG_INFO
+		(
+			"C_Move received. ObjectID = {}, Dir = {}",
+			player->GetObjectInfo().objectid(),
+			static_cast<int>(dir)
+		);
+	}
+
+	void ServerPacketHandler::Handle_C_ENTER_GAME(GameSessionPtr session, BYTE* buffer, Shared::int32 len)
+	{
+		if (!session) return;
+
+		auto room = g_Server.GetGameRoom();
+		if (!room) return;
+
+		room->EnterGameRoom(session);
+	}
+
+	void ServerPacketHandler::Handle_C_JUMP(GameSessionPtr session, BYTE* buffer, Shared::int32 len)
+	{
+		if (!session) return;
+
+		Server::GameObjectPtr player = session->GetGameObject();
+		if (!player) return;
+
+		auto* body = player->GetComponent<Server::CharacterBody2D>();
+		if (!body) return;
+
+		body->Jump(3.5f);
+
+		MGSL_LOG_INFO
+		(
+			"C_Jump received. ObjectID = {}",
+			player->GetObjectInfo().objectid()
+		);
+	}
+
+	SendBufferPtr ServerPacketHandler::Make_S_Spawn(const ::Protobuf::S_Spawn& pkt)
+	{
+		return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::S_Spawn));
+	}
+
+	//SendBufferPtr ServerPacketHandler::Make_S_Move(const ::Protobuf::S_Move& pkt)
+	//{
+	//	return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::S_Move));
+	//}
+
+	SendBufferPtr ServerPacketHandler::Make_S_SyncObjects(const ::Protobuf::S_SyncObjects& pkt)
+	{
+		return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::S_SyncObjects));
+	}
+}

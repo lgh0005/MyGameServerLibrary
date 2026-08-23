@@ -1,0 +1,77 @@
+#include "2DPch.h"
+#include "MyPlayerController.h"
+#include "MyGameFramework/KeyboardDevice.h"
+#include "MyGameFramework/CharacterBody2D.h"
+#include "ClientPacketHandler.h"
+
+namespace MGSL::Sandbox2D
+{
+	MyPlayerController::MyPlayerController(Framework::GameObject* owner) : Super(owner) { }
+	MyPlayerController::~MyPlayerController() = default;
+
+	MyPlayerControllerUPtr MyPlayerController::Create(Framework::GameObject* owner)
+	{
+		return MyPlayerControllerUPtr(new MyPlayerController(owner));
+	}
+
+	void MyPlayerController::Awake()
+	{
+		m_characterBody = GetOwner()->GetComponent<Framework::CharacterBody2D>();
+	}
+
+	void MyPlayerController::Update(float deltaTime)
+	{
+		HandleMovementInput(deltaTime);
+	}
+
+	void MyPlayerController::HandleMovementInput(float deltaTime)
+	{
+		auto keyboard = MGSL_INPUT_MGR.GetKeyboard();
+		Framework::CharacterBody2D* body = GetOwner()->GetComponent<Framework::CharacterBody2D>();
+		if (!body) return;
+
+		/*========================//
+		//   Horizontal Movement  //
+		//========================*/
+		float directionX = 0.0f;
+		if (keyboard->GetKeyPress('A')) directionX -= 1.0f;
+		if (keyboard->GetKeyPress('D')) directionX += 1.0f;
+		body->SetHorizontalVelocity(directionX * m_moveSpeed);
+		
+		/*========================//
+		//          Jump          //
+		//========================*/
+		if (keyboard->GetKeyDown(VK_SPACE))
+		{
+			body->Jump(m_jumpPower);
+			SendJumpPacket();
+		}
+
+		/*========================//
+		//      Move Packet       //
+		//========================*/
+		::Protobuf::DIR_TYPE moveDir = ::Protobuf::DIR_TYPE_NONE;
+		if (directionX < 0.0f) moveDir = ::Protobuf::DIR_TYPE_LEFT;
+		else if (directionX > 0.0f) moveDir = ::Protobuf::DIR_TYPE_RIGHT;
+		if (moveDir != m_prevMoveDir)
+		{
+			SendMovePacket(moveDir);
+			m_prevMoveDir = moveDir;
+		}
+	}
+
+	/*========================//
+	//   Packet Test Methods  //
+	//========================*/
+	void MyPlayerController::SendMovePacket(::Protobuf::DIR_TYPE dir)
+	{
+		auto sendBuffer = Net::ClientPacketHandler::Make_C_Move(dir);
+		MGSL_NETWORK_MGR.SendPacket(sendBuffer);
+	}
+
+	void MyPlayerController::SendJumpPacket()
+	{
+		auto sendBuffer = Net::ClientPacketHandler::Make_C_Jump();
+		MGSL_NETWORK_MGR.SendPacket(sendBuffer);
+	}
+}

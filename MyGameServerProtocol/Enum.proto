@@ -1,0 +1,23 @@
+syntax = "proto3";
+package Protobuf;
+
+enum OBJECT_TYPE
+{
+	OBJECT_TYPE_NONE = 0;
+	OBJECT_TYPE_PLAYER = 1;
+}
+
+enum OBJECT_STATE_TYPE
+{
+	OBJECT_STATE_TYPE_IDLE = 0;
+	OBJECT_STATE_TYPE_MOVE = 1;
+}
+
+enum DIR_TYPE
+{
+	DIR_TYPE_NONE = 0;
+	DIR_TYPE_UP = 1;
+	DIR_TYPE_DOWN = 2;
+	DIR_TYPE_LEFT = 3;
+	DIR_TYPE_RIGHT = 4;
+}

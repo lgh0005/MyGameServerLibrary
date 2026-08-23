@@ -1,0 +1,28 @@
+<Project>
+  <Target
+    Name="CopyGameResources"
+    AfterTargets="Build"
+    Condition="
+      ('$(MSBuildProjectName)' == 'My2DSandbox'
+       Or '$(MSBuildProjectName)' == 'My3DSandbox')
+      And Exists('$(MSBuildThisFileDirectory)Resource')
+    ">
+
+    <ItemGroup>
+      <GameResourceFiles
+        Include="$(MSBuildThisFileDirectory)Resource\**\*" />
+    </ItemGroup>
+
+    <Message
+      Text="[Resource Copy] $(MSBuildThisFileDirectory)Resource -> $(TargetDir)Resource"
+      Importance="High" />
+
+    <MakeDir Directories="$(TargetDir)Resource" />
+
+    <Copy
+      SourceFiles="@(GameResourceFiles)"
+      DestinationFiles="@(GameResourceFiles->'$(TargetDir)Resource\%(RecursiveDir)%(Filename)%(Extension)')"
+      SkipUnchangedFiles="true" />
+
+  </Target>
+</Project>

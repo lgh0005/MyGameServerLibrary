@@ -1,0 +1,12 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="My2DSandbox/My2DSandbox.vcxproj" Id="9314d2b0-921c-45a4-9b2b-02b25f4db72f" />
+  <Project Path="MyGameFramework/MyGameFramework.vcxproj" Id="f4133d5e-bade-4a9b-969f-327bc701f461" />
+  <Project Path="MyGameServer/MyGameServer.vcxproj" Id="e4d342d2-0e48-47b6-bef1-b350a7458d64" />
+  <Project Path="MyGameServerLibrary/MyGameServerLibrary.vcxproj" Id="6b328231-42a3-4487-8473-bf1290b73072" />
+  <Project Path="MyGameServerProtocol/MyGameServerProtocol.vcxproj" Id="436d92f9-0b86-4b80-9445-eb322644af37" />
+  <Project Path="MyGameShared/MyGameShared.vcxproj" Id="2898c174-1c5e-42ff-bcbe-83773abd55bf" />
+</Solution>

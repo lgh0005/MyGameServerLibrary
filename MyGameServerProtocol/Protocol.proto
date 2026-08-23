@@ -1,0 +1,36 @@
+syntax = "proto3";
+package Protobuf;
+
+import "Enum.proto";
+import "Struct.proto";
+
+message C_EnterGame
+{
+
+}
+
+message S_EnterGame
+{
+	bool success = 1;
+	ObjectInfo player = 2;
+}
+
+message C_Move
+{
+    DIR_TYPE dir = 1;
+}
+
+message C_Jump
+{
+
+}
+
+message S_Spawn
+{
+    repeated ObjectInfo objects = 1;
+}
+
+message S_SyncObjects
+{
+    repeated ObjectInfo objects = 1;
+}

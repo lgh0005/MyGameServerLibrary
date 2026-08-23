@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\Headers">
+      <UniqueIdentifier>{a3fcd42e-77bb-49e1-bbfb-592222f167c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Tools">
+      <UniqueIdentifier>{9b2db90c-991a-4899-bde2-598509f7604e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Protocols">
+      <UniqueIdentifier>{e0fdf2a2-18e3-45de-91ba-f895dd837063}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Protobufs">
+      <UniqueIdentifier>{6ed43fc7-5e88-4330-b0e9-1a7a5764b6f0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ServerProtoPch.cpp">
+      <Filter>소스 파일\Headers</Filter>
+    </ClCompile>
+    <ClCompile Include="Enum.pb.cc">
+      <Filter>소스 파일\Protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="Protocol.pb.cc">
+      <Filter>소스 파일\Protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="Struct.pb.cc">
+      <Filter>소스 파일\Protocols</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ServerProtoPch.h">
+      <Filter>소스 파일\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketHeader.h">
+      <Filter>소스 파일\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Enum.pb.h">
+      <Filter>소스 파일\Protocols</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol.pb.h">
+      <Filter>소스 파일\Protocols</Filter>
+    </ClInclude>
+    <ClInclude Include="Struct.pb.h">
+      <Filter>소스 파일\Protocols</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>소스 파일\Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GenPackets.bat">
+      <Filter>소스 파일\Tools</Filter>
+    </None>
+    <None Include="Enum.proto">
+      <Filter>소스 파일\Protobufs</Filter>
+    </None>
+    <None Include="Protocol.proto">
+      <Filter>소스 파일\Protobufs</Filter>
+    </None>
+    <None Include="Struct.proto">
+      <Filter>소스 파일\Protobufs</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\Headers">
+      <UniqueIdentifier>{d73a2e82-09b3-4178-968e-0380f6fa2090}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Entry">
+      <UniqueIdentifier>{c8a39642-3728-4f1e-8a03-689b7600d9f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Window">
+      <UniqueIdentifier>{ec38ca4d-0c6d-4407-bae5-aa3a7b172e25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Game">
+      <UniqueIdentifier>{b034a504-0fdc-4444-b759-dbe887116bc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Network">
+      <UniqueIdentifier>{95b7dcdd-bcaf-4305-8307-6097fd602f5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Scripts">
+      <UniqueIdentifier>{e60e9430-d7c3-4051-b5bf-ad6dd21ff763}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="2DPch.cpp">
+      <Filter>소스 파일\Headers</Filter>
+    </ClCompile>
+    <ClCompile Include="My2DSandbox.cpp">
+      <Filter>소스 파일\Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="Sandbox2DWindow.cpp">
+      <Filter>소스 파일\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Sandbox2D.cpp">
+      <Filter>소스 파일\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Sandbox2DScene.cpp">
+      <Filter>소스 파일\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientPacketHandler.cpp">
+      <Filter>소스 파일\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraController.cpp">
+      <Filter>소스 파일\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerSession.cpp">
+      <Filter>소스 파일\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkManager.cpp">
+      <Filter>소스 파일\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="MyPlayerController.cpp">
+      <Filter>소스 파일\Scripts</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="2DPch.h">
+      <Filter>소스 파일\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraController.h">
+      <Filter>소스 파일\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Sandbox2DWindow.h">
+      <Filter>소스 파일\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Sandbox2D.h">
+      <Filter>소스 파일\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Sandbox2DScene.h">
+      <Filter>소스 파일\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>소스 파일\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientPacketHandler.h">
+      <Filter>소스 파일\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerSession.h">
+      <Filter>소스 파일\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkManager.h">
+      <Filter>소스 파일\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="MyPlayerController.h">
+      <Filter>소스 파일\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Sandbox2DGlobal.h">
+      <Filter>소스 파일\Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NetworkManager.inl">
+      <Filter>소스 파일\Network</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\Headers">
+      <UniqueIdentifier>{f2a42ed8-1add-44d1-acf8-0768264aaf05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Entry">
+      <UniqueIdentifier>{62ce3c08-eb41-4307-9a15-b96edf76e58c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Network">
+      <UniqueIdentifier>{1dadf493-c47b-43fd-a148-4270d25e5475}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Manager">
+      <UniqueIdentifier>{ed8b2260-09f9-4a7f-a766-0beca6cf5e17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Contents">
+      <UniqueIdentifier>{4d002513-24cb-4dae-ae26-b072438f0674}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Contents\Entities">
+      <UniqueIdentifier>{014e71b9-cd7c-4d35-9ced-2c1573d4cef7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Contents\Components">
+      <UniqueIdentifier>{497519ef-0e79-4e9a-b637-a2453392d0f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Contents\Collision">
+      <UniqueIdentifier>{36dd4b30-8871-47c0-a0d0-a07becc43aaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Contents\Clients">
+      <UniqueIdentifier>{d0306593-bc6e-402d-b05f-0a8712b3906c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ServerPch.cpp">
+      <Filter>소스 파일\Headers</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerMain.cpp">
+      <Filter>소스 파일\Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerPacketHandler.cpp">
+      <Filter>소스 파일\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSession.cpp">
+      <Filter>소스 파일\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSessionManager.cpp">
+      <Filter>소스 파일\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="GameRoom.cpp">
+      <Filter>소스 파일\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>소스 파일\Contents\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>소스 파일\Contents\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Server.cpp">
+      <Filter>소스 파일\Contents\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>소스 파일\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerTimeManager.cpp">
+      <Filter>소스 파일\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="AABB.cpp">
+      <Filter>소스 파일\Contents\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="ColliderFunctor.cpp">
+      <Filter>소스 파일\Contents\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>소스 파일\Contents\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterBody2D.cpp">
+      <Filter>소스 파일\Contents\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>소스 파일\Contents\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientBehaviour.cpp">
+      <Filter>소스 파일\Contents\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerController.cpp">
+      <Filter>소스 파일\Contents\Clients</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerCollisionManager.cpp">
+      <Filter>소스 파일\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionResolveInfo.cpp">
+      <Filter>소스 파일\Contents\Collision</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ServerPch.h">
+      <Filter>소스 파일\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerPacketHandler.h">
+      <Filter>소스 파일\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSession.h">
+      <Filter>소스 파일\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSessionManager.h">
+      <Filter>소스 파일\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="GameRoom.h">
+      <Filter>소스 파일\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>소스 파일\Contents\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>소스 파일\Contents\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Server.h">
+      <Filter>소스 파일\Contents\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>소스 파일\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>소스 파일\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerGlobal.h">
+      <Filter>소스 파일\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerTimeManager.h">
+      <Filter>소스 파일\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="AABB.h">
+      <Filter>소스 파일\Contents\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="ColliderFunctor.h">
+      <Filter>소스 파일\Contents\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>소스 파일\Contents\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterBody2D.h">
+      <Filter>소스 파일\Contents\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>소스 파일\Contents\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientBehaviour.h">
+      <Filter>소스 파일\Contents\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerController.h">
+      <Filter>소스 파일\Contents\Clients</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerCollisionManager.h">
+      <Filter>소스 파일\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionResolveInfo.h">
+      <Filter>소스 파일\Contents\Collision</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GameObject.inl">
+      <Filter>소스 파일\Contents\Entities</Filter>
+    </None>
+    <None Include="ObjectManager.inl">
+      <Filter>소스 파일\Manager</Filter>
+    </None>
+  </ItemGroup>
+</Project>

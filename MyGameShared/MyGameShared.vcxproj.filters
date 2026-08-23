@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\Headers">
+      <UniqueIdentifier>{5a0fe1ab-1b4a-4a5e-b32d-696d0a19643d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Debug">
+      <UniqueIdentifier>{f4e89e75-7149-4ebb-822b-9811b3ec1ada}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Managers">
+      <UniqueIdentifier>{bdf2fc1f-48d1-4e50-9697-8f5d0487ec95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Concurrency">
+      <UniqueIdentifier>{9a179557-83a1-4e54-b3e4-e68a7107d0ad}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SharedPch.cpp">
+      <Filter>소스 파일\Headers</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>소스 파일\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Asserter.cpp">
+      <Filter>소스 파일\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadManager.cpp">
+      <Filter>소스 파일\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockingQueue.cpp">
+      <Filter>소스 파일\Concurrency</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockingStack.cpp">
+      <Filter>소스 파일\Concurrency</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SharedPch.h">
+      <Filter>소스 파일\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>소스 파일\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Aliases.h">
+      <Filter>소스 파일\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Macros.h">
+      <Filter>소스 파일\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>소스 파일\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Asserter.h">
+      <Filter>소스 파일\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadManager.h">
+      <Filter>소스 파일\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockingQueue.h">
+      <Filter>소스 파일\Concurrency</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockingStack.h">
+      <Filter>소스 파일\Concurrency</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Logger.inl">
+      <Filter>소스 파일\Debug</Filter>
+    </None>
+    <None Include="BlockingQueue.inl">
+      <Filter>소스 파일\Concurrency</Filter>
+    </None>
+    <None Include="BlockingStack.inl">
+      <Filter>소스 파일\Concurrency</Filter>
+    </None>
+  </ItemGroup>
+</Project>

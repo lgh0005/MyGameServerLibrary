@@ -1,0 +1,504 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\Windows">
+      <UniqueIdentifier>{4da694f4-7e44-4073-a526-991fa795a315}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Graphics">
+      <UniqueIdentifier>{9d818aee-0496-462b-bbe9-0a426c67c335}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Entities">
+      <UniqueIdentifier>{18012c24-a654-425d-ba0c-29cc2678a0b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Devices">
+      <UniqueIdentifier>{14e13bd8-62df-4c99-9300-b0fc43a40d33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Headers">
+      <UniqueIdentifier>{a2a3ae5a-1c13-4ddc-a7cd-a0f8af02c1b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Managers">
+      <UniqueIdentifier>{bae22a5d-5858-4bf4-ae6c-8de4b0748a65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Resources">
+      <UniqueIdentifier>{e0acb81f-0caa-4e89-9628-340e4bf35f35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Components">
+      <UniqueIdentifier>{3eea104b-1443-4267-bd57-9df6c5c0273b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Renderings">
+      <UniqueIdentifier>{c98dd1a3-5d79-48bb-82fb-88a08780f890}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\OpenGL">
+      <UniqueIdentifier>{8000ed23-8b38-4664-9ad7-759bf8a3a890}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Instancing">
+      <UniqueIdentifier>{a24af4b9-01b5-4bcc-8614-d6b56b4993c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Renderings\Pipelines">
+      <UniqueIdentifier>{4c9dbfef-9c72-4ffe-bd78-cb051dad9608}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Renderings\Passes">
+      <UniqueIdentifier>{5fac47ee-c269-4c3e-abd4-6929f2979d37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Flipbook">
+      <UniqueIdentifier>{4ecd2ef8-3e95-4366-9d08-ab6cf04b14f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Instancing\Sprite">
+      <UniqueIdentifier>{16acbad9-f0a6-4991-a537-de1a44a34efb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Instancing\Particle">
+      <UniqueIdentifier>{a1004bef-8a1f-4f52-9e17-0694ffa0a065}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Instancing\UI">
+      <UniqueIdentifier>{ba16ac37-14c1-4a70-a276-54405c3f6cca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Debug">
+      <UniqueIdentifier>{d8ce3546-b2eb-4419-969d-5aa8e617b795}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GameFrameworkPch.cpp">
+      <Filter>소스 파일\Headers</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>소스 파일\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="IInputDevice.cpp">
+      <Filter>소스 파일\Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardDevice.cpp">
+      <Filter>소스 파일\Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseDevice.cpp">
+      <Filter>소스 파일\Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>소스 파일\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>소스 파일\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>소스 파일\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>소스 파일\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>소스 파일\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="GLContext.cpp">
+      <Filter>소스 파일\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>소스 파일\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>소스 파일\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="GPUResource.cpp">
+      <Filter>소스 파일\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource.cpp">
+      <Filter>소스 파일\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="MonoBehaviour.cpp">
+      <Filter>소스 파일\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>소스 파일\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteRenderer.cpp">
+      <Filter>소스 파일\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="FlipbookPlayer.cpp">
+      <Filter>소스 파일\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>소스 파일\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>소스 파일\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture2D.cpp">
+      <Filter>소스 파일\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="GLBuffer.cpp">
+      <Filter>소스 파일\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="GLFramebuffer.cpp">
+      <Filter>소스 파일\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="GLVertexArray.cpp">
+      <Filter>소스 파일\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="GLTexture.cpp">
+      <Filter>소스 파일\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="GLProgram.cpp">
+      <Filter>소스 파일\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadMesh.cpp">
+      <Filter>소스 파일\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderBatch.cpp">
+      <Filter>소스 파일\Instancing</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderQueue.cpp">
+      <Filter>소스 파일\Instancing</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>소스 파일\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="FlipbookClip.cpp">
+      <Filter>소스 파일\Flipbook</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderBatchPool.cpp">
+      <Filter>소스 파일\Instancing</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPass.cpp">
+      <Filter>소스 파일\Renderings</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPipeline.cpp">
+      <Filter>소스 파일\Renderings</Filter>
+    </ClCompile>
+    <ClCompile Include="PostProcessingRenderPass2D.cpp">
+      <Filter>소스 파일\Renderings\Passes</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteRenderPass.cpp">
+      <Filter>소스 파일\Renderings\Passes</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPipeline2D.cpp">
+      <Filter>소스 파일\Renderings\Pipelines</Filter>
+    </ClCompile>
+    <ClCompile Include="GLSampler.cpp">
+      <Filter>소스 파일\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>소스 파일\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="FlipbookController.cpp">
+      <Filter>소스 파일\Flipbook</Filter>
+    </ClCompile>
+    <ClCompile Include="InstancedRenderBatch.cpp">
+      <Filter>소스 파일\Instancing</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectRegistry.cpp">
+      <Filter>소스 파일\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>소스 파일\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleEmitter2D.cpp">
+      <Filter>소스 파일\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>소스 파일\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteRenderBatch.cpp">
+      <Filter>소스 파일\Instancing\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteRenderBatchPool.cpp">
+      <Filter>소스 파일\Instancing\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="UIRenderPass.cpp">
+      <Filter>소스 파일\Renderings\Passes</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>소스 파일\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="UICanvas.cpp">
+      <Filter>소스 파일\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="UIImageRenderBatch.cpp">
+      <Filter>소스 파일\Instancing\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIImageRenderBatchPool.cpp">
+      <Filter>소스 파일\Instancing\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>소스 파일\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="UITextRenderBatch.cpp">
+      <Filter>소스 파일\Instancing\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UITextRenderBatchPool.cpp">
+      <Filter>소스 파일\Instancing\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIComponent.cpp">
+      <Filter>소스 파일\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="UIImage.cpp">
+      <Filter>소스 파일\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="UIText.cpp">
+      <Filter>소스 파일\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>소스 파일\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugLine.cpp">
+      <Filter>소스 파일\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugRenderer.cpp">
+      <Filter>소스 파일\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugRenderPass.cpp">
+      <Filter>소스 파일\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugVertex.cpp">
+      <Filter>소스 파일\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterBody2D.cpp">
+      <Filter>소스 파일\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugGizmo.cpp">
+      <Filter>소스 파일\Debug</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameFrameworkPch.h">
+      <Filter>소스 파일\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>소스 파일\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="IInputDevice.h">
+      <Filter>소스 파일\Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardDevice.h">
+      <Filter>소스 파일\Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseDevice.h">
+      <Filter>소스 파일\Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>소스 파일\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>소스 파일\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>소스 파일\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>소스 파일\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>소스 파일\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="GLContext.h">
+      <Filter>소스 파일\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>소스 파일\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>소스 파일\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="GPUResource.h">
+      <Filter>소스 파일\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>소스 파일\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>소스 파일\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="MonoBehaviour.h">
+      <Filter>소스 파일\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>소스 파일\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteRenderer.h">
+      <Filter>소스 파일\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="FlipbookPlayer.h">
+      <Filter>소스 파일\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>소스 파일\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>소스 파일\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture2D.h">
+      <Filter>소스 파일\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="GLBuffer.h">
+      <Filter>소스 파일\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="GLFramebuffer.h">
+      <Filter>소스 파일\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="GLVertexArray.h">
+      <Filter>소스 파일\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="GLTexture.h">
+      <Filter>소스 파일\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="GLProgram.h">
+      <Filter>소스 파일\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>소스 파일\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadMesh.h">
+      <Filter>소스 파일\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderBatch.h">
+      <Filter>소스 파일\Instancing</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderQueue.h">
+      <Filter>소스 파일\Instancing</Filter>
+    </ClInclude>
+    <ClInclude Include="InstanceData.h">
+      <Filter>소스 파일\Instancing</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>소스 파일\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Uniform.h">
+      <Filter>소스 파일\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="FlipbookClip.h">
+      <Filter>소스 파일\Flipbook</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderItem.h">
+      <Filter>소스 파일\Instancing</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderBatchPool.h">
+      <Filter>소스 파일\Instancing</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPass.h">
+      <Filter>소스 파일\Renderings</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPipeline.h">
+      <Filter>소스 파일\Renderings</Filter>
+    </ClInclude>
+    <ClInclude Include="PostProcessingRenderPass2D.h">
+      <Filter>소스 파일\Renderings\Passes</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteRenderPass.h">
+      <Filter>소스 파일\Renderings\Passes</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPipeline2D.h">
+      <Filter>소스 파일\Renderings\Pipelines</Filter>
+    </ClInclude>
+    <ClInclude Include="GLSampler.h">
+      <Filter>소스 파일\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>소스 파일\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="FlipbookController.h">
+      <Filter>소스 파일\Flipbook</Filter>
+    </ClInclude>
+    <ClInclude Include="InstancedRenderBatch.h">
+      <Filter>소스 파일\Instancing</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectRegistry.h">
+      <Filter>소스 파일\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>소스 파일\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleEmitter2D.h">
+      <Filter>소스 파일\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>소스 파일\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteRenderBatch.h">
+      <Filter>소스 파일\Instancing\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteRenderBatchPool.h">
+      <Filter>소스 파일\Instancing\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="UIRenderPass.h">
+      <Filter>소스 파일\Renderings\Passes</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>소스 파일\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Glyph.h">
+      <Filter>소스 파일\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="UICanvas.h">
+      <Filter>소스 파일\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="UIImageRenderBatch.h">
+      <Filter>소스 파일\Instancing\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIImageRenderBatchPool.h">
+      <Filter>소스 파일\Instancing\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>소스 파일\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="UITextRenderBatch.h">
+      <Filter>소스 파일\Instancing\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UITextRenderBatchPool.h">
+      <Filter>소스 파일\Instancing\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIComponent.h">
+      <Filter>소스 파일\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="UIImage.h">
+      <Filter>소스 파일\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="UIText.h">
+      <Filter>소스 파일\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>소스 파일\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugLine.h">
+      <Filter>소스 파일\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugRenderer.h">
+      <Filter>소스 파일\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugRenderPass.h">
+      <Filter>소스 파일\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugVertex.h">
+      <Filter>소스 파일\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterBody2D.h">
+      <Filter>소스 파일\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugGizmo.h">
+      <Filter>소스 파일\Debug</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ResourceManager.inl">
+      <Filter>소스 파일\Managers</Filter>
+    </None>
+    <None Include="Mesh.inl">
+      <Filter>소스 파일\Graphics</Filter>
+    </None>
+    <None Include="GameObject.inl">
+      <Filter>소스 파일\Entities</Filter>
+    </None>
+    <None Include="RenderQueue.inl">
+      <Filter>소스 파일\Instancing</Filter>
+    </None>
+    <None Include="ObjectManager.inl">
+      <Filter>소스 파일\Managers</Filter>
+    </None>
+    <None Include="ObjectRegistry.inl">
+      <Filter>소스 파일\Entities</Filter>
+    </None>
+    <None Include="Scene.inl">
+      <Filter>소스 파일\Entities</Filter>
+    </None>
+  </ItemGroup>
+</Project>
