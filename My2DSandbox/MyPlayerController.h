@@ -43,6 +43,7 @@ namespace MGSL::Sandbox2D
 	private:
 		void SendMovePacket(::Protobuf::DIR_TYPE dir);
 		void SendJumpPacket();
+		void SendChangeWeaponPacket(::Protobuf::WEAPON_TYPE weapon);
 	};
 }
 

@@ -18,4 +18,6 @@ message ObjectInfo
 	float velocityX = 6;
 	float velocityY = 7;
 	bool grounded = 8;
+	FACING_TYPE facing = 9;
+	WEAPON_TYPE weapon = 10;
 }

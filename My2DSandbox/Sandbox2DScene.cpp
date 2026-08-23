@@ -16,8 +16,10 @@
 #include "MyGameFramework/CharacterBody2D.h"
 #include "MyGameFramework/BoxCollider.h"
 
+#include "FlipbookUtils.h"
 #include "CameraController.h"
 #include "MyPlayerController.h"
+#include "MyPlayerStateMachine.h"
 
 namespace MGSL::Sandbox2D
 {
@@ -67,82 +69,12 @@ namespace MGSL::Sandbox2D
 		/*========================//
 		//   flipbook loading     //
 		//========================*/
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.AirAttack", "Resource/Sprites/Player/fighter/fighter_air_attack.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Fighter.AirAttack");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Climb", "Resource/Sprites/Player/fighter/fighter_climb.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Fighter.Climb");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Combo1", "Resource/Sprites/Player/fighter/fighter_combo_1.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Fighter.Combo1");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Combo2", "Resource/Sprites/Player/fighter/fighter_combo_2.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Fighter.Combo2");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Combo3", "Resource/Sprites/Player/fighter/fighter_combo_3.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Fighter.Combo3");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Dash", "Resource/Sprites/Player/fighter/fighter_dash.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Fighter.Dash");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Death", "Resource/Sprites/Player/fighter/fighter_death.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Fighter.Death");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Hit", "Resource/Sprites/Player/fighter/fighter_hit.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Fighter.Hit");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Idle", "Resource/Sprites/Player/fighter/fighter_idle.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Fighter.Idle");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Jump", "Resource/Sprites/Player/fighter/fighter_jump.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Fighter.Jump");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Run", "Resource/Sprites/Player/fighter/fighter_run.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Fighter.Run");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Slide", "Resource/Sprites/Player/fighter/fighter_slide.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Fighter.Slide");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Walk", "Resource/Sprites/Player/fighter/fighter_walk.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Fighter.Walk");
-
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Pistol.AirAttack", "Resource/Sprites/Player/pistol/pistol_air_attack.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Pistol.AirAttack");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Pistol.Climb", "Resource/Sprites/Player/pistol/pistol_climb.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Pistol.Climb");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Pistol.Dash", "Resource/Sprites/Player/pistol/pistol_dash.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Pistol.Dash");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Pistol.Death", "Resource/Sprites/Player/pistol/pistol_death.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Pistol.Death");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Pistol.Hit", "Resource/Sprites/Player/pistol/pistol_hit.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Pistol.Hit");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Pistol.Idle", "Resource/Sprites/Player/pistol/pistol_idle.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Pistol.Idle");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Pistol.Jump", "Resource/Sprites/Player/pistol/pistol_jump.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Pistol.Jump");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Pistol.Run", "Resource/Sprites/Player/pistol/pistol_run.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Pistol.Run");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Pistol.Shot", "Resource/Sprites/Player/pistol/pistol_shot.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Pistol.Shot");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Pistol.Slide", "Resource/Sprites/Player/pistol/pistol_slide.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Pistol.Slide");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Pistol.Walk", "Resource/Sprites/Player/pistol/pistol_walk.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Pistol.Walk");
-
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Sword.AirAttack", "Resource/Sprites/Player/sword/sword_air_attack.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Sword.AirAttack");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Sword.Climb", "Resource/Sprites/Player/sword/sword_climb.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Sword.Climb");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Sword.Combo1", "Resource/Sprites/Player/sword/sword_combo_1.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Sword.Combo1");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Sword.Combo2", "Resource/Sprites/Player/sword/sword_combo_2.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Sword.Combo2");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Sword.Combo3", "Resource/Sprites/Player/sword/sword_combo_3.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Sword.Combo3");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Sword.Dash", "Resource/Sprites/Player/sword/sword_dash.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Sword.Dash");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Sword.Death", "Resource/Sprites/Player/sword/sword_death.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Sword.Death");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Sword.Hit", "Resource/Sprites/Player/sword/sword_hit.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Sword.Hit");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Sword.Idle", "Resource/Sprites/Player/sword/sword_idle.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Sword.Idle");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Sword.Jump", "Resource/Sprites/Player/sword/sword_jump.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Sword.Jump");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Sword.Run", "Resource/Sprites/Player/sword/sword_run.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Sword.Run");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Sword.Slide", "Resource/Sprites/Player/sword/sword_slide.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Sword.Slide");
-		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Sword.Walk", "Resource/Sprites/Player/sword/sword_walk.ktx2")) return false;
-		AddRequiredResourceName("Sandbox2D.Player.Sword.Walk");
+		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Fighter", "Resource/Sprites/Player/player_fighter.ktx2")) return false;
+		AddRequiredResourceName("Sandbox2D.Player.Fighter");
+		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Pistol", "Resource/Sprites/Player/player_pistol.ktx2")) return false;
+		AddRequiredResourceName("Sandbox2D.Player.Pistol");
+		if (!MGSL_RESOURCE_MGR.RegisterResource<Framework::Texture2D>("Sandbox2D.Player.Sword", "Resource/Sprites/Player/player_sword.ktx2")) return false;
+		AddRequiredResourceName("Sandbox2D.Player.Sword");
 
 		/*=======================//
 		//   font loading        //
@@ -173,45 +105,61 @@ namespace MGSL::Sandbox2D
 		Framework::Texture2DPtr ladder = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Props.Ladder"); if (!ladder) return;
 		Framework::Texture2DPtr bullet = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Props.Bullet"); if (!bullet) return;
 		
-		Framework::Texture2DPtr fighterIdle = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Idle"); if (!fighterIdle) return;
-		Framework::Texture2DPtr fighterAirAttack = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.AirAttack"); if (!fighterAirAttack) return;
-		Framework::Texture2DPtr fighterClimb = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Climb"); if (!fighterClimb) return;
-		Framework::Texture2DPtr fighterCombo1 = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Combo1"); if (!fighterCombo1) return;
-		Framework::Texture2DPtr fighterCombo2 = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Combo2"); if (!fighterCombo2) return;
-		Framework::Texture2DPtr fighterCombo3 = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Combo3"); if (!fighterCombo3) return;
-		Framework::Texture2DPtr fighterDash = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Dash"); if (!fighterDash) return;
-		Framework::Texture2DPtr fighterDeath = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Death"); if (!fighterDeath) return;
-		Framework::Texture2DPtr fighterHit = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Hit"); if (!fighterHit) return;
-		Framework::Texture2DPtr fighterJump = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Jump"); if (!fighterJump) return;
-		Framework::Texture2DPtr fighterRun = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Run"); if (!fighterRun) return;
-		Framework::Texture2DPtr fighterSlide = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Slide"); if (!fighterSlide) return;
-		Framework::Texture2DPtr fighterWalk = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Walk"); if (!fighterWalk) return;
+		Framework::Texture2DPtr fighterAtlas = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Fighter"); if (!fighterAtlas) return;
+		Framework::Texture2DPtr pistolAtlas = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Pistol"); if (!pistolAtlas) return;
+		Framework::Texture2DPtr swordAtlas = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Sword"); if (!swordAtlas) return;
 
-		Framework::Texture2DPtr pistolAirAttack = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Pistol.AirAttack"); if (!pistolAirAttack) return;
-		Framework::Texture2DPtr pistolClimb = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Pistol.Climb"); if (!pistolClimb) return;
-		Framework::Texture2DPtr pistolDash = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Pistol.Dash"); if (!pistolDash) return;
-		Framework::Texture2DPtr pistolDeath = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Pistol.Death"); if (!pistolDeath) return;
-		Framework::Texture2DPtr pistolHit = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Pistol.Hit"); if (!pistolHit) return;
-		Framework::Texture2DPtr pistolIdle = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Pistol.Idle"); if (!pistolIdle) return;
-		Framework::Texture2DPtr pistolJump = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Pistol.Jump"); if (!pistolJump) return;
-		Framework::Texture2DPtr pistolRun = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Pistol.Run"); if (!pistolRun) return;
-		Framework::Texture2DPtr pistolShot = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Pistol.Shot"); if (!pistolShot) return;
-		Framework::Texture2DPtr pistolSlide = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Pistol.Slide"); if (!pistolSlide) return;
-		Framework::Texture2DPtr pistolWalk = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Pistol.Walk"); if (!pistolWalk) return;
+		/*===========================================//
+		//   flipbook clip/controller creation      //
+		//===========================================*/
+		Framework::FlipbookControllerPtr fighterController = Framework::FlipbookController::Create(fighterAtlas); if (!fighterController) return;
+		Framework::FlipbookControllerPtr pistolController = Framework::FlipbookController::Create(pistolAtlas); if (!pistolController) return;
+		Framework::FlipbookControllerPtr swordController = Framework::FlipbookController::Create(swordAtlas); if (!swordController) return;
+		fighterController->ResizeClips(15);
+		pistolController->ResizeClips(15);
+		swordController->ResizeClips(15);
 
-		Framework::Texture2DPtr swordAirAttack = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Sword.AirAttack"); if (!swordAirAttack) return;
-		Framework::Texture2DPtr swordClimb = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Sword.Climb"); if (!swordClimb) return;
-		Framework::Texture2DPtr swordCombo1 = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Sword.Combo1"); if (!swordCombo1) return;
-		Framework::Texture2DPtr swordCombo2 = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Sword.Combo2"); if (!swordCombo2) return;
-		Framework::Texture2DPtr swordCombo3 = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Sword.Combo3"); if (!swordCombo3) return;
-		Framework::Texture2DPtr swordDash = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Sword.Dash"); if (!swordDash) return;
-		Framework::Texture2DPtr swordDeath = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Sword.Death"); if (!swordDeath) return;
-		Framework::Texture2DPtr swordHit = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Sword.Hit"); if (!swordHit) return;
-		Framework::Texture2DPtr swordIdle = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Sword.Idle"); if (!swordIdle) return;
-		Framework::Texture2DPtr swordJump = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Sword.Jump"); if (!swordJump) return;
-		Framework::Texture2DPtr swordRun = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Sword.Run"); if (!swordRun) return;
-		Framework::Texture2DPtr swordSlide = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Sword.Slide"); if (!swordSlide) return;
-		Framework::Texture2DPtr swordWalk = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Sword.Walk"); if (!swordWalk) return;
+		// Fighter
+		if (!FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(EObjectState::IDLE), 0, 8, 10, 12, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(EObjectState::WALK), 1, 8, 10, 12, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(EObjectState::RUN), 2, 8, 10, 12, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(EObjectState::JUMP), 3, 5, 10, 12, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(EObjectState::DASH), 4, 6, 10, 12, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(EObjectState::CLIMB), 5, 4, 10, 12, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(EObjectState::AIR_ATTACK), 6, 2, 10, 12, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(EObjectState::ATTACK_1), 7, 4, 10, 12, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(EObjectState::ATTACK_2), 8, 7, 10, 12, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(EObjectState::ATTACK_3), 9, 8, 10, 12, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(EObjectState::HIT), 10, 4, 10, 12, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(EObjectState::DEATH), 11, 10, 10, 12, 16.0f)) return;
+
+		// Pistol
+		if (!FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(EObjectState::IDLE), 0, 8, 10, 11, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(EObjectState::WALK), 1, 8, 10, 11, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(EObjectState::RUN), 2, 8, 10, 11, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(EObjectState::JUMP), 3, 5, 10, 11, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(EObjectState::SLIDE), 4, 8, 10, 11, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(EObjectState::DASH), 5, 6, 10, 11, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(EObjectState::CLIMB), 6, 4, 10, 11, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(EObjectState::AIR_ATTACK), 7, 2, 10, 11, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(EObjectState::SHOT), 8, 2, 10, 11, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(EObjectState::HIT), 9, 4, 10, 11, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(EObjectState::DEATH), 10, 10, 10, 11, 16.0f)) return;
+
+		// Sword
+		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::IDLE), 0, 8, 10, 13, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::WALK), 1, 8, 10, 13, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::RUN), 2, 8, 10, 13, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::JUMP), 3, 5, 10, 13, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::SLIDE), 4, 8, 10, 13, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::DASH), 5, 6, 10, 13, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::CLIMB), 6, 4, 10, 13, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::AIR_ATTACK), 7, 3, 10, 13, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::ATTACK_1), 8, 4, 10, 13, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::ATTACK_2), 9, 3, 10, 13, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::ATTACK_3), 10, 4, 10, 13, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::HIT), 11, 4, 10, 13, 16.0f)) return;
+		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::DEATH), 12, 10, 10, 13, 16.0f)) return;
 
 		/*===============================//
 		//   render pipeline settings    //
@@ -221,7 +169,6 @@ namespace MGSL::Sandbox2D
 		SetUIImageShader(uiImageShader);
 		SetUITextShader(uiTextShader);
 		SetDebugShader(debugGizmoShader);
-
 		if (!FinalizeRenderSetting()) return;
 
 		/*================================//
@@ -375,23 +322,13 @@ namespace MGSL::Sandbox2D
 		Framework::GameObject* player = MGSL_OBJECT_MGR.CreateGameObject(this); if (!player) return;
 		player->GetTransform().SetPosition(Shared::vec3(0.0f, 0.0f, 0.0f));
 		player->GetTransform().SetScale(Shared::vec3(1.25f));
-		Framework::Texture2DPtr fighterIdleTex = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Idle"); if (!fighterIdleTex) return;
-		Framework::FlipbookControllerPtr flipbookController = Framework::FlipbookController::Create(fighterIdleTex); if (!flipbookController) return;
-		Shared::List<Shared::vec4> idleFrames =
-		{
-			{ 0.000f, 0.0f, 0.125f, 1.0f },
-			{ 0.125f, 0.0f, 0.125f, 1.0f },
-			{ 0.250f, 0.0f, 0.125f, 1.0f },
-			{ 0.375f, 0.0f, 0.125f, 1.0f },
-			{ 0.500f, 0.0f, 0.125f, 1.0f },
-			{ 0.625f, 0.0f, 0.125f, 1.0f },
-			{ 0.750f, 0.0f, 0.125f, 1.0f },
-			{ 0.875f, 0.0f, 0.125f, 1.0f }
-		};
-		Framework::FlipbookClipPtr idleClip = Framework::FlipbookClip::Create(idleFrames, 16.0f); if (!idleClip) return;
-		if (!flipbookController->SetClip(0, idleClip)) return;
-		Framework::FlipbookPlayer* flipbookPlayer = MGSL_OBJECT_MGR.AddComponent<Framework::FlipbookPlayer>(player, flipbookController); if (!flipbookPlayer) return;
-		if (!flipbookPlayer->SetState(0)) return;
+		Framework::FlipbookPlayer* flipbookPlayer = MGSL_OBJECT_MGR.AddComponent<Framework::FlipbookPlayer>(player); if (!flipbookPlayer) return;
+		flipbookPlayer->ResizeControllers(static_cast<Shared::usize>(EWeaponType::COUNT));
+		if (!flipbookPlayer->SetController(static_cast<Shared::usize>(EWeaponType::FIGHTER), fighterController)) return;
+		if (!flipbookPlayer->SetController(static_cast<Shared::usize>(EWeaponType::PISTOL), pistolController)) return;
+		if (!flipbookPlayer->SetController(static_cast<Shared::usize>(EWeaponType::SWORD), swordController)) return;
+		if (!flipbookPlayer->ChangeController(0)) return;
+		if (!flipbookPlayer->SetState(static_cast<Shared::uint32>(EObjectState::IDLE))) return;
 		flipbookPlayer->SetSize(Shared::vec2(1.0f, 1.0f));
 		flipbookPlayer->Play();
 
@@ -402,8 +339,9 @@ namespace MGSL::Sandbox2D
 		playerCollider->SetDebugOffset(Shared::vec2(0.0f, -0.2f));
 		MGSL_COLLIDE_MGR.Register(playerCollider);
 
-		// PlayerController
+		// PlayerController & MyPlayerStateMachine
 		MyPlayerController* playerController = MGSL_OBJECT_MGR.AddComponent<MyPlayerController>(player);
+		MyPlayerStateMachine* statemachine = MGSL_OBJECT_MGR.AddComponent<MyPlayerStateMachine>(player);
 
 		// CharacterBody2D
 		Framework::CharacterBody2D* characterBody = MGSL_OBJECT_MGR.AddComponent<Framework::CharacterBody2D>(player);

@@ -39,6 +39,10 @@ namespace MGSL::Net
 			Handle_C_JUMP(gameSession, buffer, len);
 			break;
 
+		case EPacketID::C_ChangeWeapon:
+			Handle_C_CHANGE_WEAPON(gameSession, buffer, len);
+			break;
+
 		default:
 			break;
 		}
@@ -112,6 +116,24 @@ namespace MGSL::Net
 			"C_Jump received. ObjectID = {}",
 			player->GetObjectInfo().objectid()
 		);
+	}
+
+	void ServerPacketHandler::Handle_C_CHANGE_WEAPON(GameSessionPtr session, BYTE* buffer, Shared::int32 len)
+	{
+		if (!session) return;
+		Protocol::PacketHeader* header = reinterpret_cast<Protocol::PacketHeader*>(buffer);
+
+		Protobuf::C_ChangeWeapon pkt;
+		if (!pkt.ParseFromArray(&header[1], header->size - sizeof(Protocol::PacketHeader)))
+			return;
+
+		Server::GameObjectPtr player = session->GetGameObject();
+		if (!player) return;
+
+		Server::PlayerController* playerController = player->GetComponent<Server::PlayerController>();
+		if (!playerController) return;
+
+		playerController->SetWeapon(pkt.weapon());
 	}
 
 	SendBufferPtr ServerPacketHandler::Make_S_Spawn(const ::Protobuf::S_Spawn& pkt)

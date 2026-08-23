@@ -2,7 +2,6 @@
 #include "PlayerController.h"
 #include "GameObject.h"
 #include "CharacterBody2D.h"
-#include "BoxCollider.h"
 
 namespace MGSL::Server
 {
@@ -19,40 +18,39 @@ namespace MGSL::Server
         GameObject* owner = GetOwner();
         if (!owner) return;
 
+        CharacterBody2D* body = owner->GetComponent<CharacterBody2D>();
+        if (!body) return;
+
         float directionX = 0.0f;
         switch (m_moveDirection)
         {
             case ::Protobuf::DIR_TYPE_LEFT:
                 directionX = -1.0f;
+                m_facing = Protobuf::FACING_TYPE_LEFT;
                 break;
 
             case ::Protobuf::DIR_TYPE_RIGHT:
                 directionX = 1.0f;
+                m_facing = Protobuf::FACING_TYPE_RIGHT;
                 break;
 
             default:
                 break;
         }
 
+        if (!body->IsGrounded())
+        {
+            if (body->GetVerticalVelocity() > 0.0f) m_state = Protobuf::OBJECT_STATE_TYPE_JUMP;
+            else m_state = Protobuf::OBJECT_STATE_TYPE_FALL;
+        }
+        else
+        {
+            if (directionX != 0.0f) m_state = Protobuf::OBJECT_STATE_TYPE_WALK;
+            else m_state = Protobuf::OBJECT_STATE_TYPE_IDLE;
+        }
+
         if (directionX != 0.0f)
             owner->GetTransform().Translate(Shared::vec3(directionX * m_moveSpeed * deltaTime, 0.0f, 0.0f));
-    }
-
-    void PlayerController::OnCollisionEnter(BoxCollider* other)
-    {
-        if (!other) return;
-        // TODO : gameplay collision event
-    }
-
-    void PlayerController::OnCollisionStay(BoxCollider* other)
-    {
-        if (!other) return;
-        // TODO : gameplay collision event
-    }
-
-    void PlayerController::OnCollisionExit(BoxCollider* other)
-    {
-        // TODO
     }
 
     void PlayerController::SetMoveDirection(::Protobuf::DIR_TYPE dir)
@@ -63,5 +61,25 @@ namespace MGSL::Server
     ::Protobuf::DIR_TYPE PlayerController::GetMoveDirection() const
     {
         return m_moveDirection;
+    }
+
+    void PlayerController::SetWeapon(Protobuf::WEAPON_TYPE weapon)
+    {
+        m_weapon = weapon;
+    }
+
+    Protobuf::OBJECT_STATE_TYPE PlayerController::GetState() const
+    {
+        return m_state;
+    }
+
+    Protobuf::FACING_TYPE PlayerController::GetFacing() const
+    {
+        return m_facing;
+    }
+
+    Protobuf::WEAPON_TYPE PlayerController::GetWeapon() const
+    {
+        return m_weapon;
     }
 }

@@ -25,6 +25,11 @@ message C_Jump
 
 }
 
+message C_ChangeWeapon
+{
+    WEAPON_TYPE weapon = 1;
+}
+
 message S_Spawn
 {
     repeated ObjectInfo objects = 1;

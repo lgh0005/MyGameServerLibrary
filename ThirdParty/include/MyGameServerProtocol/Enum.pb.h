@@ -50,12 +50,14 @@ namespace Protobuf {
 enum OBJECT_TYPE : int {
   OBJECT_TYPE_NONE = 0,
   OBJECT_TYPE_PLAYER = 1,
+  OBJECT_TYPE_ENEMY = 2,
+  OBJECT_TYPE_BULLET = 3,
   OBJECT_TYPE_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
   OBJECT_TYPE_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
 };
 bool OBJECT_TYPE_IsValid(int value);
 constexpr OBJECT_TYPE OBJECT_TYPE_MIN = OBJECT_TYPE_NONE;
-constexpr OBJECT_TYPE OBJECT_TYPE_MAX = OBJECT_TYPE_PLAYER;
+constexpr OBJECT_TYPE OBJECT_TYPE_MAX = OBJECT_TYPE_BULLET;
 constexpr int OBJECT_TYPE_ARRAYSIZE = OBJECT_TYPE_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* OBJECT_TYPE_descriptor();
@@ -74,13 +76,26 @@ inline bool OBJECT_TYPE_Parse(
 }
 enum OBJECT_STATE_TYPE : int {
   OBJECT_STATE_TYPE_IDLE = 0,
-  OBJECT_STATE_TYPE_MOVE = 1,
+  OBJECT_STATE_TYPE_WALK = 1,
+  OBJECT_STATE_TYPE_RUN = 2,
+  OBJECT_STATE_TYPE_JUMP = 3,
+  OBJECT_STATE_TYPE_FALL = 4,
+  OBJECT_STATE_TYPE_SLIDE = 5,
+  OBJECT_STATE_TYPE_DASH = 6,
+  OBJECT_STATE_TYPE_CLIMB = 7,
+  OBJECT_STATE_TYPE_AIR_ATTACK = 8,
+  OBJECT_STATE_TYPE_ATTACK_1 = 9,
+  OBJECT_STATE_TYPE_ATTACK_2 = 10,
+  OBJECT_STATE_TYPE_ATTACK_3 = 11,
+  OBJECT_STATE_TYPE_SHOT = 12,
+  OBJECT_STATE_TYPE_HIT = 13,
+  OBJECT_STATE_TYPE_DEATH = 14,
   OBJECT_STATE_TYPE_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
   OBJECT_STATE_TYPE_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
 };
 bool OBJECT_STATE_TYPE_IsValid(int value);
 constexpr OBJECT_STATE_TYPE OBJECT_STATE_TYPE_MIN = OBJECT_STATE_TYPE_IDLE;
-constexpr OBJECT_STATE_TYPE OBJECT_STATE_TYPE_MAX = OBJECT_STATE_TYPE_MOVE;
+constexpr OBJECT_STATE_TYPE OBJECT_STATE_TYPE_MAX = OBJECT_STATE_TYPE_DEATH;
 constexpr int OBJECT_STATE_TYPE_ARRAYSIZE = OBJECT_STATE_TYPE_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* OBJECT_STATE_TYPE_descriptor();
@@ -125,6 +140,57 @@ inline bool DIR_TYPE_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<DIR_TYPE>(
     DIR_TYPE_descriptor(), name, value);
 }
+enum FACING_TYPE : int {
+  FACING_TYPE_LEFT = 0,
+  FACING_TYPE_RIGHT = 1,
+  FACING_TYPE_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  FACING_TYPE_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool FACING_TYPE_IsValid(int value);
+constexpr FACING_TYPE FACING_TYPE_MIN = FACING_TYPE_LEFT;
+constexpr FACING_TYPE FACING_TYPE_MAX = FACING_TYPE_RIGHT;
+constexpr int FACING_TYPE_ARRAYSIZE = FACING_TYPE_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* FACING_TYPE_descriptor();
+template<typename T>
+inline const std::string& FACING_TYPE_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, FACING_TYPE>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function FACING_TYPE_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    FACING_TYPE_descriptor(), enum_t_value);
+}
+inline bool FACING_TYPE_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, FACING_TYPE* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<FACING_TYPE>(
+    FACING_TYPE_descriptor(), name, value);
+}
+enum WEAPON_TYPE : int {
+  WEAPON_TYPE_NONE = 0,
+  WEAPON_TYPE_PISTOL = 1,
+  WEAPON_TYPE_SWORD = 2,
+  WEAPON_TYPE_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  WEAPON_TYPE_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool WEAPON_TYPE_IsValid(int value);
+constexpr WEAPON_TYPE WEAPON_TYPE_MIN = WEAPON_TYPE_NONE;
+constexpr WEAPON_TYPE WEAPON_TYPE_MAX = WEAPON_TYPE_SWORD;
+constexpr int WEAPON_TYPE_ARRAYSIZE = WEAPON_TYPE_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* WEAPON_TYPE_descriptor();
+template<typename T>
+inline const std::string& WEAPON_TYPE_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, WEAPON_TYPE>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function WEAPON_TYPE_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    WEAPON_TYPE_descriptor(), enum_t_value);
+}
+inline bool WEAPON_TYPE_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, WEAPON_TYPE* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<WEAPON_TYPE>(
+    WEAPON_TYPE_descriptor(), name, value);
+}
 // ===================================================================
 
 
@@ -161,6 +227,16 @@ template <> struct is_proto_enum< ::Protobuf::DIR_TYPE> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::Protobuf::DIR_TYPE>() {
   return ::Protobuf::DIR_TYPE_descriptor();
+}
+template <> struct is_proto_enum< ::Protobuf::FACING_TYPE> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::Protobuf::FACING_TYPE>() {
+  return ::Protobuf::FACING_TYPE_descriptor();
+}
+template <> struct is_proto_enum< ::Protobuf::WEAPON_TYPE> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::Protobuf::WEAPON_TYPE>() {
+  return ::Protobuf::WEAPON_TYPE_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

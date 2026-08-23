@@ -16,9 +16,9 @@ namespace MGSL::Framework
 		static FlipbookControllerPtr Create(const Texture2DPtr& atlasTexture);
 
 	public:
+		void ResizeClips(Shared::usize size);
 		bool SetClip(Shared::uint32 stateIndex, const FlipbookClipPtr& clip);
 		bool RemoveClip(Shared::uint32 stateIndex);
-		bool SetState(Shared::uint32 stateIndex);
 		void Clear();
 
 	public:

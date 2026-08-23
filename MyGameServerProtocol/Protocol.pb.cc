@@ -70,6 +70,19 @@ struct C_JumpDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C_JumpDefaultTypeInternal _C_Jump_default_instance_;
+PROTOBUF_CONSTEXPR C_ChangeWeapon::C_ChangeWeapon(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.weapon_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct C_ChangeWeaponDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR C_ChangeWeaponDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~C_ChangeWeaponDefaultTypeInternal() {}
+  union {
+    C_ChangeWeapon _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C_ChangeWeaponDefaultTypeInternal _C_ChangeWeapon_default_instance_;
 PROTOBUF_CONSTEXPR S_Spawn::S_Spawn(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.objects_)*/{}
@@ -97,7 +110,7 @@ struct S_SyncObjectsDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S_SyncObjectsDefaultTypeInternal _S_SyncObjects_default_instance_;
 }  // namespace Protobuf
-static ::_pb::Metadata file_level_metadata_Protocol_2eproto[6];
+static ::_pb::Metadata file_level_metadata_Protocol_2eproto[7];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_Protocol_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_Protocol_2eproto = nullptr;
 
@@ -130,6 +143,13 @@ const uint32_t TableStruct_Protocol_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Protobuf::C_ChangeWeapon, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protobuf::C_ChangeWeapon, _impl_.weapon_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protobuf::S_Spawn, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -149,8 +169,9 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 6, -1, -1, sizeof(::Protobuf::S_EnterGame)},
   { 14, -1, -1, sizeof(::Protobuf::C_Move)},
   { 21, -1, -1, sizeof(::Protobuf::C_Jump)},
-  { 27, -1, -1, sizeof(::Protobuf::S_Spawn)},
-  { 34, -1, -1, sizeof(::Protobuf::S_SyncObjects)},
+  { 27, -1, -1, sizeof(::Protobuf::C_ChangeWeapon)},
+  { 34, -1, -1, sizeof(::Protobuf::S_Spawn)},
+  { 41, -1, -1, sizeof(::Protobuf::S_SyncObjects)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -158,6 +179,7 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::Protobuf::_S_EnterGame_default_instance_._instance,
   &::Protobuf::_C_Move_default_instance_._instance,
   &::Protobuf::_C_Jump_default_instance_._instance,
+  &::Protobuf::_C_ChangeWeapon_default_instance_._instance,
   &::Protobuf::_S_Spawn_default_instance_._instance,
   &::Protobuf::_S_SyncObjects_default_instance_._instance,
 };
@@ -167,10 +189,12 @@ const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABL
   "Struct.proto\"\r\n\013C_EnterGame\"D\n\013S_EnterGa"
   "me\022\017\n\007success\030\001 \001(\010\022$\n\006player\030\002 \001(\0132\024.Pr"
   "otobuf.ObjectInfo\")\n\006C_Move\022\037\n\003dir\030\001 \001(\016"
-  "2\022.Protobuf.DIR_TYPE\"\010\n\006C_Jump\"0\n\007S_Spaw"
-  "n\022%\n\007objects\030\001 \003(\0132\024.Protobuf.ObjectInfo"
-  "\"6\n\rS_SyncObjects\022%\n\007objects\030\001 \003(\0132\024.Pro"
-  "tobuf.ObjectInfob\006proto3"
+  "2\022.Protobuf.DIR_TYPE\"\010\n\006C_Jump\"7\n\016C_Chan"
+  "geWeapon\022%\n\006weapon\030\001 \001(\0162\025.Protobuf.WEAP"
+  "ON_TYPE\"0\n\007S_Spawn\022%\n\007objects\030\001 \003(\0132\024.Pr"
+  "otobuf.ObjectInfo\"6\n\rS_SyncObjects\022%\n\007ob"
+  "jects\030\001 \003(\0132\024.Protobuf.ObjectInfob\006proto"
+  "3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_Protocol_2eproto_deps[2] = {
   &::descriptor_table_Enum_2eproto,
@@ -178,9 +202,9 @@ static const ::_pbi::DescriptorTable* const descriptor_table_Protocol_2eproto_de
 };
 static ::_pbi::once_flag descriptor_table_Protocol_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_Protocol_2eproto = {
-    false, false, 304, descriptor_table_protodef_Protocol_2eproto,
+    false, false, 361, descriptor_table_protodef_Protocol_2eproto,
     "Protocol.proto",
-    &descriptor_table_Protocol_2eproto_once, descriptor_table_Protocol_2eproto_deps, 2, 6,
+    &descriptor_table_Protocol_2eproto_once, descriptor_table_Protocol_2eproto_deps, 2, 7,
     schemas, file_default_instances, TableStruct_Protocol_2eproto::offsets,
     file_level_metadata_Protocol_2eproto, file_level_enum_descriptors_Protocol_2eproto,
     file_level_service_descriptors_Protocol_2eproto,
@@ -686,6 +710,187 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*C_Jump::GetClassData() const {
 
 // ===================================================================
 
+class C_ChangeWeapon::_Internal {
+ public:
+};
+
+C_ChangeWeapon::C_ChangeWeapon(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:Protobuf.C_ChangeWeapon)
+}
+C_ChangeWeapon::C_ChangeWeapon(const C_ChangeWeapon& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  C_ChangeWeapon* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.weapon_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _this->_impl_.weapon_ = from._impl_.weapon_;
+  // @@protoc_insertion_point(copy_constructor:Protobuf.C_ChangeWeapon)
+}
+
+inline void C_ChangeWeapon::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.weapon_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+C_ChangeWeapon::~C_ChangeWeapon() {
+  // @@protoc_insertion_point(destructor:Protobuf.C_ChangeWeapon)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void C_ChangeWeapon::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void C_ChangeWeapon::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void C_ChangeWeapon::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protobuf.C_ChangeWeapon)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.weapon_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* C_ChangeWeapon::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // .Protobuf.WEAPON_TYPE weapon = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_weapon(static_cast<::Protobuf::WEAPON_TYPE>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* C_ChangeWeapon::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:Protobuf.C_ChangeWeapon)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .Protobuf.WEAPON_TYPE weapon = 1;
+  if (this->_internal_weapon() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_weapon(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Protobuf.C_ChangeWeapon)
+  return target;
+}
+
+size_t C_ChangeWeapon::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protobuf.C_ChangeWeapon)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // .Protobuf.WEAPON_TYPE weapon = 1;
+  if (this->_internal_weapon() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_weapon());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData C_ChangeWeapon::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    C_ChangeWeapon::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*C_ChangeWeapon::GetClassData() const { return &_class_data_; }
+
+
+void C_ChangeWeapon::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<C_ChangeWeapon*>(&to_msg);
+  auto& from = static_cast<const C_ChangeWeapon&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protobuf.C_ChangeWeapon)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_weapon() != 0) {
+    _this->_internal_set_weapon(from._internal_weapon());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void C_ChangeWeapon::CopyFrom(const C_ChangeWeapon& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protobuf.C_ChangeWeapon)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool C_ChangeWeapon::IsInitialized() const {
+  return true;
+}
+
+void C_ChangeWeapon::InternalSwap(C_ChangeWeapon* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_.weapon_, other->_impl_.weapon_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata C_ChangeWeapon::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_Protocol_2eproto_getter, &descriptor_table_Protocol_2eproto_once,
+      file_level_metadata_Protocol_2eproto[4]);
+}
+
+// ===================================================================
+
 class S_Spawn::_Internal {
  public:
 };
@@ -869,7 +1074,7 @@ void S_Spawn::InternalSwap(S_Spawn* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S_Spawn::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_Protocol_2eproto_getter, &descriptor_table_Protocol_2eproto_once,
-      file_level_metadata_Protocol_2eproto[4]);
+      file_level_metadata_Protocol_2eproto[5]);
 }
 
 // ===================================================================
@@ -1057,7 +1262,7 @@ void S_SyncObjects::InternalSwap(S_SyncObjects* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S_SyncObjects::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_Protocol_2eproto_getter, &descriptor_table_Protocol_2eproto_once,
-      file_level_metadata_Protocol_2eproto[5]);
+      file_level_metadata_Protocol_2eproto[6]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -1078,6 +1283,10 @@ Arena::CreateMaybeMessage< ::Protobuf::C_Move >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::Protobuf::C_Jump*
 Arena::CreateMaybeMessage< ::Protobuf::C_Jump >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Protobuf::C_Jump >(arena);
+}
+template<> PROTOBUF_NOINLINE ::Protobuf::C_ChangeWeapon*
+Arena::CreateMaybeMessage< ::Protobuf::C_ChangeWeapon >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protobuf::C_ChangeWeapon >(arena);
 }
 template<> PROTOBUF_NOINLINE ::Protobuf::S_Spawn*
 Arena::CreateMaybeMessage< ::Protobuf::S_Spawn >(Arena* arena) {

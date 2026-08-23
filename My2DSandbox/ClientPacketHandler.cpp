@@ -12,7 +12,9 @@
 #include "MyGameFramework/BoxCollider.h"
 #include "MyGameFramework/CharacterBody2D.h"
 #include "MyPlayerController.h"
+#include "MyPlayerStateMachine.h"
 #include "Sandbox2DGlobal.h"
+#include "FlipbookUtils.h"
 
 namespace MGSL::Net
 {
@@ -82,6 +84,13 @@ namespace MGSL::Net
 		return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::C_Jump));
 	}
 
+	SendBufferPtr ClientPacketHandler::Make_C_ChangeWeapon(::Protobuf::WEAPON_TYPE weapon)
+	{
+		::Protobuf::C_ChangeWeapon pkt;
+		pkt.set_weapon(weapon);
+		return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::C_ChangeWeapon));
+	}
+
 	void ClientPacketHandler::Handle_S_SPAWN(ServerSessionPtr session, BYTE* buffer, Shared::int32 len)
 	{
 		Protocol::PacketHeader* header = reinterpret_cast<Protocol::PacketHeader*>(buffer);
@@ -112,8 +121,9 @@ namespace MGSL::Net
 		Framework::Scene* scene = g_Game2D.GetScene();
 		if (!scene) return;
 
-		Framework::Texture2DPtr playerTexture = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Fighter.Idle");
-		if (!playerTexture) return;
+		Framework::Texture2DPtr fighterAtlas = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Fighter"); if (!fighterAtlas) return;
+		Framework::Texture2DPtr pistolAtlas = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Pistol"); if (!pistolAtlas) return;
+		Framework::Texture2DPtr swordAtlas = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Sword"); if (!swordAtlas) return;
 
 		for (const auto& objectInfo : pkt.objects())
 		{
@@ -124,23 +134,64 @@ namespace MGSL::Net
 			// 2. 서버에서 전달받은 네트워크 정보 설정
 			otherPlayer->SetObjectInfo(objectInfo);
 
-			// 3. 이후 컴포넌트 부착
-			Framework::FlipbookControllerPtr flipbookController = Framework::FlipbookController::Create(playerTexture); if (!flipbookController) continue;
-			Shared::List<Shared::vec4> idleFrames =
-			{
-				{ 0.000f, 0.0f, 0.125f, 1.0f },
-				{ 0.125f, 0.0f, 0.125f, 1.0f },
-				{ 0.250f, 0.0f, 0.125f, 1.0f },
-				{ 0.375f, 0.0f, 0.125f, 1.0f },
-				{ 0.500f, 0.0f, 0.125f, 1.0f },
-				{ 0.625f, 0.0f, 0.125f, 1.0f },
-				{ 0.750f, 0.0f, 0.125f, 1.0f },
-				{ 0.875f, 0.0f, 0.125f, 1.0f }
-			};
-			Framework::FlipbookClipPtr idleClip = Framework::FlipbookClip::Create(idleFrames, 16.0f); if (!idleClip) continue;
-			if (!flipbookController->SetClip(0, idleClip)) continue;
-			Framework::FlipbookPlayer* flipbookPlayer = MGSL_OBJECT_MGR.AddComponent<Framework::FlipbookPlayer>(otherPlayer, flipbookController); if (!flipbookPlayer) continue;
-			if (!flipbookPlayer->SetState(0)) continue;
+			// 3. Flipbook Controller 생성
+			Framework::FlipbookControllerPtr fighterController = Framework::FlipbookController::Create(fighterAtlas); if (!fighterController) continue;
+			Framework::FlipbookControllerPtr pistolController = Framework::FlipbookController::Create(pistolAtlas); if (!pistolController) continue;
+			Framework::FlipbookControllerPtr swordController = Framework::FlipbookController::Create(swordAtlas); if (!swordController) continue;
+			fighterController->ResizeClips(static_cast<Shared::usize>(Sandbox2D::EObjectState::COUNT));
+			pistolController->ResizeClips(static_cast<Shared::usize>(Sandbox2D::EObjectState::COUNT));
+			swordController->ResizeClips(static_cast<Shared::usize>(Sandbox2D::EObjectState::COUNT));
+
+			// Fighter
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::IDLE), 0, 8, 10, 12, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::WALK), 1, 8, 10, 12, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::RUN), 2, 8, 10, 12, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::JUMP), 3, 5, 10, 12, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::DASH), 4, 6, 10, 12, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::CLIMB), 5, 4, 10, 12, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::AIR_ATTACK), 6, 2, 10, 12, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::ATTACK_1), 7, 4, 10, 12, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::ATTACK_2), 8, 7, 10, 12, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::ATTACK_3), 9, 8, 10, 12, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::HIT), 10, 4, 10, 12, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::DEATH), 11, 10, 10, 12, 16.0f)) continue;
+
+			// Pistol
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::IDLE), 0, 8, 10, 11, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::WALK), 1, 8, 10, 11, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::RUN), 2, 8, 10, 11, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::JUMP), 3, 5, 10, 11, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::SLIDE), 4, 8, 10, 11, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::DASH), 5, 6, 10, 11, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::CLIMB), 6, 4, 10, 11, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::AIR_ATTACK), 7, 2, 10, 11, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::SHOT), 8, 2, 10, 11, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::HIT), 9, 4, 10, 11, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::DEATH), 10, 10, 10, 11, 16.0f)) continue;
+
+			// Sword
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::IDLE), 0, 8, 10, 13, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::WALK), 1, 8, 10, 13, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::RUN), 2, 8, 10, 13, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::JUMP), 3, 5, 10, 13, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::SLIDE), 4, 8, 10, 13, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::DASH), 5, 6, 10, 13, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::CLIMB), 6, 4, 10, 13, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::AIR_ATTACK), 7, 3, 10, 13, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::ATTACK_1), 8, 4, 10, 13, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::ATTACK_2), 9, 3, 10, 13, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::ATTACK_3), 10, 4, 10, 13, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::HIT), 11, 4, 10, 13, 16.0f)) continue;
+			if (!Sandbox2D::FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(Sandbox2D::EObjectState::DEATH), 12, 10, 10, 13, 16.0f)) continue;
+
+			// 4. FlipbookPlayer 부착
+			Framework::FlipbookPlayer* flipbookPlayer = MGSL_OBJECT_MGR.AddComponent<Framework::FlipbookPlayer>(otherPlayer); if (!flipbookPlayer) continue;
+			flipbookPlayer->ResizeControllers(static_cast<Shared::usize>(Sandbox2D::EWeaponType::COUNT));
+			if (!flipbookPlayer->SetController((Shared::usize)Sandbox2D::EWeaponType::FIGHTER, fighterController)) continue;
+			if (!flipbookPlayer->SetController((Shared::usize)Sandbox2D::EWeaponType::PISTOL, pistolController)) continue;
+			if (!flipbookPlayer->SetController((Shared::usize)Sandbox2D::EWeaponType::SWORD, swordController)) continue;
+			if (!flipbookPlayer->ChangeController((Shared::usize)Sandbox2D::EWeaponType::FIGHTER)) continue;
+			if (!flipbookPlayer->SetState(static_cast<Shared::uint32>(Sandbox2D::EObjectState::IDLE))) continue;
 			flipbookPlayer->SetSize(Shared::vec2(1.0f, 1.0f));
 			flipbookPlayer->Play();
 
@@ -155,7 +206,11 @@ namespace MGSL::Net
 			Framework::CharacterBody2D* body = MGSL_OBJECT_MGR.AddComponent<Framework::CharacterBody2D>(otherPlayer);
 			if (!body) continue;
 
-			// 6. 최초 위치 설정
+			// 6. MyPlayerStateMachine 부착
+			Sandbox2D::MyPlayerStateMachine* stateMachine = MGSL_OBJECT_MGR.AddComponent<Sandbox2D::MyPlayerStateMachine>(otherPlayer);
+			if (!stateMachine) continue;
+
+			// 7. 최초 위치 설정
 			Shared::vec3 spawnPosition
 			(
 				objectInfo.posx(),
@@ -201,6 +256,15 @@ namespace MGSL::Net
 			{
 				body->SetServerVelocity(objectInfo.velocityx(), objectInfo.velocityy());
 				body->SetServerGrounded(objectInfo.grounded());
+			}
+
+			// 상태 동기화
+			Sandbox2D::MyPlayerStateMachine* stateMachine = gameObject->GetComponent<Sandbox2D::MyPlayerStateMachine>();
+			if (stateMachine)
+			{
+				stateMachine->SetState(objectInfo.state());
+				stateMachine->SetFacing(objectInfo.facing());
+				stateMachine->SetWeapon(objectInfo.weapon());
 			}
 		}
 	}

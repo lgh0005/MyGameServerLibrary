@@ -48,6 +48,13 @@ namespace MGSL::Sandbox2D
 		}
 
 		/*========================//
+		//      Weapon Change     //
+		//========================*/
+		if (keyboard->GetKeyDown('1')) SendChangeWeaponPacket(::Protobuf::WEAPON_TYPE_NONE);
+		if (keyboard->GetKeyDown('2')) SendChangeWeaponPacket(::Protobuf::WEAPON_TYPE_PISTOL);
+		if (keyboard->GetKeyDown('3')) SendChangeWeaponPacket(::Protobuf::WEAPON_TYPE_SWORD);
+
+		/*========================//
 		//      Move Packet       //
 		//========================*/
 		::Protobuf::DIR_TYPE moveDir = ::Protobuf::DIR_TYPE_NONE;
@@ -72,6 +79,12 @@ namespace MGSL::Sandbox2D
 	void MyPlayerController::SendJumpPacket()
 	{
 		auto sendBuffer = Net::ClientPacketHandler::Make_C_Jump();
+		MGSL_NETWORK_MGR.SendPacket(sendBuffer);
+	}
+
+	void MyPlayerController::SendChangeWeaponPacket(::Protobuf::WEAPON_TYPE weapon)
+	{
+		auto sendBuffer = Net::ClientPacketHandler::Make_C_ChangeWeapon(weapon);
 		MGSL_NETWORK_MGR.SendPacket(sendBuffer);
 	}
 }

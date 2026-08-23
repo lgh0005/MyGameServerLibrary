@@ -23,6 +23,9 @@
     <Filter Include="소스 파일\Scripts">
       <UniqueIdentifier>{e60e9430-d7c3-4051-b5bf-ad6dd21ff763}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Utils">
+      <UniqueIdentifier>{98894a38-ab91-41ef-b127-0d49dc410e15}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="2DPch.cpp">
@@ -54,6 +57,12 @@
     </ClCompile>
     <ClCompile Include="MyPlayerController.cpp">
       <Filter>소스 파일\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="MyPlayerStateMachine.cpp">
+      <Filter>소스 파일\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="FlipbookUtils.cpp">
+      <Filter>소스 파일\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +98,12 @@
     </ClInclude>
     <ClInclude Include="Sandbox2DGlobal.h">
       <Filter>소스 파일\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="MyPlayerStateMachine.h">
+      <Filter>소스 파일\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="FlipbookUtils.h">
+      <Filter>소스 파일\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

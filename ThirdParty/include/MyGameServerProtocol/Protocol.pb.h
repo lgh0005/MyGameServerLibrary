@@ -48,6 +48,9 @@ struct TableStruct_Protocol_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Protocol_2eproto;
 namespace Protobuf {
+class C_ChangeWeapon;
+struct C_ChangeWeaponDefaultTypeInternal;
+extern C_ChangeWeaponDefaultTypeInternal _C_ChangeWeapon_default_instance_;
 class C_EnterGame;
 struct C_EnterGameDefaultTypeInternal;
 extern C_EnterGameDefaultTypeInternal _C_EnterGame_default_instance_;
@@ -68,6 +71,7 @@ struct S_SyncObjectsDefaultTypeInternal;
 extern S_SyncObjectsDefaultTypeInternal _S_SyncObjects_default_instance_;
 }  // namespace Protobuf
 PROTOBUF_NAMESPACE_OPEN
+template<> ::Protobuf::C_ChangeWeapon* Arena::CreateMaybeMessage<::Protobuf::C_ChangeWeapon>(Arena*);
 template<> ::Protobuf::C_EnterGame* Arena::CreateMaybeMessage<::Protobuf::C_EnterGame>(Arena*);
 template<> ::Protobuf::C_Jump* Arena::CreateMaybeMessage<::Protobuf::C_Jump>(Arena*);
 template<> ::Protobuf::C_Move* Arena::CreateMaybeMessage<::Protobuf::C_Move>(Arena*);
@@ -631,6 +635,154 @@ class C_Jump final :
 };
 // -------------------------------------------------------------------
 
+class C_ChangeWeapon final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protobuf.C_ChangeWeapon) */ {
+ public:
+  inline C_ChangeWeapon() : C_ChangeWeapon(nullptr) {}
+  ~C_ChangeWeapon() override;
+  explicit PROTOBUF_CONSTEXPR C_ChangeWeapon(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C_ChangeWeapon(const C_ChangeWeapon& from);
+  C_ChangeWeapon(C_ChangeWeapon&& from) noexcept
+    : C_ChangeWeapon() {
+    *this = ::std::move(from);
+  }
+
+  inline C_ChangeWeapon& operator=(const C_ChangeWeapon& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C_ChangeWeapon& operator=(C_ChangeWeapon&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C_ChangeWeapon& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C_ChangeWeapon* internal_default_instance() {
+    return reinterpret_cast<const C_ChangeWeapon*>(
+               &_C_ChangeWeapon_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    4;
+
+  friend void swap(C_ChangeWeapon& a, C_ChangeWeapon& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C_ChangeWeapon* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C_ChangeWeapon* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  C_ChangeWeapon* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<C_ChangeWeapon>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const C_ChangeWeapon& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const C_ChangeWeapon& from) {
+    C_ChangeWeapon::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C_ChangeWeapon* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protobuf.C_ChangeWeapon";
+  }
+  protected:
+  explicit C_ChangeWeapon(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kWeaponFieldNumber = 1,
+  };
+  // .Protobuf.WEAPON_TYPE weapon = 1;
+  void clear_weapon();
+  ::Protobuf::WEAPON_TYPE weapon() const;
+  void set_weapon(::Protobuf::WEAPON_TYPE value);
+  private:
+  ::Protobuf::WEAPON_TYPE _internal_weapon() const;
+  void _internal_set_weapon(::Protobuf::WEAPON_TYPE value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protobuf.C_ChangeWeapon)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int weapon_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
 class S_Spawn final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protobuf.S_Spawn) */ {
  public:
@@ -679,7 +831,7 @@ class S_Spawn final :
                &_S_Spawn_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    5;
 
   friend void swap(S_Spawn& a, S_Spawn& b) {
     a.Swap(&b);
@@ -836,7 +988,7 @@ class S_SyncObjects final :
                &_S_SyncObjects_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    6;
 
   friend void swap(S_SyncObjects& a, S_SyncObjects& b) {
     a.Swap(&b);
@@ -1093,6 +1245,30 @@ inline void C_Move::set_dir(::Protobuf::DIR_TYPE value) {
 
 // -------------------------------------------------------------------
 
+// C_ChangeWeapon
+
+// .Protobuf.WEAPON_TYPE weapon = 1;
+inline void C_ChangeWeapon::clear_weapon() {
+  _impl_.weapon_ = 0;
+}
+inline ::Protobuf::WEAPON_TYPE C_ChangeWeapon::_internal_weapon() const {
+  return static_cast< ::Protobuf::WEAPON_TYPE >(_impl_.weapon_);
+}
+inline ::Protobuf::WEAPON_TYPE C_ChangeWeapon::weapon() const {
+  // @@protoc_insertion_point(field_get:Protobuf.C_ChangeWeapon.weapon)
+  return _internal_weapon();
+}
+inline void C_ChangeWeapon::_internal_set_weapon(::Protobuf::WEAPON_TYPE value) {
+  
+  _impl_.weapon_ = value;
+}
+inline void C_ChangeWeapon::set_weapon(::Protobuf::WEAPON_TYPE value) {
+  _internal_set_weapon(value);
+  // @@protoc_insertion_point(field_set:Protobuf.C_ChangeWeapon.weapon)
+}
+
+// -------------------------------------------------------------------
+
 // S_Spawn
 
 // repeated .Protobuf.ObjectInfo objects = 1;
@@ -1176,6 +1352,8 @@ S_SyncObjects::objects() const {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

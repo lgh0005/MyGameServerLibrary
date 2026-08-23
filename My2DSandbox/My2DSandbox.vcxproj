@@ -179,7 +179,9 @@
     <ClInclude Include="CameraController.h" />
     <ClInclude Include="ClientPacketHandler.h" />
     <ClInclude Include="Enums.h" />
+    <ClInclude Include="FlipbookUtils.h" />
     <ClInclude Include="MyPlayerController.h" />
+    <ClInclude Include="MyPlayerStateMachine.h" />
     <ClInclude Include="NetworkManager.h" />
     <ClInclude Include="Sandbox2D.h" />
     <ClInclude Include="Sandbox2DScene.h" />
@@ -189,6 +191,7 @@
   <ItemGroup>
     <ClCompile Include="ClientPacketHandler.cpp" />
     <ClCompile Include="CameraController.cpp" />
+    <ClCompile Include="FlipbookUtils.cpp" />
     <ClCompile Include="My2DSandbox.cpp" />
     <ClCompile Include="2DPch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -197,6 +200,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="MyPlayerController.cpp" />
+    <ClCompile Include="MyPlayerStateMachine.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="Sandbox2D.cpp" />
     <ClInclude Include="Sandbox2DGlobal.h" />

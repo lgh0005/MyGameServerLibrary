@@ -1,6 +1,8 @@
 #pragma once
 #include "MyGameFramework/Scene.h"
 
+namespace MGSL::Framework { MGSL_CLASS_PTR(FlipbookController) }
+
 namespace MGSL::Sandbox2D
 {
 	class Sandbox2DScene : public Framework::Scene

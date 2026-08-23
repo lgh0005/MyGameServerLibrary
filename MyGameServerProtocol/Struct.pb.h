@@ -211,6 +211,8 @@ class ObjectInfo final :
     kVelocityXFieldNumber = 6,
     kVelocityYFieldNumber = 7,
     kGroundedFieldNumber = 8,
+    kFacingFieldNumber = 9,
+    kWeaponFieldNumber = 10,
   };
   // uint64 objectID = 1;
   void clear_objectid();
@@ -284,6 +286,24 @@ class ObjectInfo final :
   void _internal_set_grounded(bool value);
   public:
 
+  // .Protobuf.FACING_TYPE facing = 9;
+  void clear_facing();
+  ::Protobuf::FACING_TYPE facing() const;
+  void set_facing(::Protobuf::FACING_TYPE value);
+  private:
+  ::Protobuf::FACING_TYPE _internal_facing() const;
+  void _internal_set_facing(::Protobuf::FACING_TYPE value);
+  public:
+
+  // .Protobuf.WEAPON_TYPE weapon = 10;
+  void clear_weapon();
+  ::Protobuf::WEAPON_TYPE weapon() const;
+  void set_weapon(::Protobuf::WEAPON_TYPE value);
+  private:
+  ::Protobuf::WEAPON_TYPE _internal_weapon() const;
+  void _internal_set_weapon(::Protobuf::WEAPON_TYPE value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protobuf.ObjectInfo)
  private:
   class _Internal;
@@ -300,6 +320,8 @@ class ObjectInfo final :
     float velocityx_;
     float velocityy_;
     bool grounded_;
+    int facing_;
+    int weapon_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -474,6 +496,46 @@ inline void ObjectInfo::_internal_set_grounded(bool value) {
 inline void ObjectInfo::set_grounded(bool value) {
   _internal_set_grounded(value);
   // @@protoc_insertion_point(field_set:Protobuf.ObjectInfo.grounded)
+}
+
+// .Protobuf.FACING_TYPE facing = 9;
+inline void ObjectInfo::clear_facing() {
+  _impl_.facing_ = 0;
+}
+inline ::Protobuf::FACING_TYPE ObjectInfo::_internal_facing() const {
+  return static_cast< ::Protobuf::FACING_TYPE >(_impl_.facing_);
+}
+inline ::Protobuf::FACING_TYPE ObjectInfo::facing() const {
+  // @@protoc_insertion_point(field_get:Protobuf.ObjectInfo.facing)
+  return _internal_facing();
+}
+inline void ObjectInfo::_internal_set_facing(::Protobuf::FACING_TYPE value) {
+  
+  _impl_.facing_ = value;
+}
+inline void ObjectInfo::set_facing(::Protobuf::FACING_TYPE value) {
+  _internal_set_facing(value);
+  // @@protoc_insertion_point(field_set:Protobuf.ObjectInfo.facing)
+}
+
+// .Protobuf.WEAPON_TYPE weapon = 10;
+inline void ObjectInfo::clear_weapon() {
+  _impl_.weapon_ = 0;
+}
+inline ::Protobuf::WEAPON_TYPE ObjectInfo::_internal_weapon() const {
+  return static_cast< ::Protobuf::WEAPON_TYPE >(_impl_.weapon_);
+}
+inline ::Protobuf::WEAPON_TYPE ObjectInfo::weapon() const {
+  // @@protoc_insertion_point(field_get:Protobuf.ObjectInfo.weapon)
+  return _internal_weapon();
+}
+inline void ObjectInfo::_internal_set_weapon(::Protobuf::WEAPON_TYPE value) {
+  
+  _impl_.weapon_ = value;
+}
+inline void ObjectInfo::set_weapon(::Protobuf::WEAPON_TYPE value) {
+  _internal_set_weapon(value);
+  // @@protoc_insertion_point(field_set:Protobuf.ObjectInfo.weapon)
 }
 
 #ifdef __GNUC__

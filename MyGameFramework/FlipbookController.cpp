@@ -16,6 +16,11 @@ namespace MGSL::Framework
 		return FlipbookControllerPtr(new FlipbookController(atlasTexture));
 	}
 
+	void FlipbookController::ResizeClips(Shared::usize size)
+	{
+		m_flipbookClips.resize(size);
+	}
+
 	bool FlipbookController::SetClip(Shared::uint32 stateIndex, const FlipbookClipPtr& clip)
 	{
 		MGSL_ASSERT_MSG(clip, "Clip is null.");
@@ -58,6 +63,8 @@ namespace MGSL::Framework
 		if (stateIndex >= m_flipbookClips.size()) return false;
 
 		const FlipbookClipPtr& clip = m_flipbookClips[stateIndex];
+		if (!clip) return false;
+
 		return clip->IsValid();
 	}
 

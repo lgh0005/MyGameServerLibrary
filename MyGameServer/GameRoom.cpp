@@ -180,6 +180,9 @@ namespace MGSL::Net
 			Server::CharacterBody2D* body = player->GetComponent<Server::CharacterBody2D>();
 			if (!body) continue;
 
+			Server::PlayerController* controller = player->GetComponent<Server::PlayerController>();
+			if (!controller) continue;
+
 			const auto& position = player->GetTransform().GetPosition();
 			auto& info = player->GetObjectInfo();
 			info.set_posx(position.x);
@@ -187,6 +190,9 @@ namespace MGSL::Net
 			info.set_velocityx(body->GetHorizontalVelocity());
 			info.set_velocityy(body->GetVerticalVelocity());
 			info.set_grounded(body->IsGrounded());
+			info.set_state(controller->GetState());
+			info.set_facing(controller->GetFacing());
+			info.set_weapon(controller->GetWeapon());
 		}
 
 		// TEMP : 5. 해당 Tick의 상태를 한 번에 전송
