@@ -1,5 +1,6 @@
 #include "2DPch.h"
 #include "MyPlayerController.h"
+#include "MyGameFramework/MouseDevice.h"
 #include "MyGameFramework/KeyboardDevice.h"
 #include "MyGameFramework/CharacterBody2D.h"
 #include "ClientPacketHandler.h"
@@ -22,6 +23,7 @@ namespace MGSL::Sandbox2D
 	void MyPlayerController::Update(float deltaTime)
 	{
 		HandleMovementInput(deltaTime);
+		HandleAttackInput();
 	}
 
 	void MyPlayerController::HandleMovementInput(float deltaTime)
@@ -70,6 +72,13 @@ namespace MGSL::Sandbox2D
 		}
 	}
 
+	void MyPlayerController::HandleAttackInput()
+	{
+		auto mouse = MGSL_INPUT_MGR.GetMouse();
+		if (mouse->GetButtonDown(Framework::EMouseButton::LEFT))
+			SendAttackPacket();
+	}
+
 	/*========================//
 	//   Packet Test Methods  //
 	//========================*/
@@ -88,6 +97,12 @@ namespace MGSL::Sandbox2D
 	void MyPlayerController::SendChangeWeaponPacket(::Protobuf::WEAPON_TYPE weapon)
 	{
 		auto sendBuffer = Net::ClientPacketHandler::Make_C_ChangeWeapon(weapon);
+		MGSL_NETWORK_MGR.SendPacket(sendBuffer);
+	}
+
+	void MyPlayerController::SendAttackPacket()
+	{
+		auto sendBuffer = Net::ClientPacketHandler::Make_C_Attack();
 		MGSL_NETWORK_MGR.SendPacket(sendBuffer);
 	}
 }

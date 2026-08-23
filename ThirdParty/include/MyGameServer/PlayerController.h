@@ -21,6 +21,7 @@ namespace MGSL::Server
 
 	public:
 		virtual void Update(float deltaTime) override;
+		void Attack();
 
 	public:
 		void SetMoveDirection(::Protobuf::DIR_TYPE dir);
@@ -45,10 +46,9 @@ namespace MGSL::Server
 		Protobuf::FACING_TYPE m_facing = Protobuf::FACING_TYPE_RIGHT;
 		Protobuf::WEAPON_TYPE m_weapon = Protobuf::WEAPON_TYPE_NONE;
 
-	// DEBUG
-	private:
-		Protobuf::OBJECT_STATE_TYPE m_prevState = Protobuf::OBJECT_STATE_TYPE_IDLE;
-		Protobuf::FACING_TYPE m_prevFacing = Protobuf::FACING_TYPE_RIGHT;
+		bool m_isAttacking = false;
+		float m_attackElapsedTime = 0.0f;
+		float m_attackDuration = 0.3f;
 	};
 }
 

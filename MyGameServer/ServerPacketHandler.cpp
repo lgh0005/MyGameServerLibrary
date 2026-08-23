@@ -42,6 +42,10 @@ namespace MGSL::Net
 			Handle_C_CHANGE_WEAPON(gameSession, buffer, len);
 			break;
 
+		case EPacketID::C_Attack:
+			Handle_C_ATTACK(gameSession, buffer, len);
+			break;
+
 		default:
 			break;
 		}
@@ -138,6 +142,24 @@ namespace MGSL::Net
 		if (!playerController) return;
 
 		playerController->SetWeapon(pkt.weapon());
+	}
+
+	void ServerPacketHandler::Handle_C_ATTACK(GameSessionPtr session, BYTE* buffer, Shared::int32 len)
+	{
+		if (!session) return;
+		Protocol::PacketHeader* header = reinterpret_cast<Protocol::PacketHeader*>(buffer);
+
+		Protobuf::C_Attack pkt;
+		if (!pkt.ParseFromArray(&header[1], header->size - sizeof(Protocol::PacketHeader)))
+			return;
+
+		Server::GameObjectPtr player = session->GetGameObject();
+		if (!player) return;
+
+		Server::PlayerController* playerController = player->GetComponent<Server::PlayerController>();
+		if (!playerController) return;
+
+		playerController->Attack();
 	}
 
 	SendBufferPtr ServerPacketHandler::Make_S_Spawn(const ::Protobuf::S_Spawn& pkt)

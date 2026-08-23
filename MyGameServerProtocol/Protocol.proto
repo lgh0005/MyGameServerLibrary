@@ -31,6 +31,11 @@ message C_ChangeWeapon
     WEAPON_TYPE weapon = 1;
 }
 
+message C_Attack
+{
+
+}
+
 message S_Spawn
 {
     repeated ObjectInfo objects = 1;

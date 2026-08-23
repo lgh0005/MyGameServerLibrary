@@ -92,6 +92,12 @@ namespace MGSL::Net
 		return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::C_ChangeWeapon));
 	}
 
+	SendBufferPtr ClientPacketHandler::Make_C_Attack()
+	{
+		::Protobuf::C_Attack pkt;
+		return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::C_Attack));
+	}
+
 	void ClientPacketHandler::Handle_S_SPAWN(ServerSessionPtr session, BYTE* buffer, Shared::int32 len)
 	{
 		Protocol::PacketHeader* header = reinterpret_cast<Protocol::PacketHeader*>(buffer);

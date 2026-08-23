@@ -21,6 +21,20 @@ namespace MGSL::Server
         CharacterBody2D* body = owner->GetComponent<CharacterBody2D>();
         if (!body) return;
 
+        /*========================//
+        //         Attack         //
+        //========================*/
+        if (m_isAttacking)
+        {
+            m_attackElapsedTime += deltaTime;
+            if (m_attackElapsedTime < m_attackDuration) return;
+            m_isAttacking = false;
+            m_attackElapsedTime = 0.0f;
+        }
+
+        /*========================//
+        //        Movement        //
+        //========================*/
         float directionX = 0.0f;
         switch (m_moveDirection)
         {
@@ -38,6 +52,9 @@ namespace MGSL::Server
                 break;
         }
 
+        /*========================//
+        //          State         //
+        //========================*/
         if (!body->IsGrounded())
         {
             if (body->GetVerticalVelocity() > 0.0f) m_state = Protobuf::OBJECT_STATE_TYPE_JUMP;
@@ -56,10 +73,49 @@ namespace MGSL::Server
             }
         }
 
+        /*========================//
+        //      Translation       //
+        //========================*/
         if (directionX != 0.0f)
         {
             const float moveSpeed = m_isRunning ? m_runSpeed : m_moveSpeed;
             owner->GetTransform().Translate(Shared::vec3(directionX * moveSpeed * deltaTime, 0.0f, 0.0f));
+        }
+    }
+
+    void PlayerController::Attack()
+    {
+        if (m_isAttacking) return;
+
+        GameObject* owner = GetOwner();
+        if (!owner) return;
+
+        CharacterBody2D* body = owner->GetComponent<CharacterBody2D>();
+        if (!body) return;
+
+        m_isAttacking = true;
+        m_attackElapsedTime = 0.0f;
+
+        if (!body->IsGrounded())
+        {
+            m_state = Protobuf::OBJECT_STATE_TYPE_AIR_ATTACK;
+            return;
+        }
+
+        switch (m_weapon)
+        {
+            case Protobuf::WEAPON_TYPE_NONE:
+            case Protobuf::WEAPON_TYPE_SWORD:
+                m_state = Protobuf::OBJECT_STATE_TYPE_ATTACK_1;
+                break;
+
+            case Protobuf::WEAPON_TYPE_PISTOL:
+                m_state = Protobuf::OBJECT_STATE_TYPE_SHOT;
+                break;
+
+            default:
+                m_isAttacking = false;
+                break;
         }
     }
 

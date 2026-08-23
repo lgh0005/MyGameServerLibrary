@@ -48,6 +48,9 @@ struct TableStruct_Protocol_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Protocol_2eproto;
 namespace Protobuf {
+class C_Attack;
+struct C_AttackDefaultTypeInternal;
+extern C_AttackDefaultTypeInternal _C_Attack_default_instance_;
 class C_ChangeWeapon;
 struct C_ChangeWeaponDefaultTypeInternal;
 extern C_ChangeWeaponDefaultTypeInternal _C_ChangeWeapon_default_instance_;
@@ -71,6 +74,7 @@ struct S_SyncObjectsDefaultTypeInternal;
 extern S_SyncObjectsDefaultTypeInternal _S_SyncObjects_default_instance_;
 }  // namespace Protobuf
 PROTOBUF_NAMESPACE_OPEN
+template<> ::Protobuf::C_Attack* Arena::CreateMaybeMessage<::Protobuf::C_Attack>(Arena*);
 template<> ::Protobuf::C_ChangeWeapon* Arena::CreateMaybeMessage<::Protobuf::C_ChangeWeapon>(Arena*);
 template<> ::Protobuf::C_EnterGame* Arena::CreateMaybeMessage<::Protobuf::C_EnterGame>(Arena*);
 template<> ::Protobuf::C_Jump* Arena::CreateMaybeMessage<::Protobuf::C_Jump>(Arena*);
@@ -794,6 +798,124 @@ class C_ChangeWeapon final :
 };
 // -------------------------------------------------------------------
 
+class C_Attack final :
+    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:Protobuf.C_Attack) */ {
+ public:
+  inline C_Attack() : C_Attack(nullptr) {}
+  explicit PROTOBUF_CONSTEXPR C_Attack(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C_Attack(const C_Attack& from);
+  C_Attack(C_Attack&& from) noexcept
+    : C_Attack() {
+    *this = ::std::move(from);
+  }
+
+  inline C_Attack& operator=(const C_Attack& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C_Attack& operator=(C_Attack&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C_Attack& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C_Attack* internal_default_instance() {
+    return reinterpret_cast<const C_Attack*>(
+               &_C_Attack_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  friend void swap(C_Attack& a, C_Attack& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C_Attack* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C_Attack* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  C_Attack* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<C_Attack>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const C_Attack& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const C_Attack& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+  public:
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protobuf.C_Attack";
+  }
+  protected:
+  explicit C_Attack(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:Protobuf.C_Attack)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+  };
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
 class S_Spawn final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protobuf.S_Spawn) */ {
  public:
@@ -842,7 +964,7 @@ class S_Spawn final :
                &_S_Spawn_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    6;
 
   friend void swap(S_Spawn& a, S_Spawn& b) {
     a.Swap(&b);
@@ -999,7 +1121,7 @@ class S_SyncObjects final :
                &_S_SyncObjects_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    7;
 
   friend void swap(S_SyncObjects& a, S_SyncObjects& b) {
     a.Swap(&b);
@@ -1300,6 +1422,10 @@ inline void C_ChangeWeapon::set_weapon(::Protobuf::WEAPON_TYPE value) {
 
 // -------------------------------------------------------------------
 
+// C_Attack
+
+// -------------------------------------------------------------------
+
 // S_Spawn
 
 // repeated .Protobuf.ObjectInfo objects = 1;
@@ -1383,6 +1509,8 @@ S_SyncObjects::objects() const {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

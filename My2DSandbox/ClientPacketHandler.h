@@ -31,6 +31,7 @@ namespace MGSL::Net
 		static SendBufferPtr Make_C_Move(::Protobuf::DIR_TYPE dir, bool running);
 		static SendBufferPtr Make_C_Jump();
 		static SendBufferPtr Make_C_ChangeWeapon(::Protobuf::WEAPON_TYPE weapon);
+		static SendBufferPtr Make_C_Attack();
 
 		/* Packet Handling */
 		static void Handle_S_SPAWN(ServerSessionPtr session, BYTE* buffer, Shared::int32 len);

@@ -35,6 +35,7 @@ namespace MGSL::Net
 		static void Handle_C_ENTER_GAME(GameSessionPtr session, BYTE* buffer, Shared::int32 len);
 		static void Handle_C_JUMP(GameSessionPtr session, BYTE* buffer, Shared::int32 len);
 		static void Handle_C_CHANGE_WEAPON(GameSessionPtr session, BYTE* buffer, Shared::int32 len);
+		static void Handle_C_ATTACK(GameSessionPtr session, BYTE* buffer, Shared::int32 len);
 
 		/* Create */
 		static SendBufferPtr Make_S_Spawn(const ::Protobuf::S_Spawn& pkt);

@@ -84,6 +84,17 @@ struct C_ChangeWeaponDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C_ChangeWeaponDefaultTypeInternal _C_ChangeWeapon_default_instance_;
+PROTOBUF_CONSTEXPR C_Attack::C_Attack(
+    ::_pbi::ConstantInitialized) {}
+struct C_AttackDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR C_AttackDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~C_AttackDefaultTypeInternal() {}
+  union {
+    C_Attack _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C_AttackDefaultTypeInternal _C_Attack_default_instance_;
 PROTOBUF_CONSTEXPR S_Spawn::S_Spawn(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.objects_)*/{}
@@ -111,7 +122,7 @@ struct S_SyncObjectsDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S_SyncObjectsDefaultTypeInternal _S_SyncObjects_default_instance_;
 }  // namespace Protobuf
-static ::_pb::Metadata file_level_metadata_Protocol_2eproto[7];
+static ::_pb::Metadata file_level_metadata_Protocol_2eproto[8];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_Protocol_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_Protocol_2eproto = nullptr;
 
@@ -152,6 +163,12 @@ const uint32_t TableStruct_Protocol_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Protobuf::C_ChangeWeapon, _impl_.weapon_),
   ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Protobuf::C_Attack, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protobuf::S_Spawn, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -172,8 +189,9 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 14, -1, -1, sizeof(::Protobuf::C_Move)},
   { 22, -1, -1, sizeof(::Protobuf::C_Jump)},
   { 28, -1, -1, sizeof(::Protobuf::C_ChangeWeapon)},
-  { 35, -1, -1, sizeof(::Protobuf::S_Spawn)},
-  { 42, -1, -1, sizeof(::Protobuf::S_SyncObjects)},
+  { 35, -1, -1, sizeof(::Protobuf::C_Attack)},
+  { 41, -1, -1, sizeof(::Protobuf::S_Spawn)},
+  { 48, -1, -1, sizeof(::Protobuf::S_SyncObjects)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -182,6 +200,7 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::Protobuf::_C_Move_default_instance_._instance,
   &::Protobuf::_C_Jump_default_instance_._instance,
   &::Protobuf::_C_ChangeWeapon_default_instance_._instance,
+  &::Protobuf::_C_Attack_default_instance_._instance,
   &::Protobuf::_S_Spawn_default_instance_._instance,
   &::Protobuf::_S_SyncObjects_default_instance_._instance,
 };
@@ -193,10 +212,10 @@ const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABL
   "otobuf.ObjectInfo\":\n\006C_Move\022\037\n\003dir\030\001 \001(\016"
   "2\022.Protobuf.DIR_TYPE\022\017\n\007running\030\002 \001(\010\"\010\n"
   "\006C_Jump\"7\n\016C_ChangeWeapon\022%\n\006weapon\030\001 \001("
-  "\0162\025.Protobuf.WEAPON_TYPE\"0\n\007S_Spawn\022%\n\007o"
-  "bjects\030\001 \003(\0132\024.Protobuf.ObjectInfo\"6\n\rS_"
-  "SyncObjects\022%\n\007objects\030\001 \003(\0132\024.Protobuf."
-  "ObjectInfob\006proto3"
+  "\0162\025.Protobuf.WEAPON_TYPE\"\n\n\010C_Attack\"0\n\007"
+  "S_Spawn\022%\n\007objects\030\001 \003(\0132\024.Protobuf.Obje"
+  "ctInfo\"6\n\rS_SyncObjects\022%\n\007objects\030\001 \003(\013"
+  "2\024.Protobuf.ObjectInfob\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_Protocol_2eproto_deps[2] = {
   &::descriptor_table_Enum_2eproto,
@@ -204,9 +223,9 @@ static const ::_pbi::DescriptorTable* const descriptor_table_Protocol_2eproto_de
 };
 static ::_pbi::once_flag descriptor_table_Protocol_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_Protocol_2eproto = {
-    false, false, 378, descriptor_table_protodef_Protocol_2eproto,
+    false, false, 390, descriptor_table_protodef_Protocol_2eproto,
     "Protocol.proto",
-    &descriptor_table_Protocol_2eproto_once, descriptor_table_Protocol_2eproto_deps, 2, 7,
+    &descriptor_table_Protocol_2eproto_once, descriptor_table_Protocol_2eproto_deps, 2, 8,
     schemas, file_default_instances, TableStruct_Protocol_2eproto::offsets,
     file_level_metadata_Protocol_2eproto, file_level_enum_descriptors_Protocol_2eproto,
     file_level_service_descriptors_Protocol_2eproto,
@@ -926,6 +945,46 @@ void C_ChangeWeapon::InternalSwap(C_ChangeWeapon* other) {
 
 // ===================================================================
 
+class C_Attack::_Internal {
+ public:
+};
+
+C_Attack::C_Attack(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
+  // @@protoc_insertion_point(arena_constructor:Protobuf.C_Attack)
+}
+C_Attack::C_Attack(const C_Attack& from)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase() {
+  C_Attack* const _this = this; (void)_this;
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:Protobuf.C_Attack)
+}
+
+
+
+
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData C_Attack::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl,
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl,
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*C_Attack::GetClassData() const { return &_class_data_; }
+
+
+
+
+
+
+
+::PROTOBUF_NAMESPACE_ID::Metadata C_Attack::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_Protocol_2eproto_getter, &descriptor_table_Protocol_2eproto_once,
+      file_level_metadata_Protocol_2eproto[5]);
+}
+
+// ===================================================================
+
 class S_Spawn::_Internal {
  public:
 };
@@ -1109,7 +1168,7 @@ void S_Spawn::InternalSwap(S_Spawn* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S_Spawn::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_Protocol_2eproto_getter, &descriptor_table_Protocol_2eproto_once,
-      file_level_metadata_Protocol_2eproto[5]);
+      file_level_metadata_Protocol_2eproto[6]);
 }
 
 // ===================================================================
@@ -1297,7 +1356,7 @@ void S_SyncObjects::InternalSwap(S_SyncObjects* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S_SyncObjects::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_Protocol_2eproto_getter, &descriptor_table_Protocol_2eproto_once,
-      file_level_metadata_Protocol_2eproto[6]);
+      file_level_metadata_Protocol_2eproto[7]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -1322,6 +1381,10 @@ Arena::CreateMaybeMessage< ::Protobuf::C_Jump >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::Protobuf::C_ChangeWeapon*
 Arena::CreateMaybeMessage< ::Protobuf::C_ChangeWeapon >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Protobuf::C_ChangeWeapon >(arena);
+}
+template<> PROTOBUF_NOINLINE ::Protobuf::C_Attack*
+Arena::CreateMaybeMessage< ::Protobuf::C_Attack >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protobuf::C_Attack >(arena);
 }
 template<> PROTOBUF_NOINLINE ::Protobuf::S_Spawn*
 Arena::CreateMaybeMessage< ::Protobuf::S_Spawn >(Arena* arena) {

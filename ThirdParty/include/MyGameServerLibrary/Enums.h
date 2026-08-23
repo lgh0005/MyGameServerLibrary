@@ -28,6 +28,7 @@ namespace MGSL::Net
 		C_EnterGame = 10,
 		C_Move = 11,
 		C_Jump = 12,
-		C_ChangeWeapon = 13
+		C_ChangeWeapon = 13,
+		C_Attack = 14
 	};
 }

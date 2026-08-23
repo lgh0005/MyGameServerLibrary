@@ -25,15 +25,14 @@ namespace MGSL::Sandbox2D
 	private:
 		explicit MyPlayerController(Framework::GameObject* owner);
 		void HandleMovementInput(float deltaTime);
+		void HandleAttackInput();
 
 		// 이동 처리
+		bool m_prevRunning = false;
 		float m_moveSpeed = 3.0f;
 		float m_runSpeed = 4.5f;
 		float m_jumpPower = 3.5f;
-		
 		::Protobuf::DIR_TYPE m_prevMoveDir = ::Protobuf::DIR_TYPE_NONE;
-		bool m_prevRunning = false;
-
 		Framework::CharacterBody2D* m_characterBody = nullptr;
 
 	/*========================//
@@ -43,6 +42,7 @@ namespace MGSL::Sandbox2D
 		void SendMovePacket(::Protobuf::DIR_TYPE dir, bool running);
 		void SendJumpPacket();
 		void SendChangeWeaponPacket(::Protobuf::WEAPON_TYPE weapon);
+		void SendAttackPacket();
 	};
 }
 
