@@ -21,13 +21,14 @@ namespace MGSL::Server
 		PLATFORM
 	};
 
-	enum class ECollsionLayer : Shared::uint8
+	enum class ECollisionLayer : Shared::uint8
 	{
 		PLAYER,
 		ENEMY,
 		WORLD,
 		LADDER,
 		BULLET,
-		HITBOX
+		HITBOX,
+		COUNT
 	};
 }

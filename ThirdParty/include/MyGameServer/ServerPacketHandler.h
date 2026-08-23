@@ -37,7 +37,6 @@ namespace MGSL::Net
 
 		/* Create */
 		static SendBufferPtr Make_S_Spawn(const ::Protobuf::S_Spawn& pkt);
-		//static SendBufferPtr Make_S_Move(const ::Protobuf::S_Move& pkt);
 		static SendBufferPtr Make_S_SyncObjects(const ::Protobuf::S_SyncObjects& pkt);
 	};		
 }

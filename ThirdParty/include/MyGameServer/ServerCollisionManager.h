@@ -14,6 +14,7 @@ namespace MGSL::Server
 	class ServerCollisionManager
 	{
 		MGSL_DECLARE_SINGLE(ServerCollisionManager)
+		static constexpr Shared::usize LAYER_COUNT = static_cast<Shared::usize>(ECollisionLayer::COUNT);
 
 	private:
 		ServerCollisionManager();
@@ -70,7 +71,15 @@ namespace MGSL::Server
 		void ResolveLeftStaticDynamic(BoxCollider* staticCollider, BoxCollider* dynamicCollider, CharacterBody2D* dynamicBody);
 		void ResolveRightStaticDynamic(BoxCollider* staticCollider, BoxCollider* dynamicCollider, CharacterBody2D* dynamicBody);
 
+	/*==============================//
+	//   collision layer setters    //
+	//==============================*/
 	private:
+		void SetLayerCollision(ECollisionLayer lhs, ECollisionLayer rhs, bool enable);
+		bool CanCollide(ECollisionLayer lhs, ECollisionLayer rhs) const;
+
+	private:
+		bool m_collisionMatrix[LAYER_COUNT][LAYER_COUNT]{ };
 		Shared::List<BoxCollider*> m_staticColliders;
 		Shared::List<BoxCollider*> m_dynamicColliders;
 		Shared::List<CollisionPair> m_previousCollisions;

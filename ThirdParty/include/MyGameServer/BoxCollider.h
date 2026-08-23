@@ -24,6 +24,7 @@ namespace MGSL::Server
 		void SetOffset(const Shared::vec2& offset);
 		void SetMobility(EColliderMobility mobility);
 		void SetCollisionType(ECollisionType type);
+		void SetCollisionLayer(ECollisionLayer layer);
 		void SetTrigger(bool isTrigger);
 
 	public:
@@ -31,6 +32,7 @@ namespace MGSL::Server
 		const Shared::vec2& GetOffset() const;
 		EColliderMobility GetMobility() const;
 		ECollisionType GetCollisionType() const;
+		ECollisionLayer GetCollisionLayer() const;
 		bool IsTrigger() const;
 
 	public:
@@ -43,6 +45,7 @@ namespace MGSL::Server
 		bool m_isTrigger = false;
 		EColliderMobility m_mobility = EColliderMobility::DYNAMIC;
 		ECollisionType m_collisoinType = ECollisionType::SOLID;
+		ECollisionLayer m_collisionLayer = ECollisionLayer::WORLD;
 
 		AABB m_bounds;
 		Shared::vec2 m_size{ 1.0f, 1.0f };

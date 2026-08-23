@@ -34,6 +34,11 @@ namespace MGSL::Server
 		m_collisoinType = type;
 	}
 
+	void BoxCollider::SetCollisionLayer(ECollisionLayer layer)
+	{
+		m_collisionLayer = layer;
+	}
+
 	void BoxCollider::SetTrigger(bool isTrigger)
 	{
 		m_isTrigger = isTrigger;
@@ -57,6 +62,11 @@ namespace MGSL::Server
 	ECollisionType BoxCollider::GetCollisionType() const
 	{
 		return m_collisoinType;
+	}
+
+	ECollisionLayer BoxCollider::GetCollisionLayer() const
+	{
+		return m_collisionLayer;
 	}
 
 	bool BoxCollider::IsTrigger() const

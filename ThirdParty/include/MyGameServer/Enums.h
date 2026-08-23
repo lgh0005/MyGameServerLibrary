@@ -2,22 +2,33 @@
 
 namespace MGSL::Server
 {
-	enum class ECollisionEventState
+	enum class ECollisionEventState : Shared::uint8
 	{
 		ENTER,
 		STAY,
 		EXIT
 	};
 
-	enum class EColliderMobility
+	enum class EColliderMobility : Shared::uint8
 	{
 		STATIC,
 		DYNAMIC
 	};
 
-	enum class ECollisionType
+	enum class ECollisionType : Shared::uint8
 	{
 		SOLID,
 		PLATFORM
+	};
+
+	enum class ECollisionLayer : Shared::uint8
+	{
+		PLAYER,
+		ENEMY,
+		WORLD,
+		LADDER,
+		BULLET,
+		HITBOX,
+		COUNT
 	};
 }

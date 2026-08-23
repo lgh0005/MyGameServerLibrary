@@ -15,8 +15,20 @@ namespace MGSL::Server
 
 	void ServerCollisionManager::Init()
 	{
+		// collider reserves
 		m_staticColliders.reserve(128);
 		m_dynamicColliders.reserve(128);
+
+		// collision matrix init
+		SetLayerCollision(ECollisionLayer::PLAYER, ECollisionLayer::WORLD, true);
+		SetLayerCollision(ECollisionLayer::PLAYER, ECollisionLayer::LADDER, true);
+		SetLayerCollision(ECollisionLayer::PLAYER, ECollisionLayer::ENEMY, true);
+		SetLayerCollision(ECollisionLayer::ENEMY, ECollisionLayer::WORLD, true);
+		SetLayerCollision(ECollisionLayer::BULLET, ECollisionLayer::WORLD, true);
+		SetLayerCollision(ECollisionLayer::BULLET, ECollisionLayer::PLAYER, true);
+		SetLayerCollision(ECollisionLayer::BULLET, ECollisionLayer::ENEMY, true);
+		SetLayerCollision(ECollisionLayer::HITBOX, ECollisionLayer::PLAYER, true);
+		SetLayerCollision(ECollisionLayer::HITBOX, ECollisionLayer::ENEMY, true);
 	}
 
 	void ServerCollisionManager::Clear()
@@ -159,6 +171,9 @@ namespace MGSL::Server
 
 				if (staticBounds.min.x > dynamicBounds.max.x) break;
 				if (staticBounds.max.x < dynamicBounds.min.x) continue;
+				if (!CanCollide(dynamicCollider->GetCollisionLayer(), staticCollider->GetCollisionLayer()))
+					continue;
+
 				if (dynamicBounds.Intersects(staticBounds))
 					m_currentCollisions.emplace_back(dynamicCollider, staticCollider);
 			}
@@ -183,6 +198,9 @@ namespace MGSL::Server
 
 				const AABB& rhsBounds = rhs->GetBounds();
 				if (rhsBounds.min.x > lhsBounds.max.x) break;
+				if (!CanCollide(lhs->GetCollisionLayer(), rhs->GetCollisionLayer()))
+					continue;
+
 				if (lhsBounds.Intersects(rhsBounds))
 					m_currentCollisions.emplace_back(lhs, rhs);
 			}
@@ -489,5 +507,23 @@ namespace MGSL::Server
 			dynamicBody->SetHorizontalVelocity(0.0f);
 
 		dynamicCollider->UpdateBounds();
+	}
+
+	/*==============================//
+	//   collision layer setters    //
+	//==============================*/
+	void ServerCollisionManager::SetLayerCollision(ECollisionLayer lhs, ECollisionLayer rhs, bool enable)
+	{
+		const Shared::usize lhsIndex = static_cast<Shared::usize>(lhs);
+		const Shared::usize rhsIndex = static_cast<Shared::usize>(rhs);
+		m_collisionMatrix[lhsIndex][rhsIndex] = enable;
+		m_collisionMatrix[rhsIndex][lhsIndex] = enable;
+	}
+
+	bool ServerCollisionManager::CanCollide(ECollisionLayer lhs, ECollisionLayer rhs) const
+	{
+		const Shared::usize  lhsIndex = static_cast<Shared::usize>(lhs);
+		const Shared::usize  rhsIndex = static_cast<Shared::usize>(rhs);
+		return m_collisionMatrix[lhsIndex][rhsIndex];
 	}
 }

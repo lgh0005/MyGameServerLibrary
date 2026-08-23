@@ -6,9 +6,7 @@
 #include "CharacterBody2D.h"
 #include "ServerPacketHandler.h"
 #include "MyGameServerProtocol/PacketHeader.h"
-#include "MyGameServerLibrary/SendBuffer.h"
 #include "MyGameServerLibrary/BufferReader.h"
-#include "MyGameServerLibrary/BufferWriter.h"
 
 #include "PlayerController.h"
 
@@ -120,11 +118,6 @@ namespace MGSL::Net
 	{
 		return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::S_Spawn));
 	}
-
-	//SendBufferPtr ServerPacketHandler::Make_S_Move(const ::Protobuf::S_Move& pkt)
-	//{
-	//	return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::S_Move));
-	//}
 
 	SendBufferPtr ServerPacketHandler::Make_S_SyncObjects(const ::Protobuf::S_SyncObjects& pkt)
 	{
