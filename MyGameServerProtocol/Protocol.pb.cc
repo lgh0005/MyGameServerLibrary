@@ -49,6 +49,7 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORIT
 PROTOBUF_CONSTEXPR C_Move::C_Move(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.dir_)*/0
+  , /*decltype(_impl_.running_)*/false
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct C_MoveDefaultTypeInternal {
   PROTOBUF_CONSTEXPR C_MoveDefaultTypeInternal()
@@ -136,6 +137,7 @@ const uint32_t TableStruct_Protocol_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Protobuf::C_Move, _impl_.dir_),
+  PROTOBUF_FIELD_OFFSET(::Protobuf::C_Move, _impl_.running_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protobuf::C_Jump, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -168,10 +170,10 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 0, -1, -1, sizeof(::Protobuf::C_EnterGame)},
   { 6, -1, -1, sizeof(::Protobuf::S_EnterGame)},
   { 14, -1, -1, sizeof(::Protobuf::C_Move)},
-  { 21, -1, -1, sizeof(::Protobuf::C_Jump)},
-  { 27, -1, -1, sizeof(::Protobuf::C_ChangeWeapon)},
-  { 34, -1, -1, sizeof(::Protobuf::S_Spawn)},
-  { 41, -1, -1, sizeof(::Protobuf::S_SyncObjects)},
+  { 22, -1, -1, sizeof(::Protobuf::C_Jump)},
+  { 28, -1, -1, sizeof(::Protobuf::C_ChangeWeapon)},
+  { 35, -1, -1, sizeof(::Protobuf::S_Spawn)},
+  { 42, -1, -1, sizeof(::Protobuf::S_SyncObjects)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -188,13 +190,13 @@ const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABL
   "\n\016Protocol.proto\022\010Protobuf\032\nEnum.proto\032\014"
   "Struct.proto\"\r\n\013C_EnterGame\"D\n\013S_EnterGa"
   "me\022\017\n\007success\030\001 \001(\010\022$\n\006player\030\002 \001(\0132\024.Pr"
-  "otobuf.ObjectInfo\")\n\006C_Move\022\037\n\003dir\030\001 \001(\016"
-  "2\022.Protobuf.DIR_TYPE\"\010\n\006C_Jump\"7\n\016C_Chan"
-  "geWeapon\022%\n\006weapon\030\001 \001(\0162\025.Protobuf.WEAP"
-  "ON_TYPE\"0\n\007S_Spawn\022%\n\007objects\030\001 \003(\0132\024.Pr"
-  "otobuf.ObjectInfo\"6\n\rS_SyncObjects\022%\n\007ob"
-  "jects\030\001 \003(\0132\024.Protobuf.ObjectInfob\006proto"
-  "3"
+  "otobuf.ObjectInfo\":\n\006C_Move\022\037\n\003dir\030\001 \001(\016"
+  "2\022.Protobuf.DIR_TYPE\022\017\n\007running\030\002 \001(\010\"\010\n"
+  "\006C_Jump\"7\n\016C_ChangeWeapon\022%\n\006weapon\030\001 \001("
+  "\0162\025.Protobuf.WEAPON_TYPE\"0\n\007S_Spawn\022%\n\007o"
+  "bjects\030\001 \003(\0132\024.Protobuf.ObjectInfo\"6\n\rS_"
+  "SyncObjects\022%\n\007objects\030\001 \003(\0132\024.Protobuf."
+  "ObjectInfob\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_Protocol_2eproto_deps[2] = {
   &::descriptor_table_Enum_2eproto,
@@ -202,7 +204,7 @@ static const ::_pbi::DescriptorTable* const descriptor_table_Protocol_2eproto_de
 };
 static ::_pbi::once_flag descriptor_table_Protocol_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_Protocol_2eproto = {
-    false, false, 361, descriptor_table_protodef_Protocol_2eproto,
+    false, false, 378, descriptor_table_protodef_Protocol_2eproto,
     "Protocol.proto",
     &descriptor_table_Protocol_2eproto_once, descriptor_table_Protocol_2eproto_deps, 2, 7,
     schemas, file_default_instances, TableStruct_Protocol_2eproto::offsets,
@@ -504,10 +506,13 @@ C_Move::C_Move(const C_Move& from)
   C_Move* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.dir_){}
+    , decltype(_impl_.running_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _this->_impl_.dir_ = from._impl_.dir_;
+  ::memcpy(&_impl_.dir_, &from._impl_.dir_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.running_) -
+    reinterpret_cast<char*>(&_impl_.dir_)) + sizeof(_impl_.running_));
   // @@protoc_insertion_point(copy_constructor:Protobuf.C_Move)
 }
 
@@ -517,6 +522,7 @@ inline void C_Move::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.dir_){0}
+    , decltype(_impl_.running_){false}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -544,7 +550,9 @@ void C_Move::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.dir_ = 0;
+  ::memset(&_impl_.dir_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.running_) -
+      reinterpret_cast<char*>(&_impl_.dir_)) + sizeof(_impl_.running_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -560,6 +568,14 @@ const char* C_Move::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
           uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_dir(static_cast<::Protobuf::DIR_TYPE>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // bool running = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.running_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -599,6 +615,12 @@ uint8_t* C_Move::_InternalSerialize(
       1, this->_internal_dir(), target);
   }
 
+  // bool running = 2;
+  if (this->_internal_running() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(2, this->_internal_running(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -619,6 +641,11 @@ size_t C_Move::ByteSizeLong() const {
   if (this->_internal_dir() != 0) {
     total_size += 1 +
       ::_pbi::WireFormatLite::EnumSize(this->_internal_dir());
+  }
+
+  // bool running = 2;
+  if (this->_internal_running() != 0) {
+    total_size += 1 + 1;
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -642,6 +669,9 @@ void C_Move::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBU
   if (from._internal_dir() != 0) {
     _this->_internal_set_dir(from._internal_dir());
   }
+  if (from._internal_running() != 0) {
+    _this->_internal_set_running(from._internal_running());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -659,7 +689,12 @@ bool C_Move::IsInitialized() const {
 void C_Move::InternalSwap(C_Move* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_.dir_, other->_impl_.dir_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(C_Move, _impl_.running_)
+      + sizeof(C_Move::_impl_.running_)
+      - PROTOBUF_FIELD_OFFSET(C_Move, _impl_.dir_)>(
+          reinterpret_cast<char*>(&_impl_.dir_),
+          reinterpret_cast<char*>(&other->_impl_.dir_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata C_Move::GetMetadata() const {

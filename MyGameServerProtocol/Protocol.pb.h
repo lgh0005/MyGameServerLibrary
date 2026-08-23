@@ -491,6 +491,7 @@ class C_Move final :
 
   enum : int {
     kDirFieldNumber = 1,
+    kRunningFieldNumber = 2,
   };
   // .Protobuf.DIR_TYPE dir = 1;
   void clear_dir();
@@ -499,6 +500,15 @@ class C_Move final :
   private:
   ::Protobuf::DIR_TYPE _internal_dir() const;
   void _internal_set_dir(::Protobuf::DIR_TYPE value);
+  public:
+
+  // bool running = 2;
+  void clear_running();
+  bool running() const;
+  void set_running(bool value);
+  private:
+  bool _internal_running() const;
+  void _internal_set_running(bool value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protobuf.C_Move)
@@ -510,6 +520,7 @@ class C_Move final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     int dir_;
+    bool running_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1237,6 +1248,26 @@ inline void C_Move::_internal_set_dir(::Protobuf::DIR_TYPE value) {
 inline void C_Move::set_dir(::Protobuf::DIR_TYPE value) {
   _internal_set_dir(value);
   // @@protoc_insertion_point(field_set:Protobuf.C_Move.dir)
+}
+
+// bool running = 2;
+inline void C_Move::clear_running() {
+  _impl_.running_ = false;
+}
+inline bool C_Move::_internal_running() const {
+  return _impl_.running_;
+}
+inline bool C_Move::running() const {
+  // @@protoc_insertion_point(field_get:Protobuf.C_Move.running)
+  return _internal_running();
+}
+inline void C_Move::_internal_set_running(bool value) {
+  
+  _impl_.running_ = value;
+}
+inline void C_Move::set_running(bool value) {
+  _internal_set_running(value);
+  // @@protoc_insertion_point(field_set:Protobuf.C_Move.running)
 }
 
 // -------------------------------------------------------------------

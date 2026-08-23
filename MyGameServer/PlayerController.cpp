@@ -45,12 +45,22 @@ namespace MGSL::Server
         }
         else
         {
-            if (directionX != 0.0f) m_state = Protobuf::OBJECT_STATE_TYPE_WALK;
-            else m_state = Protobuf::OBJECT_STATE_TYPE_IDLE;
+            if (directionX != 0.0f)
+            {
+                if (m_isRunning)  m_state = Protobuf::OBJECT_STATE_TYPE_RUN;
+                else m_state = Protobuf::OBJECT_STATE_TYPE_WALK;
+            }
+            else
+            {
+                m_state = Protobuf::OBJECT_STATE_TYPE_IDLE;
+            }
         }
 
         if (directionX != 0.0f)
-            owner->GetTransform().Translate(Shared::vec3(directionX * m_moveSpeed * deltaTime, 0.0f, 0.0f));
+        {
+            const float moveSpeed = m_isRunning ? m_runSpeed : m_moveSpeed;
+            owner->GetTransform().Translate(Shared::vec3(directionX * moveSpeed * deltaTime, 0.0f, 0.0f));
+        }
     }
 
     void PlayerController::SetMoveDirection(::Protobuf::DIR_TYPE dir)
@@ -58,14 +68,19 @@ namespace MGSL::Server
         m_moveDirection = dir;
     }
 
-    ::Protobuf::DIR_TYPE PlayerController::GetMoveDirection() const
+    void PlayerController::SetRunning(bool running)
     {
-        return m_moveDirection;
+        m_isRunning = running;
     }
 
     void PlayerController::SetWeapon(Protobuf::WEAPON_TYPE weapon)
     {
         m_weapon = weapon;
+    }
+
+    ::Protobuf::DIR_TYPE PlayerController::GetMoveDirection() const
+    {
+        return m_moveDirection;
     }
 
     Protobuf::OBJECT_STATE_TYPE PlayerController::GetState() const

@@ -18,6 +18,7 @@ message S_EnterGame
 message C_Move
 {
     DIR_TYPE dir = 1;
+    bool running = 2;
 }
 
 message C_Jump

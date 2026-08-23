@@ -71,10 +71,11 @@ namespace MGSL::Net
 		return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::C_EnterGame));
 	}
 
-	SendBufferPtr ClientPacketHandler::Make_C_Move(::Protobuf::DIR_TYPE dir)
+	SendBufferPtr ClientPacketHandler::Make_C_Move(::Protobuf::DIR_TYPE dir, bool running)
 	{
 		::Protobuf::C_Move pkt;
 		pkt.set_dir(dir);
+		pkt.set_running(running);
 		return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::C_Move));
 	}
 

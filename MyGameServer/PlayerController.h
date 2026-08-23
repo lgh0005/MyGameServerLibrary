@@ -24,7 +24,10 @@ namespace MGSL::Server
 
 	public:
 		void SetMoveDirection(::Protobuf::DIR_TYPE dir);
+		void SetRunning(bool running);
 		void SetWeapon(Protobuf::WEAPON_TYPE weapon);
+
+	public:
 		Protobuf::DIR_TYPE GetMoveDirection() const;
 		Protobuf::OBJECT_STATE_TYPE GetState() const;
 		Protobuf::FACING_TYPE GetFacing() const;
@@ -34,6 +37,9 @@ namespace MGSL::Server
 		PlayerController(GameObject* owner);
 
 		float m_moveSpeed = 3.0f;
+		float m_runSpeed = 4.5f;
+		bool m_isRunning = false;
+
 		Protobuf::DIR_TYPE m_moveDirection = ::Protobuf::DIR_TYPE_NONE;
 		Protobuf::OBJECT_STATE_TYPE m_state = Protobuf::OBJECT_STATE_TYPE_IDLE;
 		Protobuf::FACING_TYPE m_facing = Protobuf::FACING_TYPE_RIGHT;

@@ -7,7 +7,6 @@
 #include "ServerPacketHandler.h"
 #include "MyGameServerProtocol/PacketHeader.h"
 #include "MyGameServerLibrary/BufferReader.h"
-
 #include "PlayerController.h"
 
 namespace MGSL::Net
@@ -80,12 +79,17 @@ namespace MGSL::Net
 		if (!playerController) return;
 
 		const auto dir = pkt.dir();
+		const bool running = pkt.running();
 		playerController->SetMoveDirection(dir);
+		playerController->SetRunning(running);
+
+		// debug
 		MGSL_LOG_INFO
 		(
-			"C_Move received. ObjectID = {}, Dir = {}",
+			"C_Move received. ObjectID = {}, Dir = {}, Running = {}",
 			player->GetObjectInfo().objectid(),
-			static_cast<int>(dir)
+			static_cast<int>(dir),
+			running
 		);
 	}
 

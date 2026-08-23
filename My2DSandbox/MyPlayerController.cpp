@@ -36,7 +36,9 @@ namespace MGSL::Sandbox2D
 		float directionX = 0.0f;
 		if (keyboard->GetKeyPress('A')) directionX -= 1.0f;
 		if (keyboard->GetKeyPress('D')) directionX += 1.0f;
-		body->SetHorizontalVelocity(directionX * m_moveSpeed);
+		const bool isRunning = keyboard->GetKeyPress(VK_SHIFT);
+		const float moveSpeed = isRunning ? m_runSpeed : m_moveSpeed;
+		body->SetHorizontalVelocity(directionX * moveSpeed);
 		
 		/*========================//
 		//          Jump          //
@@ -60,19 +62,20 @@ namespace MGSL::Sandbox2D
 		::Protobuf::DIR_TYPE moveDir = ::Protobuf::DIR_TYPE_NONE;
 		if (directionX < 0.0f) moveDir = ::Protobuf::DIR_TYPE_LEFT;
 		else if (directionX > 0.0f) moveDir = ::Protobuf::DIR_TYPE_RIGHT;
-		if (moveDir != m_prevMoveDir)
+		if (moveDir != m_prevMoveDir || isRunning != m_prevRunning)
 		{
-			SendMovePacket(moveDir);
+			SendMovePacket(moveDir, isRunning);
 			m_prevMoveDir = moveDir;
+			m_prevRunning = isRunning;
 		}
 	}
 
 	/*========================//
 	//   Packet Test Methods  //
 	//========================*/
-	void MyPlayerController::SendMovePacket(::Protobuf::DIR_TYPE dir)
+	void MyPlayerController::SendMovePacket(::Protobuf::DIR_TYPE dir, bool running)
 	{
-		auto sendBuffer = Net::ClientPacketHandler::Make_C_Move(dir);
+		auto sendBuffer = Net::ClientPacketHandler::Make_C_Move(dir, running);
 		MGSL_NETWORK_MGR.SendPacket(sendBuffer);
 	}
 
