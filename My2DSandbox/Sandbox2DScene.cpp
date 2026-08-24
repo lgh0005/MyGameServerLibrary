@@ -7,8 +7,6 @@
 #include "MyGameFramework/Texture2D.h"
 #include "MyGameFramework/Transform.h"
 #include "MyGameFramework/SpriteRenderer.h"
-#include "MyGameFramework/FlipbookClip.h"
-#include "MyGameFramework/FlipbookController.h"
 #include "MyGameFramework/FlipbookPlayer.h"
 #include "MyGameFramework/UICanvas.h"
 #include "MyGameFramework/UIImage.h"
@@ -20,6 +18,7 @@
 #include "CameraController.h"
 #include "MyPlayerController.h"
 #include "MyPlayerStateMachine.h"
+#include "UIController.h"
 
 namespace MGSL::Sandbox2D
 {
@@ -104,6 +103,8 @@ namespace MGSL::Sandbox2D
 		Framework::Texture2DPtr background3 = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Props.Background3"); if (!background3) return;
 		Framework::Texture2DPtr ladder = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Props.Ladder"); if (!ladder) return;
 		Framework::Texture2DPtr bullet = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Props.Bullet"); if (!bullet) return;
+		Framework::Texture2DPtr uiFace = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Props.UIFace"); if (!uiFace) return;
+		Framework::Texture2DPtr uiHeart = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Props.UIHeart"); if (!uiHeart) return;
 		
 		Framework::Texture2DPtr fighterAtlas = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Fighter"); if (!fighterAtlas) return;
 		Framework::Texture2DPtr pistolAtlas = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Player.Pistol"); if (!pistolAtlas) return;
@@ -337,5 +338,80 @@ namespace MGSL::Sandbox2D
 		const float aspect = referenceResolution.x / referenceResolution.y;
 		uiCamera->SetOrthographic(referenceResolution.y, aspect, -100.0f, 100.0f);
 		SetUICamera(uiCamera);
+
+		/*===========================//
+		//        Main UI HUD        //
+		//===========================*/
+		Framework::GameObject* hudCanvas = MGSL_OBJECT_MGR.CreateGameObject(this); if (!hudCanvas) return;
+		Framework::UICanvas* canvas = MGSL_OBJECT_MGR.AddComponent<Framework::UICanvas>(hudCanvas);
+		canvas->SetCanvasSize(referenceResolution);
+		UIController* uiController = MGSL_OBJECT_MGR.AddComponent<UIController>(hudCanvas); if (!uiController) return;
+
+		// TEMP : Face
+		Framework::GameObject* faceObject = MGSL_OBJECT_MGR.CreateGameObject(this); if (!faceObject) return;
+		faceObject->GetTransform().SetPosition(Shared::vec3(-560.0f, 300.0f, 0.0f));
+
+		Framework::UIImage* faceImage = MGSL_OBJECT_MGR.AddComponent<Framework::UIImage>(faceObject); if (!faceImage) return;
+		faceImage->SetCanvas(canvas);
+		faceImage->SetTexture(uiFace);
+		faceImage->SetSize(Shared::vec2(96.0f, 96.0f));
+		faceImage->SetColor(Shared::vec4(1.0f));
+		faceImage->SetUVRect(Shared::vec4(0.0f, 0.0f, 1.0f, 1.0f));
+		hudCanvas->AddChild(faceObject);
+		uiController->SetFaceImage(faceImage);
+
+		// TEMP : hearts
+		constexpr Shared::uint32 heartCount = 5;
+		const float heartSize = 56.0f;
+		const float heartSpacing = 8.0f;
+		const float startX = -470.0f;
+		const float startY = 300.0f;
+
+		for (Shared::uint32 i = 0; i < heartCount; ++i)
+		{
+			Framework::GameObject* heartObject = MGSL_OBJECT_MGR.CreateGameObject(this); if (!heartObject) return;
+			const float x = startX + static_cast<float>(i) * (heartSize + heartSpacing);
+
+			heartObject->GetTransform().SetPosition(Shared::vec3(x, startY, 0.0f));
+			Framework::UIImage* heartImage = MGSL_OBJECT_MGR.AddComponent<Framework::UIImage>(heartObject);
+			if (!heartImage) return;
+			heartImage->SetCanvas(canvas);
+			heartImage->SetTexture(uiHeart);
+			heartImage->SetSize(Shared::vec2(heartSize, heartSize));
+			heartImage->SetColor(Shared::vec4(1.0f));
+
+			// 실제 Heart가 UI Atlas 안에 들어있는 위치로 변경
+			heartImage->SetUVRect(Shared::vec4(0.0f, 0.0f, 1.0f, 1.0f));
+			hudCanvas->AddChild(heartObject);
+			uiController->AddHeartImage(heartImage);
+		}
+
+		// TEMP : Text_Kill count
+		Framework::GameObject* killCountObject = MGSL_OBJECT_MGR.CreateGameObject(this); if (!killCountObject) return;
+		killCountObject->GetTransform().SetPosition(Shared::vec3(430.0f, 300.0f, 0.0f));
+		Framework::UIText* killCountText = MGSL_OBJECT_MGR.AddComponent<Framework::UIText>(killCountObject); if (!killCountText) return;
+		killCountText->SetCanvas(canvas);
+		killCountText->SetFont(font);
+		killCountText->SetText("KILL : 0");
+		killCountText->SetColor(Shared::vec4(1.0f));
+		hudCanvas->AddChild(killCountObject);
+		uiController->SetKillCountText(killCountText);
+
+		// TEMP : Current weapon state
+		Framework::GameObject* weaponStateObject = MGSL_OBJECT_MGR.CreateGameObject(this);if (!weaponStateObject) return;
+		weaponStateObject->GetTransform().SetPosition(Shared::vec3(400.0f, -310.0f, 0.0f));
+		Framework::UIText* weaponStateText = MGSL_OBJECT_MGR.AddComponent<Framework::UIText>(weaponStateObject); if (!weaponStateText) return;
+		weaponStateText->SetCanvas(canvas);
+		weaponStateText->SetFont(font);
+		weaponStateText->SetText("FIGHTER");
+		weaponStateText->SetColor(Shared::vec4(1.0f));
+		hudCanvas->AddChild(weaponStateObject);
+		uiController->SetWeaponTypeText(weaponStateText);
+
+		// UIController 세팅
+		uiController->SetHeartCount(heartCount);
+		uiController->SetKillCount(0);
+		uiController->SetWeaponType(EWeaponType::FIGHTER);
+		statemachine->SetUIController(uiController);
 	}
 }

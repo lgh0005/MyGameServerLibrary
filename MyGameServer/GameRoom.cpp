@@ -2,6 +2,7 @@
 #include "GameRoom.h"
 #include "GameSession.h"
 #include "ServerPacketHandler.h"
+#include "ColorUtils.h"
 
 #include "VirtualSandbox2DScene.h"
 #include "GameObject.h"
@@ -45,10 +46,10 @@ namespace MGSL::Net
 
 			const auto& position = player->GetTransform().GetPosition();
 			auto& info = player->GetObjectInfo();
-			info.set_posx(position.x);
-			info.set_posy(position.y);
-			info.set_velocityx(body->GetHorizontalVelocity());
-			info.set_velocityy(body->GetVerticalVelocity());
+			info.mutable_position()->set_x(position.x);
+			info.mutable_position()->set_y(position.y);
+			info.mutable_velocity()->set_x(body->GetHorizontalVelocity());
+			info.mutable_velocity()->set_y(body->GetVerticalVelocity());
 			info.set_grounded(body->IsGrounded());
 			info.set_state(controller->GetState());
 			info.set_facing(controller->GetFacing());
@@ -73,6 +74,12 @@ namespace MGSL::Net
 		Server::GameObject* player = MGSL_OBJECT_MGR.CreateGameObject(scenePtr);
 		if (!player) return;
 		player->GetTransform().SetScale(Shared::vec3(1.25f));
+		const Shared::vec3 playerColor = Server::ColorUtils::HSVToRGB(Shared::Random::Range(0.0f, 360.0f), 0.75f, 1.0f);
+		Protobuf::Color* color = player->GetObjectInfo().mutable_color();
+		color->set_r(playerColor.r);
+		color->set_g(playerColor.g);
+		color->set_b(playerColor.b);
+		color->set_a(1.0f);
 
 		// 2. 서버 전용 컴포넌트 부착
 		MGSL_OBJECT_MGR.AddComponent<Server::PlayerController>(player);

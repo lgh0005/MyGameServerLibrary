@@ -37,6 +37,7 @@
 #include "Types.h"
 #include "Aliases.h"
 #include "Macros.h"
+#include "Random.h"
 
 // Debug
 #include "Logger.h"

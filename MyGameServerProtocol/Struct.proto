@@ -2,22 +2,17 @@ syntax = "proto3";
 package Protobuf;
 
 import "Enum.proto";
-
-enum PlayerType
-{
-	PLAYER_TYPE_NONE = 0;
-}
+import "Types.proto";
 
 message ObjectInfo
 {
 	uint64 objectID = 1;
 	OBJECT_TYPE objectType = 2;
 	OBJECT_STATE_TYPE state = 3;
-	float posX = 4;
-	float posY = 5;
-	float velocityX = 6;
-	float velocityY = 7;
-	bool grounded = 8;
-	FACING_TYPE facing = 9;
-	WEAPON_TYPE weapon = 10;
+	Vec2 position = 4;
+    Vec2 velocity = 5;
+	bool grounded = 6;
+    FACING_TYPE facing = 7;
+    WEAPON_TYPE weapon = 8;
+    Color color = 9;
 }

@@ -187,6 +187,7 @@
     <ClInclude Include="Sandbox2DScene.h" />
     <ClInclude Include="Sandbox2DWindow.h" />
     <ClInclude Include="ServerSession.h" />
+    <ClInclude Include="UIController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClientPacketHandler.cpp" />
@@ -203,6 +204,7 @@
     <ClCompile Include="MyPlayerStateMachine.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="Sandbox2D.cpp" />
+    <ClCompile Include="UIController.cpp" />
     <ClInclude Include="Sandbox2DGlobal.h" />
     <ClCompile Include="Sandbox2DScene.cpp" />
     <ClCompile Include="Sandbox2DWindow.cpp" />

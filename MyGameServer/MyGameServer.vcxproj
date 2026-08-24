@@ -204,6 +204,7 @@ xcopy "$(ProjectDir)*.inl" "$(SolutionDir)ThirdParty\include\$(ProjectName)\" /D
     <ClInclude Include="ClientBehaviour.h" />
     <ClInclude Include="ColliderFunctor.h" />
     <ClInclude Include="CollisionResolveInfo.h" />
+    <ClInclude Include="ColorUtils.h" />
     <ClInclude Include="ServerCollisionManager.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Enums.h" />
@@ -229,6 +230,7 @@ xcopy "$(ProjectDir)*.inl" "$(SolutionDir)ThirdParty\include\$(ProjectName)\" /D
     <ClCompile Include="ClientBehaviour.cpp" />
     <ClCompile Include="ColliderFunctor.cpp" />
     <ClCompile Include="CollisionResolveInfo.cpp" />
+    <ClCompile Include="ColorUtils.cpp" />
     <ClCompile Include="ServerCollisionManager.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="GameObject.cpp" />

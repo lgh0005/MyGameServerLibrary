@@ -18,4 +18,5 @@
 // Protobuf
 #include "Protocol.pb.h"
 #include "Enum.pb.h"
+#include "Types.pb.h"
 #include "Struct.pb.h"

@@ -17,6 +17,9 @@
     <Filter Include="소스 파일\Concurrency">
       <UniqueIdentifier>{9a179557-83a1-4e54-b3e4-e68a7107d0ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Random">
+      <UniqueIdentifier>{6c8da23a-f65e-4903-b904-2d53cee50c49}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SharedPch.cpp">
@@ -36,6 +39,9 @@
     </ClCompile>
     <ClCompile Include="BlockingStack.cpp">
       <Filter>소스 파일\Concurrency</Filter>
+    </ClCompile>
+    <ClCompile Include="Random.cpp">
+      <Filter>소스 파일\Random</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -66,6 +72,9 @@
     <ClInclude Include="BlockingStack.h">
       <Filter>소스 파일\Concurrency</Filter>
     </ClInclude>
+    <ClInclude Include="Random.h">
+      <Filter>소스 파일\Random</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Logger.inl">
@@ -76,6 +85,9 @@
     </None>
     <None Include="BlockingStack.inl">
       <Filter>소스 파일\Concurrency</Filter>
+    </None>
+    <None Include="Random.inl">
+      <Filter>소스 파일\Random</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -23,13 +23,12 @@ namespace _pbi = _pb::internal;
 namespace Protobuf {
 PROTOBUF_CONSTEXPR ObjectInfo::ObjectInfo(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.objectid_)*/uint64_t{0u}
+    /*decltype(_impl_.position_)*/nullptr
+  , /*decltype(_impl_.velocity_)*/nullptr
+  , /*decltype(_impl_.color_)*/nullptr
+  , /*decltype(_impl_.objectid_)*/uint64_t{0u}
   , /*decltype(_impl_.objecttype_)*/0
   , /*decltype(_impl_.state_)*/0
-  , /*decltype(_impl_.posx_)*/0
-  , /*decltype(_impl_.posy_)*/0
-  , /*decltype(_impl_.velocityx_)*/0
-  , /*decltype(_impl_.velocityy_)*/0
   , /*decltype(_impl_.grounded_)*/false
   , /*decltype(_impl_.facing_)*/0
   , /*decltype(_impl_.weapon_)*/0
@@ -45,7 +44,7 @@ struct ObjectInfoDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ObjectInfoDefaultTypeInternal _ObjectInfo_default_instance_;
 }  // namespace Protobuf
 static ::_pb::Metadata file_level_metadata_Struct_2eproto[1];
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_Struct_2eproto[1];
+static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_Struct_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_Struct_2eproto = nullptr;
 
 const uint32_t TableStruct_Struct_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -58,13 +57,12 @@ const uint32_t TableStruct_Struct_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(p
   PROTOBUF_FIELD_OFFSET(::Protobuf::ObjectInfo, _impl_.objectid_),
   PROTOBUF_FIELD_OFFSET(::Protobuf::ObjectInfo, _impl_.objecttype_),
   PROTOBUF_FIELD_OFFSET(::Protobuf::ObjectInfo, _impl_.state_),
-  PROTOBUF_FIELD_OFFSET(::Protobuf::ObjectInfo, _impl_.posx_),
-  PROTOBUF_FIELD_OFFSET(::Protobuf::ObjectInfo, _impl_.posy_),
-  PROTOBUF_FIELD_OFFSET(::Protobuf::ObjectInfo, _impl_.velocityx_),
-  PROTOBUF_FIELD_OFFSET(::Protobuf::ObjectInfo, _impl_.velocityy_),
+  PROTOBUF_FIELD_OFFSET(::Protobuf::ObjectInfo, _impl_.position_),
+  PROTOBUF_FIELD_OFFSET(::Protobuf::ObjectInfo, _impl_.velocity_),
   PROTOBUF_FIELD_OFFSET(::Protobuf::ObjectInfo, _impl_.grounded_),
   PROTOBUF_FIELD_OFFSET(::Protobuf::ObjectInfo, _impl_.facing_),
   PROTOBUF_FIELD_OFFSET(::Protobuf::ObjectInfo, _impl_.weapon_),
+  PROTOBUF_FIELD_OFFSET(::Protobuf::ObjectInfo, _impl_.color_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Protobuf::ObjectInfo)},
@@ -75,25 +73,26 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 
 const char descriptor_table_protodef_Struct_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\014Struct.proto\022\010Protobuf\032\nEnum.proto\"\227\002\n"
-  "\nObjectInfo\022\020\n\010objectID\030\001 \001(\004\022)\n\nobjectT"
-  "ype\030\002 \001(\0162\025.Protobuf.OBJECT_TYPE\022*\n\005stat"
-  "e\030\003 \001(\0162\033.Protobuf.OBJECT_STATE_TYPE\022\014\n\004"
-  "posX\030\004 \001(\002\022\014\n\004posY\030\005 \001(\002\022\021\n\tvelocityX\030\006 "
-  "\001(\002\022\021\n\tvelocityY\030\007 \001(\002\022\020\n\010grounded\030\010 \001(\010"
-  "\022%\n\006facing\030\t \001(\0162\025.Protobuf.FACING_TYPE\022"
-  "%\n\006weapon\030\n \001(\0162\025.Protobuf.WEAPON_TYPE*\""
-  "\n\nPlayerType\022\024\n\020PLAYER_TYPE_NONE\020\000b\006prot"
-  "o3"
+  "\n\014Struct.proto\022\010Protobuf\032\nEnum.proto\032\013Ty"
+  "pes.proto\"\271\002\n\nObjectInfo\022\020\n\010objectID\030\001 \001"
+  "(\004\022)\n\nobjectType\030\002 \001(\0162\025.Protobuf.OBJECT"
+  "_TYPE\022*\n\005state\030\003 \001(\0162\033.Protobuf.OBJECT_S"
+  "TATE_TYPE\022 \n\010position\030\004 \001(\0132\016.Protobuf.V"
+  "ec2\022 \n\010velocity\030\005 \001(\0132\016.Protobuf.Vec2\022\020\n"
+  "\010grounded\030\006 \001(\010\022%\n\006facing\030\007 \001(\0162\025.Protob"
+  "uf.FACING_TYPE\022%\n\006weapon\030\010 \001(\0162\025.Protobu"
+  "f.WEAPON_TYPE\022\036\n\005color\030\t \001(\0132\017.Protobuf."
+  "Colorb\006proto3"
   ;
-static const ::_pbi::DescriptorTable* const descriptor_table_Struct_2eproto_deps[1] = {
+static const ::_pbi::DescriptorTable* const descriptor_table_Struct_2eproto_deps[2] = {
   &::descriptor_table_Enum_2eproto,
+  &::descriptor_table_Types_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_Struct_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_Struct_2eproto = {
-    false, false, 362, descriptor_table_protodef_Struct_2eproto,
+    false, false, 373, descriptor_table_protodef_Struct_2eproto,
     "Struct.proto",
-    &descriptor_table_Struct_2eproto_once, descriptor_table_Struct_2eproto_deps, 1, 1,
+    &descriptor_table_Struct_2eproto_once, descriptor_table_Struct_2eproto_deps, 2, 1,
     schemas, file_default_instances, TableStruct_Struct_2eproto::offsets,
     file_level_metadata_Struct_2eproto, file_level_enum_descriptors_Struct_2eproto,
     file_level_service_descriptors_Struct_2eproto,
@@ -105,26 +104,46 @@ PROTOBUF_ATTRIBUTE_WEAK const ::_pbi::DescriptorTable* descriptor_table_Struct_2
 // Force running AddDescriptors() at dynamic initialization time.
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY2 static ::_pbi::AddDescriptorsRunner dynamic_init_dummy_Struct_2eproto(&descriptor_table_Struct_2eproto);
 namespace Protobuf {
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PlayerType_descriptor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_Struct_2eproto);
-  return file_level_enum_descriptors_Struct_2eproto[0];
-}
-bool PlayerType_IsValid(int value) {
-  switch (value) {
-    case 0:
-      return true;
-    default:
-      return false;
-  }
-}
-
 
 // ===================================================================
 
 class ObjectInfo::_Internal {
  public:
+  static const ::Protobuf::Vec2& position(const ObjectInfo* msg);
+  static const ::Protobuf::Vec2& velocity(const ObjectInfo* msg);
+  static const ::Protobuf::Color& color(const ObjectInfo* msg);
 };
 
+const ::Protobuf::Vec2&
+ObjectInfo::_Internal::position(const ObjectInfo* msg) {
+  return *msg->_impl_.position_;
+}
+const ::Protobuf::Vec2&
+ObjectInfo::_Internal::velocity(const ObjectInfo* msg) {
+  return *msg->_impl_.velocity_;
+}
+const ::Protobuf::Color&
+ObjectInfo::_Internal::color(const ObjectInfo* msg) {
+  return *msg->_impl_.color_;
+}
+void ObjectInfo::clear_position() {
+  if (GetArenaForAllocation() == nullptr && _impl_.position_ != nullptr) {
+    delete _impl_.position_;
+  }
+  _impl_.position_ = nullptr;
+}
+void ObjectInfo::clear_velocity() {
+  if (GetArenaForAllocation() == nullptr && _impl_.velocity_ != nullptr) {
+    delete _impl_.velocity_;
+  }
+  _impl_.velocity_ = nullptr;
+}
+void ObjectInfo::clear_color() {
+  if (GetArenaForAllocation() == nullptr && _impl_.color_ != nullptr) {
+    delete _impl_.color_;
+  }
+  _impl_.color_ = nullptr;
+}
 ObjectInfo::ObjectInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -135,19 +154,27 @@ ObjectInfo::ObjectInfo(const ObjectInfo& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   ObjectInfo* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.objectid_){}
+      decltype(_impl_.position_){nullptr}
+    , decltype(_impl_.velocity_){nullptr}
+    , decltype(_impl_.color_){nullptr}
+    , decltype(_impl_.objectid_){}
     , decltype(_impl_.objecttype_){}
     , decltype(_impl_.state_){}
-    , decltype(_impl_.posx_){}
-    , decltype(_impl_.posy_){}
-    , decltype(_impl_.velocityx_){}
-    , decltype(_impl_.velocityy_){}
     , decltype(_impl_.grounded_){}
     , decltype(_impl_.facing_){}
     , decltype(_impl_.weapon_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  if (from._internal_has_position()) {
+    _this->_impl_.position_ = new ::Protobuf::Vec2(*from._impl_.position_);
+  }
+  if (from._internal_has_velocity()) {
+    _this->_impl_.velocity_ = new ::Protobuf::Vec2(*from._impl_.velocity_);
+  }
+  if (from._internal_has_color()) {
+    _this->_impl_.color_ = new ::Protobuf::Color(*from._impl_.color_);
+  }
   ::memcpy(&_impl_.objectid_, &from._impl_.objectid_,
     static_cast<size_t>(reinterpret_cast<char*>(&_impl_.weapon_) -
     reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.weapon_));
@@ -159,13 +186,12 @@ inline void ObjectInfo::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.objectid_){uint64_t{0u}}
+      decltype(_impl_.position_){nullptr}
+    , decltype(_impl_.velocity_){nullptr}
+    , decltype(_impl_.color_){nullptr}
+    , decltype(_impl_.objectid_){uint64_t{0u}}
     , decltype(_impl_.objecttype_){0}
     , decltype(_impl_.state_){0}
-    , decltype(_impl_.posx_){0}
-    , decltype(_impl_.posy_){0}
-    , decltype(_impl_.velocityx_){0}
-    , decltype(_impl_.velocityy_){0}
     , decltype(_impl_.grounded_){false}
     , decltype(_impl_.facing_){0}
     , decltype(_impl_.weapon_){0}
@@ -184,6 +210,9 @@ ObjectInfo::~ObjectInfo() {
 
 inline void ObjectInfo::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  if (this != internal_default_instance()) delete _impl_.position_;
+  if (this != internal_default_instance()) delete _impl_.velocity_;
+  if (this != internal_default_instance()) delete _impl_.color_;
 }
 
 void ObjectInfo::SetCachedSize(int size) const {
@@ -196,6 +225,18 @@ void ObjectInfo::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  if (GetArenaForAllocation() == nullptr && _impl_.position_ != nullptr) {
+    delete _impl_.position_;
+  }
+  _impl_.position_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.velocity_ != nullptr) {
+    delete _impl_.velocity_;
+  }
+  _impl_.velocity_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.color_ != nullptr) {
+    delete _impl_.color_;
+  }
+  _impl_.color_ = nullptr;
   ::memset(&_impl_.objectid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.weapon_) -
       reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.weapon_));
@@ -234,61 +275,53 @@ const char* ObjectInfo::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
         } else
           goto handle_unusual;
         continue;
-      // float posX = 4;
+      // .Protobuf.Vec2 position = 4;
       case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 37)) {
-          _impl_.posx_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          ptr = ctx->ParseMessage(_internal_mutable_position(), ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // float posY = 5;
+      // .Protobuf.Vec2 velocity = 5;
       case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 45)) {
-          _impl_.posy_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          ptr = ctx->ParseMessage(_internal_mutable_velocity(), ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // float velocityX = 6;
+      // bool grounded = 6;
       case 6:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 53)) {
-          _impl_.velocityx_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
-        } else
-          goto handle_unusual;
-        continue;
-      // float velocityY = 7;
-      case 7:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 61)) {
-          _impl_.velocityy_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
-        } else
-          goto handle_unusual;
-        continue;
-      // bool grounded = 8;
-      case 8:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 64)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
           _impl_.grounded_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // .Protobuf.FACING_TYPE facing = 9;
-      case 9:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 72)) {
+      // .Protobuf.FACING_TYPE facing = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
           uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_facing(static_cast<::Protobuf::FACING_TYPE>(val));
         } else
           goto handle_unusual;
         continue;
-      // .Protobuf.WEAPON_TYPE weapon = 10;
-      case 10:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 80)) {
+      // .Protobuf.WEAPON_TYPE weapon = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 64)) {
           uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_weapon(static_cast<::Protobuf::WEAPON_TYPE>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // .Protobuf.Color color = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 74)) {
+          ptr = ctx->ParseMessage(_internal_mutable_color(), ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -341,64 +374,45 @@ uint8_t* ObjectInfo::_InternalSerialize(
       3, this->_internal_state(), target);
   }
 
-  // float posX = 4;
-  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
-  float tmp_posx = this->_internal_posx();
-  uint32_t raw_posx;
-  memcpy(&raw_posx, &tmp_posx, sizeof(tmp_posx));
-  if (raw_posx != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteFloatToArray(4, this->_internal_posx(), target);
+  // .Protobuf.Vec2 position = 4;
+  if (this->_internal_has_position()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(4, _Internal::position(this),
+        _Internal::position(this).GetCachedSize(), target, stream);
   }
 
-  // float posY = 5;
-  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
-  float tmp_posy = this->_internal_posy();
-  uint32_t raw_posy;
-  memcpy(&raw_posy, &tmp_posy, sizeof(tmp_posy));
-  if (raw_posy != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteFloatToArray(5, this->_internal_posy(), target);
+  // .Protobuf.Vec2 velocity = 5;
+  if (this->_internal_has_velocity()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(5, _Internal::velocity(this),
+        _Internal::velocity(this).GetCachedSize(), target, stream);
   }
 
-  // float velocityX = 6;
-  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
-  float tmp_velocityx = this->_internal_velocityx();
-  uint32_t raw_velocityx;
-  memcpy(&raw_velocityx, &tmp_velocityx, sizeof(tmp_velocityx));
-  if (raw_velocityx != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteFloatToArray(6, this->_internal_velocityx(), target);
-  }
-
-  // float velocityY = 7;
-  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
-  float tmp_velocityy = this->_internal_velocityy();
-  uint32_t raw_velocityy;
-  memcpy(&raw_velocityy, &tmp_velocityy, sizeof(tmp_velocityy));
-  if (raw_velocityy != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteFloatToArray(7, this->_internal_velocityy(), target);
-  }
-
-  // bool grounded = 8;
+  // bool grounded = 6;
   if (this->_internal_grounded() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteBoolToArray(8, this->_internal_grounded(), target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(6, this->_internal_grounded(), target);
   }
 
-  // .Protobuf.FACING_TYPE facing = 9;
+  // .Protobuf.FACING_TYPE facing = 7;
   if (this->_internal_facing() != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteEnumToArray(
-      9, this->_internal_facing(), target);
+      7, this->_internal_facing(), target);
   }
 
-  // .Protobuf.WEAPON_TYPE weapon = 10;
+  // .Protobuf.WEAPON_TYPE weapon = 8;
   if (this->_internal_weapon() != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteEnumToArray(
-      10, this->_internal_weapon(), target);
+      8, this->_internal_weapon(), target);
+  }
+
+  // .Protobuf.Color color = 9;
+  if (this->_internal_has_color()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(9, _Internal::color(this),
+        _Internal::color(this).GetCachedSize(), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -417,6 +431,27 @@ size_t ObjectInfo::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  // .Protobuf.Vec2 position = 4;
+  if (this->_internal_has_position()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.position_);
+  }
+
+  // .Protobuf.Vec2 velocity = 5;
+  if (this->_internal_has_velocity()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.velocity_);
+  }
+
+  // .Protobuf.Color color = 9;
+  if (this->_internal_has_color()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.color_);
+  }
+
   // uint64 objectID = 1;
   if (this->_internal_objectid() != 0) {
     total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_objectid());
@@ -434,54 +469,18 @@ size_t ObjectInfo::ByteSizeLong() const {
       ::_pbi::WireFormatLite::EnumSize(this->_internal_state());
   }
 
-  // float posX = 4;
-  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
-  float tmp_posx = this->_internal_posx();
-  uint32_t raw_posx;
-  memcpy(&raw_posx, &tmp_posx, sizeof(tmp_posx));
-  if (raw_posx != 0) {
-    total_size += 1 + 4;
-  }
-
-  // float posY = 5;
-  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
-  float tmp_posy = this->_internal_posy();
-  uint32_t raw_posy;
-  memcpy(&raw_posy, &tmp_posy, sizeof(tmp_posy));
-  if (raw_posy != 0) {
-    total_size += 1 + 4;
-  }
-
-  // float velocityX = 6;
-  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
-  float tmp_velocityx = this->_internal_velocityx();
-  uint32_t raw_velocityx;
-  memcpy(&raw_velocityx, &tmp_velocityx, sizeof(tmp_velocityx));
-  if (raw_velocityx != 0) {
-    total_size += 1 + 4;
-  }
-
-  // float velocityY = 7;
-  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
-  float tmp_velocityy = this->_internal_velocityy();
-  uint32_t raw_velocityy;
-  memcpy(&raw_velocityy, &tmp_velocityy, sizeof(tmp_velocityy));
-  if (raw_velocityy != 0) {
-    total_size += 1 + 4;
-  }
-
-  // bool grounded = 8;
+  // bool grounded = 6;
   if (this->_internal_grounded() != 0) {
     total_size += 1 + 1;
   }
 
-  // .Protobuf.FACING_TYPE facing = 9;
+  // .Protobuf.FACING_TYPE facing = 7;
   if (this->_internal_facing() != 0) {
     total_size += 1 +
       ::_pbi::WireFormatLite::EnumSize(this->_internal_facing());
   }
 
-  // .Protobuf.WEAPON_TYPE weapon = 10;
+  // .Protobuf.WEAPON_TYPE weapon = 8;
   if (this->_internal_weapon() != 0) {
     total_size += 1 +
       ::_pbi::WireFormatLite::EnumSize(this->_internal_weapon());
@@ -505,6 +504,18 @@ void ObjectInfo::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PRO
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from._internal_has_position()) {
+    _this->_internal_mutable_position()->::Protobuf::Vec2::MergeFrom(
+        from._internal_position());
+  }
+  if (from._internal_has_velocity()) {
+    _this->_internal_mutable_velocity()->::Protobuf::Vec2::MergeFrom(
+        from._internal_velocity());
+  }
+  if (from._internal_has_color()) {
+    _this->_internal_mutable_color()->::Protobuf::Color::MergeFrom(
+        from._internal_color());
+  }
   if (from._internal_objectid() != 0) {
     _this->_internal_set_objectid(from._internal_objectid());
   }
@@ -513,34 +524,6 @@ void ObjectInfo::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PRO
   }
   if (from._internal_state() != 0) {
     _this->_internal_set_state(from._internal_state());
-  }
-  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
-  float tmp_posx = from._internal_posx();
-  uint32_t raw_posx;
-  memcpy(&raw_posx, &tmp_posx, sizeof(tmp_posx));
-  if (raw_posx != 0) {
-    _this->_internal_set_posx(from._internal_posx());
-  }
-  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
-  float tmp_posy = from._internal_posy();
-  uint32_t raw_posy;
-  memcpy(&raw_posy, &tmp_posy, sizeof(tmp_posy));
-  if (raw_posy != 0) {
-    _this->_internal_set_posy(from._internal_posy());
-  }
-  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
-  float tmp_velocityx = from._internal_velocityx();
-  uint32_t raw_velocityx;
-  memcpy(&raw_velocityx, &tmp_velocityx, sizeof(tmp_velocityx));
-  if (raw_velocityx != 0) {
-    _this->_internal_set_velocityx(from._internal_velocityx());
-  }
-  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
-  float tmp_velocityy = from._internal_velocityy();
-  uint32_t raw_velocityy;
-  memcpy(&raw_velocityy, &tmp_velocityy, sizeof(tmp_velocityy));
-  if (raw_velocityy != 0) {
-    _this->_internal_set_velocityy(from._internal_velocityy());
   }
   if (from._internal_grounded() != 0) {
     _this->_internal_set_grounded(from._internal_grounded());
@@ -571,9 +554,9 @@ void ObjectInfo::InternalSwap(ObjectInfo* other) {
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(ObjectInfo, _impl_.weapon_)
       + sizeof(ObjectInfo::_impl_.weapon_)
-      - PROTOBUF_FIELD_OFFSET(ObjectInfo, _impl_.objectid_)>(
-          reinterpret_cast<char*>(&_impl_.objectid_),
-          reinterpret_cast<char*>(&other->_impl_.objectid_));
+      - PROTOBUF_FIELD_OFFSET(ObjectInfo, _impl_.position_)>(
+          reinterpret_cast<char*>(&_impl_.position_),
+          reinterpret_cast<char*>(&other->_impl_.position_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata ObjectInfo::GetMetadata() const {

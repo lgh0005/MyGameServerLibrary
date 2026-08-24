@@ -31,6 +31,9 @@
     <ClCompile Include="Struct.pb.cc">
       <Filter>소스 파일\Protocols</Filter>
     </ClCompile>
+    <ClCompile Include="Types.pb.cc">
+      <Filter>소스 파일\Protocols</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ServerProtoPch.h">
@@ -51,6 +54,9 @@
     <ClInclude Include="Enums.h">
       <Filter>소스 파일\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Types.pb.h">
+      <Filter>소스 파일\Protocols</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="GenPackets.bat">
@@ -63,6 +69,9 @@
       <Filter>소스 파일\Protobufs</Filter>
     </None>
     <None Include="Struct.proto">
+      <Filter>소스 파일\Protobufs</Filter>
+    </None>
+    <None Include="Types.proto">
       <Filter>소스 파일\Protobufs</Filter>
     </None>
   </ItemGroup>

@@ -50,7 +50,6 @@ namespace Protobuf {
 enum OBJECT_TYPE : int {
   OBJECT_TYPE_NONE = 0,
   OBJECT_TYPE_PLAYER = 1,
-  OBJECT_TYPE_ENEMY = 2,
   OBJECT_TYPE_BULLET = 3,
   OBJECT_TYPE_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
   OBJECT_TYPE_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()

@@ -199,6 +199,7 @@ xcopy "$(ProjectDir)*.inl" "$(SolutionDir)ThirdParty\include\$(ProjectName)\" /D
     <ClInclude Include="BlockingStack.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Macros.h" />
+    <ClInclude Include="Random.h" />
     <ClInclude Include="SharedPch.h" />
     <ClInclude Include="ThreadManager.h" />
     <ClInclude Include="Types.h" />
@@ -208,6 +209,7 @@ xcopy "$(ProjectDir)*.inl" "$(SolutionDir)ThirdParty\include\$(ProjectName)\" /D
     <ClCompile Include="BlockingQueue.cpp" />
     <ClCompile Include="BlockingStack.cpp" />
     <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="Random.cpp" />
     <ClCompile Include="SharedPch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -220,6 +222,7 @@ xcopy "$(ProjectDir)*.inl" "$(SolutionDir)ThirdParty\include\$(ProjectName)\" /D
     <None Include="BlockingQueue.inl" />
     <None Include="BlockingStack.inl" />
     <None Include="Logger.inl" />
+    <None Include="Random.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

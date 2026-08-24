@@ -32,6 +32,9 @@
     <Filter Include="소스 파일\Contents\Clients">
       <UniqueIdentifier>{d0306593-bc6e-402d-b05f-0a8712b3906c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Utils">
+      <UniqueIdentifier>{1e1ba35f-13f4-467f-b46c-606cbcd119a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ServerPch.cpp">
@@ -99,6 +102,9 @@
     </ClCompile>
     <ClCompile Include="VirtualSandbox2DScene.cpp">
       <Filter>소스 파일\Contents\Clients</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorUtils.cpp">
+      <Filter>소스 파일\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +176,9 @@
     </ClInclude>
     <ClInclude Include="VirtualSandbox2DScene.h">
       <Filter>소스 파일\Contents\Clients</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorUtils.h">
+      <Filter>소스 파일\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -5,6 +5,7 @@ namespace MGSL::Framework { MGSL_CLASS_PTR(FlipbookPlayer) }
 
 namespace MGSL::Sandbox2D
 {
+	MGSL_CLASS_PTR(UIController)
 	MGSL_CLASS_PTR(MyPlayerStateMachine)
 
 	class MyPlayerStateMachine : public Framework::MonoBehaviour
@@ -28,8 +29,16 @@ namespace MGSL::Sandbox2D
 		Protobuf::FACING_TYPE GetFacing() const;
 		Protobuf::WEAPON_TYPE GetWeapon() const;
 
+	public:
+		void SetUIController(UIController* uiController);
+		void SetPlayerColor(const Shared::vec4& color);
+
 	private:
 		explicit MyPlayerStateMachine(Framework::GameObject* owner);
+		
+		// 연동할 UIController 핸들
+		UIController* m_uiController = nullptr;
+		void UpdateWeaponUI();
 
 		Framework::FlipbookPlayer* m_flipbookPlayer = nullptr;
 		Protobuf::OBJECT_STATE_TYPE m_state = Protobuf::OBJECT_STATE_TYPE_IDLE;

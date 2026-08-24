@@ -29,9 +29,9 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
-#include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "Enum.pb.h"
+#include "Types.pb.h"
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 #define PROTOBUF_INTERNAL_EXPORT_Struct_2eproto
@@ -56,30 +56,6 @@ template<> ::Protobuf::ObjectInfo* Arena::CreateMaybeMessage<::Protobuf::ObjectI
 PROTOBUF_NAMESPACE_CLOSE
 namespace Protobuf {
 
-enum PlayerType : int {
-  PLAYER_TYPE_NONE = 0,
-  PlayerType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
-  PlayerType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
-};
-bool PlayerType_IsValid(int value);
-constexpr PlayerType PlayerType_MIN = PLAYER_TYPE_NONE;
-constexpr PlayerType PlayerType_MAX = PLAYER_TYPE_NONE;
-constexpr int PlayerType_ARRAYSIZE = PlayerType_MAX + 1;
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PlayerType_descriptor();
-template<typename T>
-inline const std::string& PlayerType_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, PlayerType>::value ||
-    ::std::is_integral<T>::value,
-    "Incorrect type passed to function PlayerType_Name.");
-  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    PlayerType_descriptor(), enum_t_value);
-}
-inline bool PlayerType_Parse(
-    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, PlayerType* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<PlayerType>(
-    PlayerType_descriptor(), name, value);
-}
 // ===================================================================
 
 class ObjectInfo final :
@@ -203,17 +179,70 @@ class ObjectInfo final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kPositionFieldNumber = 4,
+    kVelocityFieldNumber = 5,
+    kColorFieldNumber = 9,
     kObjectIDFieldNumber = 1,
     kObjectTypeFieldNumber = 2,
     kStateFieldNumber = 3,
-    kPosXFieldNumber = 4,
-    kPosYFieldNumber = 5,
-    kVelocityXFieldNumber = 6,
-    kVelocityYFieldNumber = 7,
-    kGroundedFieldNumber = 8,
-    kFacingFieldNumber = 9,
-    kWeaponFieldNumber = 10,
+    kGroundedFieldNumber = 6,
+    kFacingFieldNumber = 7,
+    kWeaponFieldNumber = 8,
   };
+  // .Protobuf.Vec2 position = 4;
+  bool has_position() const;
+  private:
+  bool _internal_has_position() const;
+  public:
+  void clear_position();
+  const ::Protobuf::Vec2& position() const;
+  PROTOBUF_NODISCARD ::Protobuf::Vec2* release_position();
+  ::Protobuf::Vec2* mutable_position();
+  void set_allocated_position(::Protobuf::Vec2* position);
+  private:
+  const ::Protobuf::Vec2& _internal_position() const;
+  ::Protobuf::Vec2* _internal_mutable_position();
+  public:
+  void unsafe_arena_set_allocated_position(
+      ::Protobuf::Vec2* position);
+  ::Protobuf::Vec2* unsafe_arena_release_position();
+
+  // .Protobuf.Vec2 velocity = 5;
+  bool has_velocity() const;
+  private:
+  bool _internal_has_velocity() const;
+  public:
+  void clear_velocity();
+  const ::Protobuf::Vec2& velocity() const;
+  PROTOBUF_NODISCARD ::Protobuf::Vec2* release_velocity();
+  ::Protobuf::Vec2* mutable_velocity();
+  void set_allocated_velocity(::Protobuf::Vec2* velocity);
+  private:
+  const ::Protobuf::Vec2& _internal_velocity() const;
+  ::Protobuf::Vec2* _internal_mutable_velocity();
+  public:
+  void unsafe_arena_set_allocated_velocity(
+      ::Protobuf::Vec2* velocity);
+  ::Protobuf::Vec2* unsafe_arena_release_velocity();
+
+  // .Protobuf.Color color = 9;
+  bool has_color() const;
+  private:
+  bool _internal_has_color() const;
+  public:
+  void clear_color();
+  const ::Protobuf::Color& color() const;
+  PROTOBUF_NODISCARD ::Protobuf::Color* release_color();
+  ::Protobuf::Color* mutable_color();
+  void set_allocated_color(::Protobuf::Color* color);
+  private:
+  const ::Protobuf::Color& _internal_color() const;
+  ::Protobuf::Color* _internal_mutable_color();
+  public:
+  void unsafe_arena_set_allocated_color(
+      ::Protobuf::Color* color);
+  ::Protobuf::Color* unsafe_arena_release_color();
+
   // uint64 objectID = 1;
   void clear_objectid();
   uint64_t objectid() const;
@@ -241,43 +270,7 @@ class ObjectInfo final :
   void _internal_set_state(::Protobuf::OBJECT_STATE_TYPE value);
   public:
 
-  // float posX = 4;
-  void clear_posx();
-  float posx() const;
-  void set_posx(float value);
-  private:
-  float _internal_posx() const;
-  void _internal_set_posx(float value);
-  public:
-
-  // float posY = 5;
-  void clear_posy();
-  float posy() const;
-  void set_posy(float value);
-  private:
-  float _internal_posy() const;
-  void _internal_set_posy(float value);
-  public:
-
-  // float velocityX = 6;
-  void clear_velocityx();
-  float velocityx() const;
-  void set_velocityx(float value);
-  private:
-  float _internal_velocityx() const;
-  void _internal_set_velocityx(float value);
-  public:
-
-  // float velocityY = 7;
-  void clear_velocityy();
-  float velocityy() const;
-  void set_velocityy(float value);
-  private:
-  float _internal_velocityy() const;
-  void _internal_set_velocityy(float value);
-  public:
-
-  // bool grounded = 8;
+  // bool grounded = 6;
   void clear_grounded();
   bool grounded() const;
   void set_grounded(bool value);
@@ -286,7 +279,7 @@ class ObjectInfo final :
   void _internal_set_grounded(bool value);
   public:
 
-  // .Protobuf.FACING_TYPE facing = 9;
+  // .Protobuf.FACING_TYPE facing = 7;
   void clear_facing();
   ::Protobuf::FACING_TYPE facing() const;
   void set_facing(::Protobuf::FACING_TYPE value);
@@ -295,7 +288,7 @@ class ObjectInfo final :
   void _internal_set_facing(::Protobuf::FACING_TYPE value);
   public:
 
-  // .Protobuf.WEAPON_TYPE weapon = 10;
+  // .Protobuf.WEAPON_TYPE weapon = 8;
   void clear_weapon();
   ::Protobuf::WEAPON_TYPE weapon() const;
   void set_weapon(::Protobuf::WEAPON_TYPE value);
@@ -312,13 +305,12 @@ class ObjectInfo final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::Protobuf::Vec2* position_;
+    ::Protobuf::Vec2* velocity_;
+    ::Protobuf::Color* color_;
     uint64_t objectid_;
     int objecttype_;
     int state_;
-    float posx_;
-    float posy_;
-    float velocityx_;
-    float velocityy_;
     bool grounded_;
     int facing_;
     int weapon_;
@@ -398,87 +390,177 @@ inline void ObjectInfo::set_state(::Protobuf::OBJECT_STATE_TYPE value) {
   // @@protoc_insertion_point(field_set:Protobuf.ObjectInfo.state)
 }
 
-// float posX = 4;
-inline void ObjectInfo::clear_posx() {
-  _impl_.posx_ = 0;
+// .Protobuf.Vec2 position = 4;
+inline bool ObjectInfo::_internal_has_position() const {
+  return this != internal_default_instance() && _impl_.position_ != nullptr;
 }
-inline float ObjectInfo::_internal_posx() const {
-  return _impl_.posx_;
+inline bool ObjectInfo::has_position() const {
+  return _internal_has_position();
 }
-inline float ObjectInfo::posx() const {
-  // @@protoc_insertion_point(field_get:Protobuf.ObjectInfo.posX)
-  return _internal_posx();
+inline const ::Protobuf::Vec2& ObjectInfo::_internal_position() const {
+  const ::Protobuf::Vec2* p = _impl_.position_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protobuf::Vec2&>(
+      ::Protobuf::_Vec2_default_instance_);
 }
-inline void ObjectInfo::_internal_set_posx(float value) {
+inline const ::Protobuf::Vec2& ObjectInfo::position() const {
+  // @@protoc_insertion_point(field_get:Protobuf.ObjectInfo.position)
+  return _internal_position();
+}
+inline void ObjectInfo::unsafe_arena_set_allocated_position(
+    ::Protobuf::Vec2* position) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.position_);
+  }
+  _impl_.position_ = position;
+  if (position) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protobuf.ObjectInfo.position)
+}
+inline ::Protobuf::Vec2* ObjectInfo::release_position() {
   
-  _impl_.posx_ = value;
+  ::Protobuf::Vec2* temp = _impl_.position_;
+  _impl_.position_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
 }
-inline void ObjectInfo::set_posx(float value) {
-  _internal_set_posx(value);
-  // @@protoc_insertion_point(field_set:Protobuf.ObjectInfo.posX)
+inline ::Protobuf::Vec2* ObjectInfo::unsafe_arena_release_position() {
+  // @@protoc_insertion_point(field_release:Protobuf.ObjectInfo.position)
+  
+  ::Protobuf::Vec2* temp = _impl_.position_;
+  _impl_.position_ = nullptr;
+  return temp;
+}
+inline ::Protobuf::Vec2* ObjectInfo::_internal_mutable_position() {
+  
+  if (_impl_.position_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protobuf::Vec2>(GetArenaForAllocation());
+    _impl_.position_ = p;
+  }
+  return _impl_.position_;
+}
+inline ::Protobuf::Vec2* ObjectInfo::mutable_position() {
+  ::Protobuf::Vec2* _msg = _internal_mutable_position();
+  // @@protoc_insertion_point(field_mutable:Protobuf.ObjectInfo.position)
+  return _msg;
+}
+inline void ObjectInfo::set_allocated_position(::Protobuf::Vec2* position) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.position_);
+  }
+  if (position) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(position));
+    if (message_arena != submessage_arena) {
+      position = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, position, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.position_ = position;
+  // @@protoc_insertion_point(field_set_allocated:Protobuf.ObjectInfo.position)
 }
 
-// float posY = 5;
-inline void ObjectInfo::clear_posy() {
-  _impl_.posy_ = 0;
+// .Protobuf.Vec2 velocity = 5;
+inline bool ObjectInfo::_internal_has_velocity() const {
+  return this != internal_default_instance() && _impl_.velocity_ != nullptr;
 }
-inline float ObjectInfo::_internal_posy() const {
-  return _impl_.posy_;
+inline bool ObjectInfo::has_velocity() const {
+  return _internal_has_velocity();
 }
-inline float ObjectInfo::posy() const {
-  // @@protoc_insertion_point(field_get:Protobuf.ObjectInfo.posY)
-  return _internal_posy();
+inline const ::Protobuf::Vec2& ObjectInfo::_internal_velocity() const {
+  const ::Protobuf::Vec2* p = _impl_.velocity_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protobuf::Vec2&>(
+      ::Protobuf::_Vec2_default_instance_);
 }
-inline void ObjectInfo::_internal_set_posy(float value) {
+inline const ::Protobuf::Vec2& ObjectInfo::velocity() const {
+  // @@protoc_insertion_point(field_get:Protobuf.ObjectInfo.velocity)
+  return _internal_velocity();
+}
+inline void ObjectInfo::unsafe_arena_set_allocated_velocity(
+    ::Protobuf::Vec2* velocity) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.velocity_);
+  }
+  _impl_.velocity_ = velocity;
+  if (velocity) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protobuf.ObjectInfo.velocity)
+}
+inline ::Protobuf::Vec2* ObjectInfo::release_velocity() {
   
-  _impl_.posy_ = value;
+  ::Protobuf::Vec2* temp = _impl_.velocity_;
+  _impl_.velocity_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
 }
-inline void ObjectInfo::set_posy(float value) {
-  _internal_set_posy(value);
-  // @@protoc_insertion_point(field_set:Protobuf.ObjectInfo.posY)
+inline ::Protobuf::Vec2* ObjectInfo::unsafe_arena_release_velocity() {
+  // @@protoc_insertion_point(field_release:Protobuf.ObjectInfo.velocity)
+  
+  ::Protobuf::Vec2* temp = _impl_.velocity_;
+  _impl_.velocity_ = nullptr;
+  return temp;
+}
+inline ::Protobuf::Vec2* ObjectInfo::_internal_mutable_velocity() {
+  
+  if (_impl_.velocity_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protobuf::Vec2>(GetArenaForAllocation());
+    _impl_.velocity_ = p;
+  }
+  return _impl_.velocity_;
+}
+inline ::Protobuf::Vec2* ObjectInfo::mutable_velocity() {
+  ::Protobuf::Vec2* _msg = _internal_mutable_velocity();
+  // @@protoc_insertion_point(field_mutable:Protobuf.ObjectInfo.velocity)
+  return _msg;
+}
+inline void ObjectInfo::set_allocated_velocity(::Protobuf::Vec2* velocity) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.velocity_);
+  }
+  if (velocity) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(velocity));
+    if (message_arena != submessage_arena) {
+      velocity = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, velocity, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.velocity_ = velocity;
+  // @@protoc_insertion_point(field_set_allocated:Protobuf.ObjectInfo.velocity)
 }
 
-// float velocityX = 6;
-inline void ObjectInfo::clear_velocityx() {
-  _impl_.velocityx_ = 0;
-}
-inline float ObjectInfo::_internal_velocityx() const {
-  return _impl_.velocityx_;
-}
-inline float ObjectInfo::velocityx() const {
-  // @@protoc_insertion_point(field_get:Protobuf.ObjectInfo.velocityX)
-  return _internal_velocityx();
-}
-inline void ObjectInfo::_internal_set_velocityx(float value) {
-  
-  _impl_.velocityx_ = value;
-}
-inline void ObjectInfo::set_velocityx(float value) {
-  _internal_set_velocityx(value);
-  // @@protoc_insertion_point(field_set:Protobuf.ObjectInfo.velocityX)
-}
-
-// float velocityY = 7;
-inline void ObjectInfo::clear_velocityy() {
-  _impl_.velocityy_ = 0;
-}
-inline float ObjectInfo::_internal_velocityy() const {
-  return _impl_.velocityy_;
-}
-inline float ObjectInfo::velocityy() const {
-  // @@protoc_insertion_point(field_get:Protobuf.ObjectInfo.velocityY)
-  return _internal_velocityy();
-}
-inline void ObjectInfo::_internal_set_velocityy(float value) {
-  
-  _impl_.velocityy_ = value;
-}
-inline void ObjectInfo::set_velocityy(float value) {
-  _internal_set_velocityy(value);
-  // @@protoc_insertion_point(field_set:Protobuf.ObjectInfo.velocityY)
-}
-
-// bool grounded = 8;
+// bool grounded = 6;
 inline void ObjectInfo::clear_grounded() {
   _impl_.grounded_ = false;
 }
@@ -498,7 +580,7 @@ inline void ObjectInfo::set_grounded(bool value) {
   // @@protoc_insertion_point(field_set:Protobuf.ObjectInfo.grounded)
 }
 
-// .Protobuf.FACING_TYPE facing = 9;
+// .Protobuf.FACING_TYPE facing = 7;
 inline void ObjectInfo::clear_facing() {
   _impl_.facing_ = 0;
 }
@@ -518,7 +600,7 @@ inline void ObjectInfo::set_facing(::Protobuf::FACING_TYPE value) {
   // @@protoc_insertion_point(field_set:Protobuf.ObjectInfo.facing)
 }
 
-// .Protobuf.WEAPON_TYPE weapon = 10;
+// .Protobuf.WEAPON_TYPE weapon = 8;
 inline void ObjectInfo::clear_weapon() {
   _impl_.weapon_ = 0;
 }
@@ -538,6 +620,91 @@ inline void ObjectInfo::set_weapon(::Protobuf::WEAPON_TYPE value) {
   // @@protoc_insertion_point(field_set:Protobuf.ObjectInfo.weapon)
 }
 
+// .Protobuf.Color color = 9;
+inline bool ObjectInfo::_internal_has_color() const {
+  return this != internal_default_instance() && _impl_.color_ != nullptr;
+}
+inline bool ObjectInfo::has_color() const {
+  return _internal_has_color();
+}
+inline const ::Protobuf::Color& ObjectInfo::_internal_color() const {
+  const ::Protobuf::Color* p = _impl_.color_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protobuf::Color&>(
+      ::Protobuf::_Color_default_instance_);
+}
+inline const ::Protobuf::Color& ObjectInfo::color() const {
+  // @@protoc_insertion_point(field_get:Protobuf.ObjectInfo.color)
+  return _internal_color();
+}
+inline void ObjectInfo::unsafe_arena_set_allocated_color(
+    ::Protobuf::Color* color) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.color_);
+  }
+  _impl_.color_ = color;
+  if (color) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protobuf.ObjectInfo.color)
+}
+inline ::Protobuf::Color* ObjectInfo::release_color() {
+  
+  ::Protobuf::Color* temp = _impl_.color_;
+  _impl_.color_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::Protobuf::Color* ObjectInfo::unsafe_arena_release_color() {
+  // @@protoc_insertion_point(field_release:Protobuf.ObjectInfo.color)
+  
+  ::Protobuf::Color* temp = _impl_.color_;
+  _impl_.color_ = nullptr;
+  return temp;
+}
+inline ::Protobuf::Color* ObjectInfo::_internal_mutable_color() {
+  
+  if (_impl_.color_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protobuf::Color>(GetArenaForAllocation());
+    _impl_.color_ = p;
+  }
+  return _impl_.color_;
+}
+inline ::Protobuf::Color* ObjectInfo::mutable_color() {
+  ::Protobuf::Color* _msg = _internal_mutable_color();
+  // @@protoc_insertion_point(field_mutable:Protobuf.ObjectInfo.color)
+  return _msg;
+}
+inline void ObjectInfo::set_allocated_color(::Protobuf::Color* color) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.color_);
+  }
+  if (color) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(color));
+    if (message_arena != submessage_arena) {
+      color = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, color, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.color_ = color;
+  // @@protoc_insertion_point(field_set_allocated:Protobuf.ObjectInfo.color)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
@@ -545,16 +712,6 @@ inline void ObjectInfo::set_weapon(::Protobuf::WEAPON_TYPE value) {
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace Protobuf
-
-PROTOBUF_NAMESPACE_OPEN
-
-template <> struct is_proto_enum< ::Protobuf::PlayerType> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::Protobuf::PlayerType>() {
-  return ::Protobuf::PlayerType_descriptor();
-}
-
-PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
 

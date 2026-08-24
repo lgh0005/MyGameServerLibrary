@@ -22,6 +22,12 @@ namespace MGSL::Shared
 }
 
 /*=========================//
+//   Compile-time assert   //
+//=========================*/
+#define MGSL_STATIC_ASSERT(expr) static_assert((expr), #expr)
+#define MGSL_STATIC_ASSERT_MSG(expr, msg) static_assert((expr), msg)
+
+/*=========================//
 //     Debug assertion     //
 //=========================*/
 #ifdef _DEBUG

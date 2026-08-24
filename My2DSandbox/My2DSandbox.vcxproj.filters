@@ -64,6 +64,9 @@
     <ClCompile Include="FlipbookUtils.cpp">
       <Filter>소스 파일\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="UIController.cpp">
+      <Filter>소스 파일\Scripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2DPch.h">
@@ -104,6 +107,9 @@
     </ClInclude>
     <ClInclude Include="FlipbookUtils.h">
       <Filter>소스 파일\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="UIController.h">
+      <Filter>소스 파일\Scripts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

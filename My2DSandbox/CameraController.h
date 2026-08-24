@@ -7,6 +7,8 @@ namespace MGSL::Sandbox2D
 
 	class CameraController : public Framework::MonoBehaviour
 	{
+		MGSL_DISABLE_COPY(CameraController)
+		MGSL_DISABLE_MOVE(CameraController)
 		using Super = Framework::MonoBehaviour;
 
 	public:

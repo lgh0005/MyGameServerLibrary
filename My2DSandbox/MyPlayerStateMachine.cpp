@@ -2,6 +2,7 @@
 #include "MyPlayerStateMachine.h"
 #include "MyGameFramework/GameObject.h"
 #include "MyGameFramework/FlipbookPlayer.h"
+#include "UIController.h"
 
 namespace MGSL::Sandbox2D
 {
@@ -39,6 +40,7 @@ namespace MGSL::Sandbox2D
 	{
 		if (m_weapon == weapon) return;
 		m_weapon = weapon;
+		UpdateWeaponUI();
 
 		const Shared::uint32 controllerIndex = static_cast<Shared::uint32>(m_weapon);
 		if (!m_flipbookPlayer->ChangeController(controllerIndex)) return;
@@ -58,5 +60,44 @@ namespace MGSL::Sandbox2D
 	Protobuf::WEAPON_TYPE MyPlayerStateMachine::GetWeapon() const
 	{
 		return m_weapon;
+	}
+
+	/*====================//
+	//   UI integrations  //
+	//====================*/
+	void MyPlayerStateMachine::SetUIController(UIController* uiController)
+	{
+		m_uiController = uiController;
+		UpdateWeaponUI();
+	}
+
+	void MyPlayerStateMachine::UpdateWeaponUI()
+	{
+		if (!m_uiController) return;
+
+		switch (m_weapon)
+		{
+			case Protobuf::WEAPON_TYPE_NONE:
+				m_uiController->SetWeaponType(EWeaponType::FIGHTER);
+				break;
+
+			case Protobuf::WEAPON_TYPE_PISTOL:
+				m_uiController->SetWeaponType(EWeaponType::PISTOL);
+				break;
+
+			case Protobuf::WEAPON_TYPE_SWORD:
+				m_uiController->SetWeaponType(EWeaponType::SWORD);
+				break;
+
+			default:
+				break;
+		}
+	}
+
+	void MyPlayerStateMachine::SetPlayerColor(const Shared::vec4& color)
+	{
+		if (!m_flipbookPlayer) return;
+		m_flipbookPlayer->SetColor(color);
+		if (m_uiController) m_uiController->SetPlayerColor(color);
 	}
 }

@@ -154,6 +154,8 @@ namespace MGSL::Net
 			if (!flipbookPlayer->ChangeController((Shared::usize)Sandbox2D::EWeaponType::FIGHTER)) continue;
 			if (!flipbookPlayer->SetState(static_cast<Shared::uint32>(Sandbox2D::EObjectState::IDLE))) continue;
 			flipbookPlayer->SetSize(Shared::vec2(1.0f, 1.0f));
+			const ::Protobuf::Color& color = objectInfo.color();
+			flipbookPlayer->SetColor(Shared::vec4(color.r(), color.g(), color.b(), color.a()));
 			flipbookPlayer->Play();
 
 			// 4. BoxCollider 부착
@@ -172,12 +174,7 @@ namespace MGSL::Net
 			if (!stateMachine) continue;
 
 			// 7. 최초 위치 설정
-			Shared::vec3 spawnPosition
-			(
-				objectInfo.posx(),
-				objectInfo.posy(),
-				0.0f
-			);
+			Shared::vec3 spawnPosition(objectInfo.position().x(), objectInfo.position().y(), 0.0f);
 			otherPlayer->GetTransform().SetPosition(spawnPosition);
 			otherPlayer->GetTransform().SetScale(Shared::vec3(1.25f));
 		}
@@ -192,6 +189,12 @@ namespace MGSL::Net
 		if (!myPlayer) return;
 
 		myPlayer->SetObjectInfo(playerInfo);
+
+		// 색상 적용
+		Sandbox2D::MyPlayerStateMachine* stateMachine = myPlayer->GetComponent<Sandbox2D::MyPlayerStateMachine>();
+		if (!stateMachine) return;
+		const ::Protobuf::Color& color = playerInfo.color();
+		stateMachine->SetPlayerColor(Shared::vec4(color.r(), color.g(), color.b(), color.a()));
 	}
 
 	void ClientPacketHandler::ApplySyncObjects(const ::Protobuf::S_SyncObjects& pkt)
@@ -205,7 +208,7 @@ namespace MGSL::Net
 			if (!gameObject) continue;
 
 			// 위치 동기화
-			Shared::vec3 serverPosition(objectInfo.posx(), objectInfo.posy(), 0.0f);
+			Shared::vec3 serverPosition(objectInfo.position().x(), objectInfo.position().y(), 0.0f);
 
 			// 충돌 동기화
 			Framework::BoxCollider* collider = gameObject->GetComponent<Framework::BoxCollider>();
@@ -215,7 +218,7 @@ namespace MGSL::Net
 			Framework::CharacterBody2D* body = gameObject->GetComponent<Framework::CharacterBody2D>();
 			if (body)
 			{
-				body->SetServerVelocity(objectInfo.velocityx(), objectInfo.velocityy());
+				body->SetServerVelocity(objectInfo.velocity().x(), objectInfo.velocity().y());
 				body->SetServerGrounded(objectInfo.grounded());
 			}
 
