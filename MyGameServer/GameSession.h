@@ -20,13 +20,13 @@ namespace MGSL::Net
 		virtual void OnSend(Shared::int32 len) override;
 
 	public:
-		void SetGameObject(Server::GameObjectPtr gameObject);
-		Server::GameObjectPtr GetGameObject() const;
+		void SetGameObject(Server::GameObject* gameObject);
+		Server::GameObject* GetGameObject() const;
 
 	private:
 		GameSessionPtr GetGameSession();
 
-		Server::GameObjectWPtr m_gameObject;
+		Server::GameObject* m_gameObject = nullptr;
 	};
 }
 

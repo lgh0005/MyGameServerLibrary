@@ -1,6 +1,10 @@
 #pragma once
 
-namespace MGSL::Server { MGSL_CLASS_PTR(GameObject) }
+namespace MGSL::Server 
+{ 
+	MGSL_CLASS_PTR(GameObject) 
+	MGSL_CLASS_PTR(VirtualSandbox2DScene)
+}
 
 namespace MGSL::Net
 {
@@ -24,22 +28,19 @@ namespace MGSL::Net
 		void EnterGameRoom(GameSessionPtr session);
 		void LeaveGameRoom(GameSessionPtr session);
 
-	/*========================//
-	//   Packet Test Methods  //
-	//========================*/
+	/*===========================//
+	//   Packet Sending Methods  //
+	//===========================*/
 	private:
 		void SendExistingPlayers(GameSessionPtr session);
-		void BroadcastSpawn(Server::GameObjectPtr player);
+		void BroadcastSpawn(Server::GameObject* player);
 		void BroadcastSyncObjects();
 
 	private:
 		GameRoomPtr GetGameRoom();
 
-		Shared::Dictionary<Shared::uint64, Server::GameObjectPtr> m_players;
-
-		// TEMP : 맵 정보에 대한 충돌체들
-		Shared::List<Server::GameObjectPtr> m_staticObjects;  // 맵의 정적 충돌체들
-		Shared::List<Server::GameObjectPtr> m_dynamicObjects; // 플레이어 히트박스들
+		Shared::Dictionary<Shared::uint64, Server::GameObject*> m_players;
+		Server::VirtualSandbox2DSceneUPtr m_virtualScene;
 	};
 }
 

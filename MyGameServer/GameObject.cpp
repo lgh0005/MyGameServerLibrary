@@ -7,9 +7,9 @@ namespace MGSL::Server
 	GameObject::GameObject() = default;
 	GameObject::~GameObject() = default;
 
-	GameObjectPtr GameObject::Create()
+	GameObjectUPtr GameObject::Create()
 	{
-		return GameObjectPtr(new GameObject());
+		return GameObjectUPtr(new GameObject());
 	}
 
 	/*===================================//

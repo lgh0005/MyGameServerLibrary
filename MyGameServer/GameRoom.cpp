@@ -3,8 +3,8 @@
 #include "GameSession.h"
 #include "ServerPacketHandler.h"
 
+#include "VirtualSandbox2DScene.h"
 #include "GameObject.h"
-#include "ObjectManager.h"
 #include "PlayerController.h"
 #include "CharacterBody2D.h"
 #include "BoxCollider.h"
@@ -16,163 +16,23 @@ namespace MGSL::Net
 
 	void GameRoom::Init()
 	{
-		/*==========================================//
-		//   game map's logical collider positions  //
-		//==========================================*/
-		// ground
-		Server::GameObjectPtr ground = MGSL_OBJECT_MGR.CreateGameObject(); if (!ground) return;
-		ground->GetTransform().SetPosition(Shared::vec3(7.5f, -1.45f, 0.0f));
-		Server::BoxCollider* groundCollider = MGSL_OBJECT_MGR.AddComponent<Server::BoxCollider>(ground); if (!groundCollider) return;
-		groundCollider->SetMobility(Server::EColliderMobility::STATIC);
-		groundCollider->SetCollisionLayer(Server::ECollisionLayer::WORLD);
-		groundCollider->SetSize(Shared::vec2(30.0f, 0.35f));
-		MGSL_SERVER_COLLISION_MGR.Register(groundCollider);
-		m_staticObjects.push_back(ground);
-
-		// left-wall
-		Server::GameObjectPtr leftWall = MGSL_OBJECT_MGR.CreateGameObject(); if (!leftWall) return;
-		leftWall->GetTransform().SetPosition(Shared::vec3(-6.25f, 0.5f, 0.0f));
-		Server::BoxCollider* leftWallCollider = MGSL_OBJECT_MGR.AddComponent<Server::BoxCollider>(leftWall); if (!leftWallCollider) return;
-		leftWallCollider->SetMobility(Server::EColliderMobility::STATIC);
-		leftWallCollider->SetCollisionLayer(Server::ECollisionLayer::WORLD);
-		leftWallCollider->SetSize(Shared::vec2(0.3f, 4.0f));
-		MGSL_SERVER_COLLISION_MGR.Register(leftWallCollider);
-		m_staticObjects.push_back(leftWall);
-
-		// right-wall
-		Server::GameObjectPtr rightWall = MGSL_OBJECT_MGR.CreateGameObject(); if (!rightWall) return;
-		rightWall->GetTransform().SetPosition(Shared::vec3(21.5f, 0.5f, 0.0f));
-		Server::BoxCollider* rightWallCollider = MGSL_OBJECT_MGR.AddComponent<Server::BoxCollider>(rightWall); if (!rightWallCollider) return;
-		rightWallCollider->SetMobility(Server::EColliderMobility::STATIC);
-		rightWallCollider->SetCollisionLayer(Server::ECollisionLayer::WORLD);
-		rightWallCollider->SetSize(Shared::vec2(0.3f, 4.0f));
-		MGSL_SERVER_COLLISION_MGR.Register(rightWallCollider);
-		m_staticObjects.push_back(rightWall);
-
-		// Platform : building1
-		Server::GameObjectPtr building1Roof = MGSL_OBJECT_MGR.CreateGameObject(); if (!building1Roof) return;
-		building1Roof->GetTransform().SetPosition(Shared::vec3(-2.05f, -0.08f, 0.0f));
-		Server::BoxCollider* building1RoofCollider = MGSL_OBJECT_MGR.AddComponent<Server::BoxCollider>(building1Roof); if (!building1RoofCollider) return;
-		building1RoofCollider->SetMobility(Server::EColliderMobility::STATIC);
-		building1RoofCollider->SetCollisionType(Server::ECollisionType::PLATFORM);
-		building1RoofCollider->SetCollisionLayer(Server::ECollisionLayer::WORLD);
-		building1RoofCollider->SetSize(Shared::vec2(2.0f, 0.125f));
-		MGSL_SERVER_COLLISION_MGR.Register(building1RoofCollider);
-		m_staticObjects.push_back(building1Roof);
-
-		// Platform : building2
-		Server::GameObjectPtr building2Roof = MGSL_OBJECT_MGR.CreateGameObject(); if (!building2Roof) return;
-		building2Roof->GetTransform().SetPosition(Shared::vec3(1.45f, 0.35f, 0.0f));
-		Server::BoxCollider* building2RoofCollider = MGSL_OBJECT_MGR.AddComponent<Server::BoxCollider>(building2Roof); if (!building2RoofCollider) return;
-		building2RoofCollider->SetMobility(Server::EColliderMobility::STATIC);
-		building2RoofCollider->SetCollisionType(Server::ECollisionType::PLATFORM);
-		building2RoofCollider->SetCollisionLayer(Server::ECollisionLayer::WORLD);
-		building2RoofCollider->SetSize(Shared::vec2(2.65f, 0.2f));
-		MGSL_SERVER_COLLISION_MGR.Register(building2RoofCollider);
-		m_staticObjects.push_back(building2Roof);
-
-		// Ladder #1
-		Server::GameObjectPtr ladder1 = MGSL_OBJECT_MGR.CreateGameObject(); if (!ladder1) return;
-		ladder1->GetTransform().SetPosition(Shared::vec3(0.45f, -0.4f, 0.0f));
-		Server::BoxCollider* ladder1Collider = MGSL_OBJECT_MGR.AddComponent<Server::BoxCollider>(ladder1); if (!ladder1Collider) return;
-		ladder1Collider->SetMobility(Server::EColliderMobility::STATIC);
-		ladder1Collider->SetCollisionLayer(Server::ECollisionLayer::LADDER);
-		ladder1Collider->SetTrigger(true);
-		ladder1Collider->SetSize(Shared::vec2(0.65f, 3.95f));
-		ladder1Collider->SetOffset(Shared::vec2(-0.02f, 0.06f));
-		MGSL_SERVER_COLLISION_MGR.Register(ladder1Collider);
-		m_staticObjects.push_back(ladder1);
-
-		// Platform : building3
-		Server::GameObjectPtr building3Roof = MGSL_OBJECT_MGR.CreateGameObject(); if (!building3Roof) return;
-		building3Roof->GetTransform().SetPosition(Shared::vec3(6.0f, 0.2f, 0.0f));
-		Server::BoxCollider* building3RoofCollider = MGSL_OBJECT_MGR.AddComponent<Server::BoxCollider>(building3Roof); if (!building3RoofCollider) return;
-		building3RoofCollider->SetMobility(Server::EColliderMobility::STATIC);
-		building3RoofCollider->SetCollisionType(Server::ECollisionType::PLATFORM);
-		building3RoofCollider->SetCollisionLayer(Server::ECollisionLayer::WORLD);
-		building3RoofCollider->SetSize(Shared::vec2(1.85f, 0.185f));
-		MGSL_SERVER_COLLISION_MGR.Register(building3RoofCollider);
-		m_staticObjects.push_back(building3Roof);
-
-		// Ladder #2
-		Server::GameObjectPtr ladder2 = MGSL_OBJECT_MGR.CreateGameObject(); if (!ladder2) return;
-		ladder2->GetTransform().SetPosition(Shared::vec3(6.5f, -0.5f, 0.0f));
-		Server::BoxCollider* ladder2Collider = MGSL_OBJECT_MGR.AddComponent<Server::BoxCollider>(ladder2); if (!ladder2Collider) return;
-		ladder2Collider->SetMobility(Server::EColliderMobility::STATIC);
-		ladder2Collider->SetCollisionLayer(Server::ECollisionLayer::LADDER);
-		ladder2Collider->SetTrigger(true);
-		ladder2Collider->SetSize(Shared::vec2(0.65f, 3.95f));
-		ladder2Collider->SetOffset(Shared::vec2(-0.02f, 0.06f));
-		MGSL_SERVER_COLLISION_MGR.Register(ladder2Collider);
-		m_staticObjects.push_back(ladder2);
-
-		// Platform : building5
-		Server::GameObjectPtr building5Roof = MGSL_OBJECT_MGR.CreateGameObject(); if (!building5Roof) return;
-		building5Roof->GetTransform().SetPosition(Shared::vec3(12.75f, 0.5f, 0.0f));
-		Server::BoxCollider* building5RoofCollider = MGSL_OBJECT_MGR.AddComponent<Server::BoxCollider>(building5Roof); if (!building5RoofCollider) return;
-		building5RoofCollider->SetMobility(Server::EColliderMobility::STATIC);
-		building5RoofCollider->SetCollisionType(Server::ECollisionType::PLATFORM);
-		building5RoofCollider->SetCollisionLayer(Server::ECollisionLayer::WORLD);
-		building5RoofCollider->SetSize(Shared::vec2(4.2f, 0.185f));
-		MGSL_SERVER_COLLISION_MGR.Register(building5RoofCollider);
-		m_staticObjects.push_back(building5Roof);
-
-		// Ladder #3
-		Server::GameObjectPtr ladder3 = MGSL_OBJECT_MGR.CreateGameObject(); if (!ladder3) return;
-		ladder3->GetTransform().SetPosition(Shared::vec3(11.0f, -0.35f, 0.0f));
-		Server::BoxCollider* ladder3Collider = MGSL_OBJECT_MGR.AddComponent<Server::BoxCollider>(ladder3); if (!ladder3Collider) return;
-		ladder3Collider->SetMobility(Server::EColliderMobility::STATIC);
-		ladder3Collider->SetCollisionLayer(Server::ECollisionLayer::LADDER);
-		ladder3Collider->SetTrigger(true);
-		ladder3Collider->SetSize(Shared::vec2(0.65f, 3.8f));
-		ladder3Collider->SetOffset(Shared::vec2(-0.02f, 0.06f));
-		MGSL_SERVER_COLLISION_MGR.Register(ladder3Collider);
-		m_staticObjects.push_back(ladder3);
-
-		// Platform : building6
-		Server::GameObjectPtr building6Roof = MGSL_OBJECT_MGR.CreateGameObject(); if (!building6Roof) return;
-		building6Roof->GetTransform().SetPosition(Shared::vec3(17.9f, 0.28f, 0.0f));
-		Server::BoxCollider* building6RoofCollider = MGSL_OBJECT_MGR.AddComponent<Server::BoxCollider>(building6Roof); if (!building6RoofCollider) return;
-		building6RoofCollider->SetMobility(Server::EColliderMobility::STATIC);
-		building6RoofCollider->SetCollisionType(Server::ECollisionType::PLATFORM);
-		building6RoofCollider->SetCollisionLayer(Server::ECollisionLayer::WORLD);
-		building6RoofCollider->SetSize(Shared::vec2(2.8f, 0.185f));
-		MGSL_SERVER_COLLISION_MGR.Register(building6RoofCollider);
-		m_staticObjects.push_back(building6Roof);
-
-		// Ladder #4
-		Server::GameObjectPtr ladder4 = MGSL_OBJECT_MGR.CreateGameObject(); if (!ladder4) return;
-		ladder4->GetTransform().SetPosition(Shared::vec3(17.0f, -0.45f, 0.0f));
-		Server::BoxCollider* ladder4Collider = MGSL_OBJECT_MGR.AddComponent<Server::BoxCollider>(ladder4); if (!ladder4Collider) return;
-		ladder4Collider->SetMobility(Server::EColliderMobility::STATIC);
-		ladder4Collider->SetCollisionLayer(Server::ECollisionLayer::LADDER);
-		ladder4Collider->SetTrigger(true);
-		ladder4Collider->SetSize(Shared::vec2(0.65f, 3.95f));
-		ladder4Collider->SetOffset(Shared::vec2(-0.02f, 0.06f));
-		MGSL_SERVER_COLLISION_MGR.Register(ladder4Collider);
-		m_staticObjects.push_back(ladder4);
+		// create virtual scene of "Sandbox2DScene"
+		m_virtualScene = std::make_unique<Server::VirtualSandbox2DScene>();
+		m_virtualScene->Init();
 	}
 
 	void GameRoom::Update(float deltaTime)
 	{
-		// 1. Update
-		for (auto& [objectID, player] : m_players)
-		{
-			if (!player) continue;
-			player->Update(deltaTime);
-		}
+		if (!m_virtualScene) return;
 
-		// 2. 이동 결과를 기준으로 충돌 검사 및 위치 보정
-		MGSL_SERVER_COLLISION_MGR.Update();
+		/*========================//
+		//      Scene Update      //
+		//========================*/
+		m_virtualScene->Update(deltaTime);
 
-		// 3. LateUpdate
-		for (auto& [objectID, player] : m_players)
-		{
-			if (!player) continue;
-			player->LateUpdate(deltaTime);
-		}
-
-		// 4. info 동기화
+		/*========================//
+		//    ObjectInfo Sync     //
+		//========================*/
 		for (auto& [objectID, player] : m_players)
 		{
 			if (!player) continue;
@@ -195,7 +55,9 @@ namespace MGSL::Net
 			info.set_weapon(controller->GetWeapon());
 		}
 
-		// 5. 해당 Tick의 상태를 한 번에 전송
+		/*========================//
+		//      Network Sync      //
+		//========================*/
 		BroadcastSyncObjects();
 	}
 
@@ -203,10 +65,12 @@ namespace MGSL::Net
 	{
 		// 0. 세션 검증 및 중복 입장 방지
 		if (!session) return;
+		if (!m_virtualScene) return;
 		if (session->GetGameObject()) return;
+		auto scenePtr = m_virtualScene.get();
 
 		// 1. 서버 논리 플레이어 생성
-		Server::GameObjectPtr player = MGSL_OBJECT_MGR.CreateGameObject();
+		Server::GameObject* player = MGSL_OBJECT_MGR.CreateGameObject(scenePtr);
 		if (!player) return;
 		player->GetTransform().SetScale(Shared::vec3(1.25f));
 
@@ -220,7 +84,7 @@ namespace MGSL::Net
 		playerCollider->SetOffset(Shared::vec2(0.0f, -0.2f));
 		MGSL_SERVER_COLLISION_MGR.Register(playerCollider);
 
-		Server::GameObjectPtr leftHitbox = MGSL_OBJECT_MGR.CreateGameObject();
+		Server::GameObject* leftHitbox = MGSL_OBJECT_MGR.CreateGameObject(scenePtr);
 		if (!leftHitbox) return;
 		leftHitbox->GetTransform().SetPosition(Shared::vec3(-0.4f, -0.2f, 0.0f));
 		Server::BoxCollider* leftHitboxCollider = MGSL_OBJECT_MGR.AddComponent<Server::BoxCollider>(leftHitbox);
@@ -228,11 +92,10 @@ namespace MGSL::Net
 		leftHitboxCollider->SetCollisionLayer(Server::ECollisionLayer::HITBOX);
 		leftHitboxCollider->SetTrigger(true);
 		leftHitboxCollider->SetSize(Shared::vec2(0.3f, 0.3f));
-		player->AddChild(leftHitbox.get());
+		player->AddChild(leftHitbox);
 		MGSL_SERVER_COLLISION_MGR.Register(leftHitboxCollider);
-		m_dynamicObjects.push_back(leftHitbox);
 
-		Server::GameObjectPtr rightHitbox = MGSL_OBJECT_MGR.CreateGameObject();
+		Server::GameObject* rightHitbox = MGSL_OBJECT_MGR.CreateGameObject(scenePtr);
 		if (!rightHitbox) return;
 		rightHitbox->GetTransform().SetPosition(Shared::vec3(0.4f, -0.2f, 0.0f));
 		Server::BoxCollider* rightHitboxCollider = MGSL_OBJECT_MGR.AddComponent<Server::BoxCollider>(rightHitbox);
@@ -240,9 +103,8 @@ namespace MGSL::Net
 		rightHitboxCollider->SetCollisionLayer(Server::ECollisionLayer::HITBOX);
 		rightHitboxCollider->SetTrigger(true);
 		rightHitboxCollider->SetSize(Shared::vec2(0.3f, 0.3f));
-		player->AddChild(rightHitbox.get());
+		player->AddChild(rightHitbox);
 		MGSL_SERVER_COLLISION_MGR.Register(rightHitboxCollider);
-		m_dynamicObjects.push_back(rightHitbox);
 
 		// 3. GameObject <-> Room / Session 연결
 		player->SetGameRoom(GetGameRoom());
@@ -296,7 +158,7 @@ namespace MGSL::Net
 		session->GetSessionBuffer().Send(ServerPacketHandler::Make_S_Spawn(spawnPkt));
 	}
 
-	void GameRoom::BroadcastSpawn(Server::GameObjectPtr player)
+	void GameRoom::BroadcastSpawn(Server::GameObject* player)
 	{
 		if (!player) return;
 

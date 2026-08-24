@@ -4,9 +4,9 @@
 namespace MGSL::Server
 {
 	template<typename T, typename... Args>
-	T* ObjectManager::AddComponent(const GameObjectPtr& gameObject, Args&&... args)
+	T* ObjectManager::AddComponent(GameObject* go, Args&&... args)
 	{
-		if (gameObject == nullptr) return nullptr;
-		return gameObject->AddComponent<T>(std::forward<Args>(args)...);
+		if (go == nullptr) return nullptr;
+		return go->AddComponent<T>(std::forward<Args>(args)...);
 	}
 }

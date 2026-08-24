@@ -76,7 +76,7 @@ namespace MGSL::Net
 		::Protobuf::C_Move pkt;
 		pkt.ParseFromArray(&header[1], header->size - sizeof(Protocol::PacketHeader));
 
-		Server::GameObjectPtr player = session->GetGameObject();
+		Server::GameObject* player = session->GetGameObject();
 		if (!player) return;
 		
 		auto* playerController = player->GetComponent<Server::PlayerController>();
@@ -111,7 +111,7 @@ namespace MGSL::Net
 	{
 		if (!session) return;
 
-		Server::GameObjectPtr player = session->GetGameObject();
+		Server::GameObject* player = session->GetGameObject();
 		if (!player) return;
 
 		auto* body = player->GetComponent<Server::CharacterBody2D>();
@@ -135,7 +135,7 @@ namespace MGSL::Net
 		if (!pkt.ParseFromArray(&header[1], header->size - sizeof(Protocol::PacketHeader)))
 			return;
 
-		Server::GameObjectPtr player = session->GetGameObject();
+		Server::GameObject* player = session->GetGameObject();
 		if (!player) return;
 
 		Server::PlayerController* playerController = player->GetComponent<Server::PlayerController>();
@@ -153,7 +153,7 @@ namespace MGSL::Net
 		if (!pkt.ParseFromArray(&header[1], header->size - sizeof(Protocol::PacketHeader)))
 			return;
 
-		Server::GameObjectPtr player = session->GetGameObject();
+		Server::GameObject* player = session->GetGameObject();
 		if (!player) return;
 
 		Server::PlayerController* playerController = player->GetComponent<Server::PlayerController>();

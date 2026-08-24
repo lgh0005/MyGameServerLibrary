@@ -219,6 +219,7 @@ xcopy "$(ProjectDir)*.inl" "$(SolutionDir)ThirdParty\include\$(ProjectName)\" /D
     <ClInclude Include="ServerPch.h" />
     <ClInclude Include="ServerTimeManager.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="VirtualSandbox2DScene.h" />
     <ClInclude Include="VirtualScene.h" />
   </ItemGroup>
   <ItemGroup>
@@ -247,6 +248,7 @@ xcopy "$(ProjectDir)*.inl" "$(SolutionDir)ThirdParty\include\$(ProjectName)\" /D
     </ClCompile>
     <ClCompile Include="ServerTimeManager.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="VirtualSandbox2DScene.cpp" />
     <ClCompile Include="VirtualScene.cpp" />
   </ItemGroup>
   <ItemGroup>

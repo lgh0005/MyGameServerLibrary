@@ -13,8 +13,6 @@ namespace MGSL::Net
 	void GameSession::OnConnected()
 	{
 		MGSL_LOG_INFO("GameSession connected.");
-
-		// 클라이언트 세션 추가
 		MGSL_SESSION_MGR.Add(GetGameSession());
 	}
 
@@ -34,14 +32,14 @@ namespace MGSL::Net
 		// TODO : cout << "OnSend Len = " << len << endl;
 	}
 
-	void GameSession::SetGameObject(Server::GameObjectPtr gameObject)
+	void GameSession::SetGameObject(Server::GameObject* gameObject)
 	{
 		m_gameObject = gameObject;
 	}
 
-	Server::GameObjectPtr GameSession::GetGameObject() const
+	Server::GameObject* GameSession::GetGameObject() const
 	{
-		return m_gameObject.lock();
+		return m_gameObject;
 	}
 
 	GameSessionPtr GameSession::GetGameSession()

@@ -17,7 +17,7 @@ namespace MGSL::Server
 	{
 	public:
 		virtual ~GameObject();
-		static GameObjectPtr Create();
+		static GameObjectUPtr Create();
 
 	public:
 		void Update(float deltaTime);

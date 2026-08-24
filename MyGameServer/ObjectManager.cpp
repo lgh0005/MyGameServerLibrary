@@ -1,6 +1,7 @@
 #include "ServerPch.h"
 #include "ObjectManager.h"
 #include "GameObject.h"
+#include "VirtualScene.h"
 
 namespace MGSL::Server
 {
@@ -9,19 +10,23 @@ namespace MGSL::Server
 	ObjectManager::ObjectManager() = default;
 	ObjectManager::~ObjectManager() = default;
 
-    GameObjectPtr ObjectManager::CreateGameObject()
+    GameObject* ObjectManager::CreateGameObject(VirtualScene* scene)
     {
-        auto gameObject = GameObject::Create();
+        if (!scene) return nullptr;
+
+        GameObjectUPtr gameObject = GameObject::Create();
         if (!gameObject) return nullptr;
 
         auto& info = gameObject->GetObjectInfo();
         info.set_objectid(++s_idGenerator);
-
-        return gameObject;
+        
+        return scene->AddGameObject(std::move(gameObject));
     }
 
-    void ObjectManager::RemoveGameObject(const GameObjectPtr& gameObject)
+    void ObjectManager::RemoveGameObject(VirtualScene* scene, GameObject* gameObject)
     {
-        // TODO : GameRoom에서 해당 게임 오브젝트를 지워야 함
+        if (!scene) return;
+        if (!gameObject) return;
+        scene->RemoveGameObject(gameObject);
     }
 }

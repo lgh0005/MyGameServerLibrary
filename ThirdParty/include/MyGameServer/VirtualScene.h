@@ -8,14 +8,27 @@ namespace MGSL::Server
 		MGSL_DISABLE_MOVE(VirtualScene)
 
 	public:
-		~VirtualScene();
+		VirtualScene();
+		virtual ~VirtualScene();
+
+	protected:
+		virtual void Build() = 0;
 
 	public:
-		// TODO
+		void Init();
+		void Update(float deltaTime);
+		void Destroy();
+
+	/*=========================================//
+	//   default game object control members   //
+	//=========================================*/
+	public:
+		GameObject* AddGameObject(GameObjectUPtr&& gameObject);
+		void RemoveGameObject(GameObject* gameObject);
+		void ClearGameObjects();
 
 	private:
-		VirtualScene();
-
+		Shared::List<GameObjectUPtr> m_gameObjects;
 	};
 }
 

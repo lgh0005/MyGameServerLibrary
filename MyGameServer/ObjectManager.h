@@ -3,6 +3,7 @@
 namespace MGSL::Server
 {
 	MGSL_CLASS_PTR(GameObject)
+	MGSL_CLASS_PTR(VirtualScene)
 
 	class ObjectManager
 	{
@@ -16,12 +17,12 @@ namespace MGSL::Server
 	//   GameObject Management    //
 	//============================*/
 	public:
-		GameObjectPtr CreateGameObject();
-		void RemoveGameObject(const GameObjectPtr& go);
+		GameObject* CreateGameObject(VirtualScene* scene);
+		void RemoveGameObject(VirtualScene* scene, GameObject* gameObject);
 	
 	public:
 		template<typename T, typename... Args>
-		T* AddComponent(const GameObjectPtr& go, Args&&... args);
+		T* AddComponent(GameObject* go, Args&&... args);
 
 	private:
 		static Shared::Atomic<Shared::uint64> s_idGenerator;

@@ -97,6 +97,9 @@
     <ClCompile Include="VirtualScene.cpp">
       <Filter>소스 파일\Contents\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="VirtualSandbox2DScene.cpp">
+      <Filter>소스 파일\Contents\Clients</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ServerPch.h">
@@ -164,6 +167,9 @@
     </ClInclude>
     <ClInclude Include="VirtualScene.h">
       <Filter>소스 파일\Contents\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="VirtualSandbox2DScene.h">
+      <Filter>소스 파일\Contents\Clients</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

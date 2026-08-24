@@ -13,6 +13,5 @@ namespace MGSL::Net
 		virtual Shared::int32 OnRecv(BYTE* buffer, Shared::int32 len) final;
 		virtual void OnRecvPacket(BYTE* buffer, Shared::int32 len) = 0;
 	};
-
 }
 
