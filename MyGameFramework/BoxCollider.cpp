@@ -63,8 +63,8 @@ namespace MGSL::Framework
 
 	DebugGizmo BoxCollider::GetDebugGizmo() const
 	{
-		const Shared::vec3 position = GetTransform().GetPosition();
-		const Shared::vec3 scale = GetTransform().GetScale();
+		const Shared::vec3 position = GetTransform().GetWorldPosition();
+		const Shared::vec3 scale = GetTransform().GetWorldScale();
 		const Shared::vec2 center(position.x + m_debugOffset.x, position.y + m_debugOffset.y);
 		const Shared::vec2 halfSize(m_debugSize.x * scale.x * 0.5f, m_debugSize.y * scale.y * 0.5f);
 

@@ -112,54 +112,9 @@ namespace MGSL::Sandbox2D
 		/*===========================================//
 		//   flipbook clip/controller creation      //
 		//===========================================*/
-		Framework::FlipbookControllerPtr fighterController = Framework::FlipbookController::Create(fighterAtlas); if (!fighterController) return;
-		Framework::FlipbookControllerPtr pistolController = Framework::FlipbookController::Create(pistolAtlas); if (!pistolController) return;
-		Framework::FlipbookControllerPtr swordController = Framework::FlipbookController::Create(swordAtlas); if (!swordController) return;
-		fighterController->ResizeClips(15);
-		pistolController->ResizeClips(15);
-		swordController->ResizeClips(15);
-
-		// Fighter
-		if (!FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(EObjectState::IDLE), 0, 8, 10, 12, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(EObjectState::WALK), 1, 8, 10, 12, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(EObjectState::RUN), 2, 8, 10, 12, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(EObjectState::JUMP), 3, 5, 10, 12, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(EObjectState::DASH), 4, 6, 10, 12, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(EObjectState::CLIMB), 5, 4, 10, 12, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(EObjectState::AIR_ATTACK), 6, 2, 10, 12, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(EObjectState::ATTACK_1), 7, 4, 10, 12, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(EObjectState::ATTACK_2), 8, 7, 10, 12, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(EObjectState::ATTACK_3), 9, 8, 10, 12, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(EObjectState::HIT), 10, 4, 10, 12, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(fighterController, static_cast<Shared::uint32>(EObjectState::DEATH), 11, 10, 10, 12, 16.0f)) return;
-
-		// Pistol
-		if (!FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(EObjectState::IDLE), 0, 8, 10, 11, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(EObjectState::WALK), 1, 8, 10, 11, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(EObjectState::RUN), 2, 8, 10, 11, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(EObjectState::JUMP), 3, 5, 10, 11, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(EObjectState::SLIDE), 4, 8, 10, 11, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(EObjectState::DASH), 5, 6, 10, 11, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(EObjectState::CLIMB), 6, 4, 10, 11, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(EObjectState::AIR_ATTACK), 7, 2, 10, 11, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(EObjectState::SHOT), 8, 2, 10, 11, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(EObjectState::HIT), 9, 4, 10, 11, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(pistolController, static_cast<Shared::uint32>(EObjectState::DEATH), 10, 10, 10, 11, 16.0f)) return;
-
-		// Sword
-		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::IDLE), 0, 8, 10, 13, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::WALK), 1, 8, 10, 13, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::RUN), 2, 8, 10, 13, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::JUMP), 3, 5, 10, 13, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::SLIDE), 4, 8, 10, 13, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::DASH), 5, 6, 10, 13, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::CLIMB), 6, 4, 10, 13, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::AIR_ATTACK), 7, 3, 10, 13, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::ATTACK_1), 8, 4, 10, 13, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::ATTACK_2), 9, 3, 10, 13, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::ATTACK_3), 10, 4, 10, 13, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::HIT), 11, 4, 10, 13, 16.0f)) return;
-		if (!FlipbookUtils::AddAtlasRowClip(swordController, static_cast<Shared::uint32>(EObjectState::DEATH), 12, 10, 10, 13, 16.0f)) return;
+		Framework::FlipbookControllerPtr fighterController = FlipbookUtils::MakeFighterController(fighterAtlas); if (!fighterController) return;
+		Framework::FlipbookControllerPtr pistolController = FlipbookUtils::MakePistolController(pistolAtlas); if (!pistolController) return;
+		Framework::FlipbookControllerPtr swordController = FlipbookUtils::MakeSwordController(swordAtlas); if (!swordController) return;
 
 		/*===============================//
 		//   render pipeline settings    //
@@ -347,6 +302,22 @@ namespace MGSL::Sandbox2D
 		Framework::CharacterBody2D* characterBody = MGSL_OBJECT_MGR.AddComponent<Framework::CharacterBody2D>(player);
 		if (!characterBody) return;
 		characterBody->SetGravity(-11.0f);
+
+		// Hitbox : Left
+		Framework::GameObject* leftHitbox = MGSL_OBJECT_MGR.CreateGameObject(this);
+		Framework::BoxCollider* lHitbox = MGSL_OBJECT_MGR.AddComponent<Framework::BoxCollider>(leftHitbox);
+		lHitbox->SetDebugSize(Shared::vec2(0.3f, 0.3f));
+		lHitbox->SetDebugOffset(Shared::vec2(0.4f, -0.2f));
+		player->AddChild(leftHitbox);
+		MGSL_COLLIDE_MGR.Register(lHitbox);
+
+		// Hitbox : Right
+		Framework::GameObject* rightHitbox = MGSL_OBJECT_MGR.CreateGameObject(this);
+		Framework::BoxCollider* rHitbox = MGSL_OBJECT_MGR.AddComponent<Framework::BoxCollider>(rightHitbox);
+		rHitbox->SetDebugSize(Shared::vec2(0.3f, 0.3f));
+		rHitbox->SetDebugOffset(Shared::vec2(-0.4f, -0.2f));
+		player->AddChild(rightHitbox);
+		MGSL_COLLIDE_MGR.Register(rHitbox);
 
 		/*===========================//
 		//   Scene camera creation   //

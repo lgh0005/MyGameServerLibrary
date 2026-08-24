@@ -126,9 +126,6 @@
     <ClInclude Include="RecvBuffer.h">
       <Filter>소스 파일\Buffers</Filter>
     </ClInclude>
-    <ClInclude Include="SendBuffer.h">
-      <Filter>소스 파일\Buffers</Filter>
-    </ClInclude>
     <ClInclude Include="Listener.h">
       <Filter>소스 파일\Network</Filter>
     </ClInclude>
@@ -167,6 +164,9 @@
     </ClInclude>
     <ClInclude Include="PacketSession.h">
       <Filter>소스 파일\Sessions</Filter>
+    </ClInclude>
+    <ClInclude Include="SendBuffer.h">
+      <Filter>소스 파일\Buffers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -94,6 +94,9 @@
     <ClCompile Include="CollisionResolveInfo.cpp">
       <Filter>소스 파일\Contents\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="VirtualScene.cpp">
+      <Filter>소스 파일\Contents\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ServerPch.h">
@@ -158,6 +161,9 @@
     </ClInclude>
     <ClInclude Include="CollisionResolveInfo.h">
       <Filter>소스 파일\Contents\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="VirtualScene.h">
+      <Filter>소스 파일\Contents\Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

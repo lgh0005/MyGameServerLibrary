@@ -77,6 +77,7 @@ namespace MGSL::Server
 	private:
 		void SetLayerCollision(ECollisionLayer lhs, ECollisionLayer rhs, bool enable);
 		bool CanCollide(ECollisionLayer lhs, ECollisionLayer rhs) const;
+		bool IsSameHierarchyCollision(BoxCollider* lhs, BoxCollider* rhs) const;
 
 	private:
 		bool m_collisionMatrix[LAYER_COUNT][LAYER_COUNT]{ };

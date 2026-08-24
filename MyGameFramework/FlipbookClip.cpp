@@ -3,18 +3,18 @@
 
 namespace MGSL::Framework
 {
-	FlipbookClip::FlipbookClip(const Shared::List<Shared::vec4>& frames, float framesPerSecond)
-		: m_frames(frames)
+	FlipbookClip::FlipbookClip(const Shared::List<Shared::vec4>& frames, float framesPerSecond, bool loop)
+		: m_frames(frames), m_isLoop(loop)
 	{
 		if (framesPerSecond > 0.0f)
 			m_frameDuration = 1.0f / framesPerSecond;
 	}
 	FlipbookClip::~FlipbookClip() = default;
 
-	FlipbookClipPtr FlipbookClip::Create(const Shared::List<Shared::vec4>& frames, float framesPerSecond)
+	FlipbookClipPtr FlipbookClip::Create(const Shared::List<Shared::vec4>& frames, float framesPerSecond, bool loop)
 	{
 		if (frames.empty() || framesPerSecond <= 0.0f) return nullptr;
-		return FlipbookClipPtr(new FlipbookClip(frames, framesPerSecond));
+		return FlipbookClipPtr(new FlipbookClip(frames, framesPerSecond, loop));
 	}
 
 	const Shared::vec4& FlipbookClip::GetUVRect(Shared::uint32 frameIndex) const
@@ -35,6 +35,16 @@ namespace MGSL::Framework
 	bool FlipbookClip::IsValid() const
 	{
 		return !m_frames.empty() && m_frameDuration > 0.0f;
+	}
+
+	void FlipbookClip::SetLoop(bool loop)
+	{
+		m_isLoop = loop;
+	}
+
+	bool FlipbookClip::IsLoop() const 
+	{ 
+		return m_isLoop; 
 	}
 }
 

@@ -14,7 +14,8 @@ namespace MGSL::Framework
 		static FlipbookClipPtr Create
 		(
 			const Shared::List<Shared::vec4>& frames,
-			float framesPerSecond
+			float framesPerSecond,
+			bool loop
 		);
 
 	public:
@@ -23,15 +24,21 @@ namespace MGSL::Framework
 		float GetFrameDuration() const;
 		bool IsValid() const;
 
+	public:
+		void SetLoop(bool loop);
+		bool IsLoop() const;
+
 	private:
 		FlipbookClip
 		(
 			const Shared::List<Shared::vec4>& frames,
-			float framesPerSecond
+			float framesPerSecond,
+			bool loop
 		);
 
 		Shared::List<Shared::vec4> m_frames;
 		float m_frameDuration = 0.0f;
+		bool m_isLoop = true;
 	};
 }
 

@@ -81,8 +81,8 @@ namespace MGSL::Server
 
 	void BoxCollider::UpdateBounds()
 	{
-		const Shared::vec3 position = GetTransform().GetPosition();
-		const Shared::vec3 scale = GetTransform().GetScale();
+		const Shared::vec3 position = GetTransform().GetWorldPosition();
+		const Shared::vec3 scale = GetTransform().GetWorldScale();
 		const Shared::vec2 center { position.x + m_offset.x, position.y + m_offset.y };
 		const Shared::vec2 halfSize { m_size.x * scale.x * 0.5f, m_size.y * scale.y * 0.5f };
 		m_bounds.min = center - halfSize;

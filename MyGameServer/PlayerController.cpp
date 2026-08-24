@@ -2,6 +2,7 @@
 #include "PlayerController.h"
 #include "GameObject.h"
 #include "CharacterBody2D.h"
+#include "BoxCollider.h"
 
 namespace MGSL::Server
 {
@@ -28,8 +29,27 @@ namespace MGSL::Server
         {
             m_attackElapsedTime += deltaTime;
             if (m_attackElapsedTime < m_attackDuration) return;
+            if (m_attackQueued && m_comboIndex < 3)
+            {
+                ++m_comboIndex;
+                switch (m_comboIndex)
+                {
+                    case 2: m_state = Protobuf::OBJECT_STATE_TYPE_ATTACK_2; break;
+                    case 3: m_state = Protobuf::OBJECT_STATE_TYPE_ATTACK_3; break;
+                    default: break;
+                }
+
+                m_attackQueued = false;
+                m_attackElapsedTime = 0.0f;
+                m_hitTargets.clear();
+                return;
+            }
+
             m_isAttacking = false;
+            m_attackQueued = false;
+            m_comboIndex = 0;
             m_attackElapsedTime = 0.0f;
+            m_hitTargets.clear();
         }
 
         /*========================//
@@ -83,21 +103,91 @@ namespace MGSL::Server
         }
     }
 
+    void PlayerController::OnTriggerEnter(BoxCollider* other)
+    {
+        HandleHitboxTrigger(other);
+    }
+
+    void PlayerController::OnTriggerStay(BoxCollider* other)
+    {
+        HandleHitboxTrigger(other);
+    }
+
+    void PlayerController::HandleHitboxTrigger(BoxCollider* other)
+    {
+        if (!other) return;
+        if (other->GetCollisionLayer() != ECollisionLayer::HITBOX) return;
+
+        GameObject* hitboxObject = other->GetOwner();
+        if (!hitboxObject) return;
+
+        GameObject* attacker = hitboxObject->GetParent();
+        if (!attacker) return;
+
+        PlayerController* attackerController = attacker->GetComponent<PlayerController>();
+        if (!attackerController) return;
+
+        // 실제 공격 중이 아니면 충돌은 있었어도 Hit로 인정하지 않음
+        if (!attackerController->IsAttacking()) return;
+
+        GameObject* owner = GetOwner();
+        if (!owner) return;
+
+        const Shared::uint64 targetID = owner->GetObjectInfo().objectid();
+        if (!attackerController->RegisterHitTarget(targetID)) return;
+
+        // DEBUG
+        MGSL_LOG_INFO
+        (
+            "HITBOX collision detected. Attacker = {}, Target = {}",
+            attacker->GetObjectInfo().objectid(),
+            owner->GetObjectInfo().objectid()
+        );
+    }
+
+    bool PlayerController::RegisterHitTarget(Shared::uint64 objectID)
+    {
+        auto [it, inserted] = m_hitTargets.insert(objectID);
+        return inserted;
+    }
+
     void PlayerController::Attack()
     {
-        if (m_isAttacking) return;
-
         GameObject* owner = GetOwner();
         if (!owner) return;
 
         CharacterBody2D* body = owner->GetComponent<CharacterBody2D>();
         if (!body) return;
 
+        /*========================//
+        //      Combo Queue       //
+        //========================*/
+        if (m_isAttacking)
+        {
+            if (m_weapon == ::Protobuf::WEAPON_TYPE_NONE ||
+                m_weapon == ::Protobuf::WEAPON_TYPE_SWORD)
+            {
+                const bool isComboWindow =
+                    m_attackElapsedTime >= m_comboWindowStart &&
+                    m_attackElapsedTime <= m_comboWindowEnd;
+
+                if (m_comboIndex < 3 && isComboWindow)
+                    m_attackQueued = true;
+            }
+
+            return;
+        }
+
+        /*========================//
+        //      Attack Start      //
+        //========================*/
         m_isAttacking = true;
+        m_attackQueued = false;
         m_attackElapsedTime = 0.0f;
 
         if (!body->IsGrounded())
         {
+            m_comboIndex = 0;
             m_state = Protobuf::OBJECT_STATE_TYPE_AIR_ATTACK;
             return;
         }
@@ -106,10 +196,12 @@ namespace MGSL::Server
         {
             case Protobuf::WEAPON_TYPE_NONE:
             case Protobuf::WEAPON_TYPE_SWORD:
+                m_comboIndex = 1;
                 m_state = Protobuf::OBJECT_STATE_TYPE_ATTACK_1;
                 break;
 
             case Protobuf::WEAPON_TYPE_PISTOL:
+                m_comboIndex = 0;
                 m_state = Protobuf::OBJECT_STATE_TYPE_SHOT;
                 break;
 
@@ -152,5 +244,10 @@ namespace MGSL::Server
     Protobuf::WEAPON_TYPE PlayerController::GetWeapon() const
     {
         return m_weapon;
+    }
+
+    bool PlayerController::IsAttacking() const
+    {
+        return m_isAttacking;
     }
 }

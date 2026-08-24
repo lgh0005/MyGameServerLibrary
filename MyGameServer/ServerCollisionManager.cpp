@@ -198,8 +198,8 @@ namespace MGSL::Server
 
 				const AABB& rhsBounds = rhs->GetBounds();
 				if (rhsBounds.min.x > lhsBounds.max.x) break;
-				if (!CanCollide(lhs->GetCollisionLayer(), rhs->GetCollisionLayer()))
-					continue;
+				if (!CanCollide(lhs->GetCollisionLayer(), rhs->GetCollisionLayer())) continue;
+				if (IsSameHierarchyCollision(lhs, rhs)) continue;
 
 				if (lhsBounds.Intersects(rhsBounds))
 					m_currentCollisions.emplace_back(lhs, rhs);
@@ -525,5 +525,17 @@ namespace MGSL::Server
 		const Shared::usize  lhsIndex = static_cast<Shared::usize>(lhs);
 		const Shared::usize  rhsIndex = static_cast<Shared::usize>(rhs);
 		return m_collisionMatrix[lhsIndex][rhsIndex];
+	}
+
+	bool ServerCollisionManager::IsSameHierarchyCollision(BoxCollider* lhs, BoxCollider* rhs) const
+	{
+		// 직속 부모와 충돌하는 지만 검증
+		GameObject* lhsOwner = lhs->GetOwner();
+		GameObject* rhsOwner = rhs->GetOwner();
+		if (!lhsOwner || !rhsOwner) return false;
+
+		if (lhsOwner->GetParent() == rhsOwner) return true;
+		if (rhsOwner->GetParent() == lhsOwner) return true;
+		return false;
 	}
 }

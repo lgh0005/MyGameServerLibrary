@@ -43,7 +43,6 @@ namespace MGSL::Framework
 		void Pause();
 		void Stop();
 
-		void SetLoop(bool loop);
 		void SetPlaybackSpeed(float playbackSpeed);
 		void SetFrame(Shared::uint32 frameIndex);
 
@@ -73,7 +72,6 @@ namespace MGSL::Framework
 
 		bool HasController(Shared::uint32 controllerIndex) const;
 		bool IsPlaying() const;
-		bool IsLoop() const;
 
 	private:
 		explicit FlipbookPlayer(GameObject* owner);
@@ -94,7 +92,6 @@ namespace MGSL::Framework
 		float m_playbackSpeed = 1.0f;
 
 		bool m_isPlaying = false;
-		bool m_isLoop = true;
 		bool m_flipX = false;
 	};
 }

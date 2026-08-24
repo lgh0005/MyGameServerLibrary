@@ -195,7 +195,7 @@ namespace MGSL::Net
 			info.set_weapon(controller->GetWeapon());
 		}
 
-		// TEMP : 5. 해당 Tick의 상태를 한 번에 전송
+		// 5. 해당 Tick의 상태를 한 번에 전송
 		BroadcastSyncObjects();
 	}
 
@@ -219,6 +219,30 @@ namespace MGSL::Net
 		playerCollider->SetSize(Shared::vec2(0.3f, 0.6f));
 		playerCollider->SetOffset(Shared::vec2(0.0f, -0.2f));
 		MGSL_SERVER_COLLISION_MGR.Register(playerCollider);
+
+		Server::GameObjectPtr leftHitbox = MGSL_OBJECT_MGR.CreateGameObject();
+		if (!leftHitbox) return;
+		leftHitbox->GetTransform().SetPosition(Shared::vec3(-0.4f, -0.2f, 0.0f));
+		Server::BoxCollider* leftHitboxCollider = MGSL_OBJECT_MGR.AddComponent<Server::BoxCollider>(leftHitbox);
+		leftHitboxCollider->SetMobility(Server::EColliderMobility::DYNAMIC);
+		leftHitboxCollider->SetCollisionLayer(Server::ECollisionLayer::HITBOX);
+		leftHitboxCollider->SetTrigger(true);
+		leftHitboxCollider->SetSize(Shared::vec2(0.3f, 0.3f));
+		player->AddChild(leftHitbox.get());
+		MGSL_SERVER_COLLISION_MGR.Register(leftHitboxCollider);
+		m_dynamicObjects.push_back(leftHitbox);
+
+		Server::GameObjectPtr rightHitbox = MGSL_OBJECT_MGR.CreateGameObject();
+		if (!rightHitbox) return;
+		rightHitbox->GetTransform().SetPosition(Shared::vec3(0.4f, -0.2f, 0.0f));
+		Server::BoxCollider* rightHitboxCollider = MGSL_OBJECT_MGR.AddComponent<Server::BoxCollider>(rightHitbox);
+		rightHitboxCollider->SetMobility(Server::EColliderMobility::DYNAMIC);
+		rightHitboxCollider->SetCollisionLayer(Server::ECollisionLayer::HITBOX);
+		rightHitboxCollider->SetTrigger(true);
+		rightHitboxCollider->SetSize(Shared::vec2(0.3f, 0.3f));
+		player->AddChild(rightHitbox.get());
+		MGSL_SERVER_COLLISION_MGR.Register(rightHitboxCollider);
+		m_dynamicObjects.push_back(rightHitbox);
 
 		// 3. GameObject <-> Room / Session 연결
 		player->SetGameRoom(GetGameRoom());
@@ -290,25 +314,6 @@ namespace MGSL::Net
 			otherSession->GetSessionBuffer().Send(ServerPacketHandler::Make_S_Spawn(spawnPkt));
 		}
 	}
-
-	//void GameRoom::BroadcastMove(Server::GameObjectPtr player)
-	//{
-	//	if (!player) return;
-
-	//	Protobuf::S_Move movePkt;
-	//	*movePkt.mutable_object() = player->GetObjectInfo();
-
-	//	const auto objectID =player->GetObjectInfo().objectid();
-	//	for (const auto& [id, otherPlayer] : m_players)
-	//	{
-	//		if (!otherPlayer) continue;
-
-	//		auto session = otherPlayer->GetGameSession();
-	//		if (!session) continue;
-
-	//		session->GetSessionBuffer().Send(ServerPacketHandler::Make_S_Move(movePkt));
-	//	}
-	//}
 
 	void GameRoom::BroadcastSyncObjects()
 	{

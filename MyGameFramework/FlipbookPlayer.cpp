@@ -164,11 +164,6 @@ namespace MGSL::Framework
 		ApplyCurrentFrame();
 	}
 
-	void FlipbookPlayer::SetLoop(bool loop) 
-	{
-		m_isLoop = loop; 
-	}
-
 	void FlipbookPlayer::SetPlaybackSpeed(float playbackSpeed) 
 	{ 
 		if (playbackSpeed < 0.0f) return; 
@@ -223,7 +218,6 @@ namespace MGSL::Framework
 	}
 
 	bool FlipbookPlayer::IsPlaying()							 const { return m_isPlaying; }
-	bool FlipbookPlayer::IsLoop()								 const { return m_isLoop; }
 
 	void FlipbookPlayer::AdvanceFrame()
 	{
@@ -237,7 +231,7 @@ namespace MGSL::Framework
 			return;
 		}
 
-		if (m_isLoop)
+		if (m_currentFlipbookClip->IsLoop())
 		{
 			m_currentFrame = 0;
 			ApplyCurrentFrame();

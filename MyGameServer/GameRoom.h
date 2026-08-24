@@ -37,8 +37,9 @@ namespace MGSL::Net
 
 		Shared::Dictionary<Shared::uint64, Server::GameObjectPtr> m_players;
 
-		// TEMP
-		Shared::List<Server::GameObjectPtr> m_staticObjects;
+		// TEMP : 맵 정보에 대한 충돌체들
+		Shared::List<Server::GameObjectPtr> m_staticObjects;  // 맵의 정적 충돌체들
+		Shared::List<Server::GameObjectPtr> m_dynamicObjects; // 플레이어 히트박스들
 	};
 }
 
