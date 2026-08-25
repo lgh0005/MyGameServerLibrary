@@ -1,8 +1,8 @@
 #include "2DPch.h"
 #include "MyPlayerStateMachine.h"
+#include "MyPlayerNetworkState.h"
 #include "MyGameFramework/GameObject.h"
 #include "MyGameFramework/FlipbookPlayer.h"
-#include "UIController.h"
 
 namespace MGSL::Sandbox2D
 {
@@ -17,87 +17,46 @@ namespace MGSL::Sandbox2D
 	void MyPlayerStateMachine::Awake()
 	{
 		m_flipbookPlayer = GetOwner()->GetComponent<Framework::FlipbookPlayer>();
+		m_playerNetworkState = GetOwner()->GetComponent<MyPlayerNetworkState>();
 	}
 
-	void MyPlayerStateMachine::SetState(Protobuf::OBJECT_STATE_TYPE state)
+	void MyPlayerStateMachine::Update(float /*deltaTime*/)
 	{
-		if (m_state == state) return;
-		m_state = state;
-		m_flipbookPlayer->SetState(static_cast<Shared::uint32>(m_state));
+		if (!m_playerNetworkState || !m_flipbookPlayer) return;
+		if (m_prevState != m_playerNetworkState->GetState()) ApplyState();
+		if (m_prevFacing != m_playerNetworkState->GetFacing()) ApplyFacing();
+		if (m_prevWeapon != m_playerNetworkState->GetWeapon()) ApplyWeapon();
+		if (m_prevColor != m_playerNetworkState->GetColor()) ApplyColor();
 	}
 
-	void MyPlayerStateMachine::SetFacing(Protobuf::FACING_TYPE facing)
+	void MyPlayerStateMachine::ApplyState()
 	{
-		if (m_facing == facing) return;
-		m_facing = facing;
-		
-		if (!m_flipbookPlayer) return;
-		const bool flipX = m_facing == Protobuf::FACING_TYPE_LEFT;
+		const Protobuf::OBJECT_STATE_TYPE state = m_playerNetworkState->GetState();
+		m_prevState = state;
+		m_flipbookPlayer->SetState(static_cast<Shared::uint32>(state));
+	}
+
+	void MyPlayerStateMachine::ApplyFacing()
+	{
+		const Protobuf::FACING_TYPE facing = m_playerNetworkState->GetFacing();
+		m_prevFacing = facing;
+		const bool flipX = facing == Protobuf::FACING_TYPE_LEFT;
 		m_flipbookPlayer->SetFlipX(flipX);
 	}
 
-	void MyPlayerStateMachine::SetWeapon(Protobuf::WEAPON_TYPE weapon)
+	void MyPlayerStateMachine::ApplyWeapon()
 	{
-		if (m_weapon == weapon) return;
-		m_weapon = weapon;
-		UpdateWeaponUI();
-
-		const Shared::uint32 controllerIndex = static_cast<Shared::uint32>(m_weapon);
+		const Protobuf::WEAPON_TYPE weapon = m_playerNetworkState->GetWeapon();
+		const Shared::uint32 controllerIndex = static_cast<Shared::uint32>(weapon);
 		if (!m_flipbookPlayer->ChangeController(controllerIndex)) return;
-		m_flipbookPlayer->SetState(static_cast<Shared::uint32>(m_state));
+		m_prevWeapon = weapon;
+		m_flipbookPlayer->SetState(static_cast<Shared::uint32>(m_playerNetworkState->GetState()));
 	}
 
-	Protobuf::OBJECT_STATE_TYPE MyPlayerStateMachine::GetState() const
+	void MyPlayerStateMachine::ApplyColor()
 	{
-		return m_state;
-	}
-
-	Protobuf::FACING_TYPE MyPlayerStateMachine::GetFacing() const
-	{
-		return m_facing;
-	}
-
-	Protobuf::WEAPON_TYPE MyPlayerStateMachine::GetWeapon() const
-	{
-		return m_weapon;
-	}
-
-	/*====================//
-	//   UI integrations  //
-	//====================*/
-	void MyPlayerStateMachine::SetUIController(UIController* uiController)
-	{
-		m_uiController = uiController;
-		UpdateWeaponUI();
-	}
-
-	void MyPlayerStateMachine::UpdateWeaponUI()
-	{
-		if (!m_uiController) return;
-
-		switch (m_weapon)
-		{
-			case Protobuf::WEAPON_TYPE_NONE:
-				m_uiController->SetWeaponType(EWeaponType::FIGHTER);
-				break;
-
-			case Protobuf::WEAPON_TYPE_PISTOL:
-				m_uiController->SetWeaponType(EWeaponType::PISTOL);
-				break;
-
-			case Protobuf::WEAPON_TYPE_SWORD:
-				m_uiController->SetWeaponType(EWeaponType::SWORD);
-				break;
-
-			default:
-				break;
-		}
-	}
-
-	void MyPlayerStateMachine::SetPlayerColor(const Shared::vec4& color)
-	{
-		if (!m_flipbookPlayer) return;
+		const Shared::vec4 color = m_playerNetworkState->GetColor();
+		m_prevColor = color;
 		m_flipbookPlayer->SetColor(color);
-		if (m_uiController) m_uiController->SetPlayerColor(color);
 	}
 }

@@ -31,7 +31,7 @@ static constexpr ::_pb::Message* const* file_default_instances = nullptr;
 const char descriptor_table_protodef_Enum_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\nEnum.proto\022\010Protobuf*S\n\013OBJECT_TYPE\022\024\n"
   "\020OBJECT_TYPE_NONE\020\000\022\026\n\022OBJECT_TYPE_PLAYE"
-  "R\020\001\022\026\n\022OBJECT_TYPE_BULLET\020\003*\312\003\n\021OBJECT_S"
+  "R\020\001\022\026\n\022OBJECT_TYPE_BULLET\020\002*\312\003\n\021OBJECT_S"
   "TATE_TYPE\022\032\n\026OBJECT_STATE_TYPE_IDLE\020\000\022\032\n"
   "\026OBJECT_STATE_TYPE_WALK\020\001\022\031\n\025OBJECT_STAT"
   "E_TYPE_RUN\020\002\022\032\n\026OBJECT_STATE_TYPE_JUMP\020\003"
@@ -75,7 +75,7 @@ bool OBJECT_TYPE_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:
-    case 3:
+    case 2:
       return true;
     default:
       return false;

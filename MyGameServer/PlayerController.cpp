@@ -6,7 +6,12 @@
 
 namespace MGSL::Server
 {
-    PlayerController::PlayerController(GameObject* owner) : Super(owner) { }
+    PlayerController::PlayerController(GameObject* owner) : Super(owner)
+    {
+        m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_IDLE);
+        m_info.set_facing(::Protobuf::FACING_TYPE_RIGHT);
+        m_info.set_weapon(::Protobuf::WEAPON_TYPE_NONE);
+    }
     PlayerController::~PlayerController() = default;
 
     PlayerControllerUPtr PlayerController::Create(GameObject* owner)
@@ -34,8 +39,8 @@ namespace MGSL::Server
                 ++m_comboIndex;
                 switch (m_comboIndex)
                 {
-                    case 2: m_state = Protobuf::OBJECT_STATE_TYPE_ATTACK_2; break;
-                    case 3: m_state = Protobuf::OBJECT_STATE_TYPE_ATTACK_3; break;
+                    case 2: m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_ATTACK_2); break;
+                    case 3: m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_ATTACK_3); break;
                     default: break;
                 }
 
@@ -60,12 +65,12 @@ namespace MGSL::Server
         {
             case ::Protobuf::DIR_TYPE_LEFT:
                 directionX = -1.0f;
-                m_facing = Protobuf::FACING_TYPE_LEFT;
+                m_info.set_facing(Protobuf::FACING_TYPE_LEFT);
                 break;
 
             case ::Protobuf::DIR_TYPE_RIGHT:
                 directionX = 1.0f;
-                m_facing = Protobuf::FACING_TYPE_RIGHT;
+                m_info.set_facing(Protobuf::FACING_TYPE_RIGHT);
                 break;
 
             default:
@@ -77,19 +82,19 @@ namespace MGSL::Server
         //========================*/
         if (!body->IsGrounded())
         {
-            if (body->GetVerticalVelocity() > 0.0f) m_state = Protobuf::OBJECT_STATE_TYPE_JUMP;
-            else m_state = Protobuf::OBJECT_STATE_TYPE_FALL;
+            if (body->GetVerticalVelocity() > 0.0f) m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_JUMP);
+            else m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_FALL);
         }
         else
         {
             if (directionX != 0.0f)
             {
-                if (m_isRunning)  m_state = Protobuf::OBJECT_STATE_TYPE_RUN;
-                else m_state = Protobuf::OBJECT_STATE_TYPE_WALK;
+                if (m_isRunning)  m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_RUN);
+                else m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_WALK);
             }
             else
             {
-                m_state = Protobuf::OBJECT_STATE_TYPE_IDLE;
+                m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_IDLE);
             }
         }
 
@@ -130,18 +135,16 @@ namespace MGSL::Server
         // 실제 공격 중이 아니면 충돌은 있었어도 Hit로 인정하지 않음
         if (!attackerController->IsAttacking()) return;
 
-        GameObject* owner = GetOwner();
-        if (!owner) return;
-
-        const Shared::uint64 targetID = owner->GetObjectInfo().objectid();
-        if (!attackerController->RegisterHitTarget(targetID)) return;
+        const Shared::uint64 targetID = GetObjectID();
+        if (!attackerController->RegisterHitTarget(targetID))
+            return;
 
         // DEBUG
         MGSL_LOG_INFO
         (
             "HITBOX collision detected. Attacker = {}, Target = {}",
-            attacker->GetObjectInfo().objectid(),
-            owner->GetObjectInfo().objectid()
+            attackerController->GetObjectID(),
+            targetID
         );
     }
 
@@ -164,8 +167,8 @@ namespace MGSL::Server
         //========================*/
         if (m_isAttacking)
         {
-            if (m_weapon == ::Protobuf::WEAPON_TYPE_NONE ||
-                m_weapon == ::Protobuf::WEAPON_TYPE_SWORD)
+            if (m_info.weapon() == ::Protobuf::WEAPON_TYPE_NONE ||
+                m_info.weapon() == ::Protobuf::WEAPON_TYPE_SWORD)
             {
                 const bool isComboWindow =
                     m_attackElapsedTime >= m_comboWindowStart &&
@@ -188,21 +191,21 @@ namespace MGSL::Server
         if (!body->IsGrounded())
         {
             m_comboIndex = 0;
-            m_state = Protobuf::OBJECT_STATE_TYPE_AIR_ATTACK;
+            m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_AIR_ATTACK);
             return;
         }
 
-        switch (m_weapon)
+        switch (m_info.weapon())
         {
             case Protobuf::WEAPON_TYPE_NONE:
             case Protobuf::WEAPON_TYPE_SWORD:
                 m_comboIndex = 1;
-                m_state = Protobuf::OBJECT_STATE_TYPE_ATTACK_1;
+                m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_ATTACK_1);
                 break;
 
             case Protobuf::WEAPON_TYPE_PISTOL:
                 m_comboIndex = 0;
-                m_state = Protobuf::OBJECT_STATE_TYPE_SHOT;
+                m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_SHOT);
                 break;
 
             default:
@@ -223,7 +226,7 @@ namespace MGSL::Server
 
     void PlayerController::SetWeapon(Protobuf::WEAPON_TYPE weapon)
     {
-        m_weapon = weapon;
+        m_info.set_weapon(weapon);
     }
 
     ::Protobuf::DIR_TYPE PlayerController::GetMoveDirection() const
@@ -233,21 +236,51 @@ namespace MGSL::Server
 
     Protobuf::OBJECT_STATE_TYPE PlayerController::GetState() const
     {
-        return m_state;
+        return m_info.state();
     }
 
     Protobuf::FACING_TYPE PlayerController::GetFacing() const
     {
-        return m_facing;
+        return m_info.facing();
     }
 
     Protobuf::WEAPON_TYPE PlayerController::GetWeapon() const
     {
-        return m_weapon;
+        return m_info.weapon();
     }
 
     bool PlayerController::IsAttacking() const
     {
         return m_isAttacking;
+    }
+
+    Shared::uint64 PlayerController::GetObjectID() const
+    {
+        return m_info.objectid();
+    }
+
+    void PlayerController::SetObjectID(Shared::uint64 objectID)
+    {
+        m_info.set_objectid(objectID);
+    }
+
+    void PlayerController::SetInfo(const ::Protobuf::PlayerInfo& info)
+    {
+        m_info = info;
+    }
+
+    void PlayerController::SetInfo(::Protobuf::PlayerInfo&& info)
+    {
+        m_info = std::move(info);
+    }
+
+    ::Protobuf::PlayerInfo& PlayerController::GetInfo() noexcept
+    {
+        return m_info;
+    }
+
+    const ::Protobuf::PlayerInfo& PlayerController::GetInfo() const noexcept
+    {
+        return m_info;
     }
 }

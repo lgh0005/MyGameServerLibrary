@@ -225,6 +225,7 @@ xcopy "$(ProjectDir)*.inl" "$(SolutionDir)ThirdParty\include\$(ProjectName)\" /D
     <ClInclude Include="InstancedRenderBatch.h" />
     <ClInclude Include="KeyboardDevice.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="NetworkState.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="ObjectRegistry.h" />
     <ClInclude Include="ParticleEmitter2D.h" />
@@ -301,6 +302,7 @@ xcopy "$(ProjectDir)*.inl" "$(SolutionDir)ThirdParty\include\$(ProjectName)\" /D
     <ClCompile Include="InstancedRenderBatch.cpp" />
     <ClCompile Include="KeyboardDevice.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="NetworkState.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="ObjectRegistry.cpp" />
     <ClCompile Include="ParticleEmitter2D.cpp" />
@@ -347,6 +349,7 @@ xcopy "$(ProjectDir)*.inl" "$(SolutionDir)ThirdParty\include\$(ProjectName)\" /D
   <ItemGroup>
     <None Include="GameObject.inl" />
     <None Include="Mesh.inl" />
+    <None Include="NetworkState.inl" />
     <None Include="ObjectManager.inl" />
     <None Include="ObjectRegistry.inl" />
     <None Include="RenderQueue.inl" />

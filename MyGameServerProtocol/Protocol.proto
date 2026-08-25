@@ -4,16 +4,12 @@ package Protobuf;
 import "Enum.proto";
 import "Struct.proto";
 
-message C_EnterGame
-{
-
-}
-
-message S_EnterGame
-{
-	bool success = 1;
-	ObjectInfo player = 2;
-}
+/*=====================//
+//   Client Packets    //
+//=====================*/
+message C_EnterGame { }
+message C_Jump { }
+message C_Attack { }
 
 message C_Move
 {
@@ -21,27 +17,47 @@ message C_Move
     bool running = 2;
 }
 
-message C_Jump
-{
-
-}
-
 message C_ChangeWeapon
 {
     WEAPON_TYPE weapon = 1;
 }
 
-message C_Attack
+/*=====================//
+//   Server Packets    //
+//=====================*/
+message S_EnterGame
+{
+	bool success = 1;
+	PlayerInfo player = 2;
+}
+
+message S_SpawnPlayer
+{
+    repeated PlayerInfo objects = 1;
+}
+
+message S_RemovePlayer
 {
 
 }
 
-message S_Spawn
+message S_SyncPlayers
 {
-    repeated ObjectInfo objects = 1;
+    repeated PlayerInfo objects = 1;
 }
 
-message S_SyncObjects
+message S_SpawnBullet
 {
-    repeated ObjectInfo objects = 1;
+
 }
+
+message S_RemoveBullet
+{
+
+}
+
+message S_SyncBullet
+{
+
+}
+

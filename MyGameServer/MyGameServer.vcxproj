@@ -200,11 +200,13 @@ xcopy "$(ProjectDir)*.inl" "$(SolutionDir)ThirdParty\include\$(ProjectName)\" /D
   <ItemGroup>
     <ClInclude Include="AABB.h" />
     <ClInclude Include="BoxCollider.h" />
+    <ClInclude Include="BulletController.h" />
     <ClInclude Include="CharacterBody2D.h" />
     <ClInclude Include="ClientBehaviour.h" />
     <ClInclude Include="ColliderFunctor.h" />
     <ClInclude Include="CollisionResolveInfo.h" />
     <ClInclude Include="ColorUtils.h" />
+    <ClInclude Include="INetworkState.h" />
     <ClInclude Include="ServerCollisionManager.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Enums.h" />
@@ -226,11 +228,13 @@ xcopy "$(ProjectDir)*.inl" "$(SolutionDir)ThirdParty\include\$(ProjectName)\" /D
   <ItemGroup>
     <ClCompile Include="AABB.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
+    <ClCompile Include="BulletController.cpp" />
     <ClCompile Include="CharacterBody2D.cpp" />
     <ClCompile Include="ClientBehaviour.cpp" />
     <ClCompile Include="ColliderFunctor.cpp" />
     <ClCompile Include="CollisionResolveInfo.cpp" />
     <ClCompile Include="ColorUtils.cpp" />
+    <ClCompile Include="INetworkState.cpp" />
     <ClCompile Include="ServerCollisionManager.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="GameObject.cpp" />

@@ -1,16 +1,18 @@
 #pragma once
 #include "ClientBehaviour.h"
+#include "INetworkState.h"
 
 namespace MGSL::Server
 {
 	MGSL_CLASS_PTR(GameObject)
 	MGSL_CLASS_PTR(PlayerController)
+	MGSL_CLASS_PTR(CharacterBody2D)
 	MGSL_CLASS_PTR(BoxCollider)
 
 	/*===============================//
 	//   PlayerController on sever   //
 	//===============================*/
-	class PlayerController : public ClientBehaviour
+	class PlayerController : public ClientBehaviour, public INetworkState<::Protobuf::PlayerInfo>
 	{
 		MGSL_DISABLE_COPY(PlayerController)
 		MGSL_DISABLE_MOVE(PlayerController)
@@ -42,14 +44,25 @@ namespace MGSL::Server
 		Protobuf::WEAPON_TYPE GetWeapon() const;
 		bool IsAttacking() const;
 
-	private:
-		PlayerController(GameObject* owner);
+	/*=======================================//
+	//   INetworkState interface overrides   //
+	//=======================================*/
+	public:
+		virtual Shared::uint64 GetObjectID() const override;
+		virtual void SetObjectID(Shared::uint64 objectID) override;
+		virtual void SetInfo(const ::Protobuf::PlayerInfo& info) override;
+		virtual void SetInfo(::Protobuf::PlayerInfo&& info) override;
+		virtual ::Protobuf::PlayerInfo& GetInfo() noexcept override;
+		virtual const ::Protobuf::PlayerInfo& GetInfo() const noexcept override;
 
-		// 플레이어 상태
+	private:
+		explicit PlayerController(GameObject* owner);
+
+		// 플레이어 패킷
+		::Protobuf::PlayerInfo m_info;
+
+		// 인풋과 움직임 상태
 		Protobuf::DIR_TYPE m_moveDirection = ::Protobuf::DIR_TYPE_NONE;
-		Protobuf::OBJECT_STATE_TYPE m_state = Protobuf::OBJECT_STATE_TYPE_IDLE;
-		Protobuf::FACING_TYPE m_facing = Protobuf::FACING_TYPE_RIGHT;
-		Protobuf::WEAPON_TYPE m_weapon = Protobuf::WEAPON_TYPE_NONE;
 
 		// 이동 관련 멤버
 		float m_moveSpeed = 3.0f;

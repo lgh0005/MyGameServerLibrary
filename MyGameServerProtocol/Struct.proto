@@ -4,7 +4,10 @@ package Protobuf;
 import "Enum.proto";
 import "Types.proto";
 
-message ObjectInfo
+/*=========================//
+//   Player sync struct    //
+//=========================*/
+message PlayerInfo
 {
 	uint64 objectID = 1;
 	OBJECT_TYPE objectType = 2;
@@ -15,4 +18,17 @@ message ObjectInfo
     FACING_TYPE facing = 7;
     WEAPON_TYPE weapon = 8;
     Color color = 9;
+}
+
+/*==========================//
+//   Client sync Packets    //
+//==========================*/
+message BulletInfo
+{
+	uint64 objectID = 1;
+    uint64 ownerID = 2;
+    Vec2 position = 3;
+    Vec2 velocity = 4;
+    FACING_TYPE facing = 5;
+    Color color = 6;
 }

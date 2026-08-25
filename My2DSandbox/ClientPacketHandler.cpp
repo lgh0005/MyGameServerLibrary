@@ -10,6 +10,7 @@
 #include "MyGameFramework/FlipbookPlayer.h"
 #include "MyGameFramework/BoxCollider.h"
 #include "MyGameFramework/CharacterBody2D.h"
+#include "MyPlayerNetworkState.h"
 #include "MyPlayerController.h"
 #include "MyPlayerStateMachine.h"
 #include "Sandbox2DGlobal.h"
@@ -37,12 +38,12 @@ namespace MGSL::Net
 			Handle_S_ENTER_GAME(serverSession, buffer, len);
 			break;
 
-		case Protocol::PacketID::S_Spawn:
-			Handle_S_SPAWN(serverSession, buffer, len);
+		case Protocol::PacketID::S_SpawnPlayer:
+			Handle_S_SPAWN_PLAYER(serverSession, buffer, len);
 			break;
 
-		case Protocol::PacketID::S_SyncObjects:
-			Handle_S_SYNC_OBJECTS(serverSession, buffer, len);
+		case Protocol::PacketID::S_SyncPlayers:
+			Handle_S_SYNC_PLAYERS(serverSession, buffer, len);
 			break;
 		}
 	}
@@ -57,7 +58,7 @@ namespace MGSL::Net
 		pkt.ParseFromArray(&header[1], size - sizeof(Protocol::PacketHeader));
 		if (!pkt.success()) return;
 
-		const ::Protobuf::ObjectInfo& playerInfo = pkt.player();
+		const ::Protobuf::PlayerInfo& playerInfo = pkt.player();
 		MGSL_NETWORK_MGR.RunOnMainThread([playerInfo = std::move(playerInfo)](){ ApplyEnterGame(playerInfo); });
 	}
 
@@ -97,32 +98,32 @@ namespace MGSL::Net
 		return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::C_Attack));
 	}
 
-	void ClientPacketHandler::Handle_S_SPAWN(ServerSessionPtr session, BYTE* buffer, Shared::int32 len)
+	void ClientPacketHandler::Handle_S_SPAWN_PLAYER(ServerSessionPtr session, BYTE* buffer, Shared::int32 len)
 	{
 		Protocol::PacketHeader* header = reinterpret_cast<Protocol::PacketHeader*>(buffer);
 		const Shared::uint16 size = header->size;
 
-		::Protobuf::S_Spawn pkt;
+		::Protobuf::S_SpawnPlayer pkt;
 		pkt.ParseFromArray(&header[1], size - sizeof(Protocol::PacketHeader));
 
-		MGSL_NETWORK_MGR.RunOnMainThread([pkt = std::move(pkt)]() { SpawnObjects(std::move(pkt)); });
+		MGSL_NETWORK_MGR.RunOnMainThread([pkt = std::move(pkt)]() { SpawnPlayers(std::move(pkt)); });
 	}
 
-	void ClientPacketHandler::Handle_S_SYNC_OBJECTS(ServerSessionPtr session, BYTE* buffer, Shared::int32 len)
+	void ClientPacketHandler::Handle_S_SYNC_PLAYERS(ServerSessionPtr session, BYTE* buffer, Shared::int32 len)
 	{
 		auto* header = reinterpret_cast<Protocol::PacketHeader*>(buffer);
 		const Shared::uint16 size = header->size;
 
-		::Protobuf::S_SyncObjects pkt;
+		::Protobuf::S_SyncPlayers pkt;
 		pkt.ParseFromArray(&header[1], size - sizeof(Protocol::PacketHeader));
 
-		MGSL_NETWORK_MGR.RunOnMainThread([pkt = std::move(pkt)]() { ApplySyncObjects(pkt); });
+		MGSL_NETWORK_MGR.RunOnMainThread([pkt = std::move(pkt)]() { ApplySyncPlayers(pkt); });
 	}
 
 	/*==========================//
 	//   works for main thread  //
 	//==========================*/
-	void ClientPacketHandler::SpawnObjects(const ::Protobuf::S_Spawn& pkt)
+	void ClientPacketHandler::SpawnPlayers(const ::Protobuf::S_SpawnPlayer& pkt)
 	{
 		Framework::Scene* scene = g_Game2D.GetScene();
 		if (!scene) return;
@@ -137,8 +138,9 @@ namespace MGSL::Net
 			auto otherPlayer = MGSL_OBJECT_MGR.CreateGameObject(scene);
 			if (!otherPlayer) continue;
 
-			// 2. 서버에서 전달받은 네트워크 정보 설정
-			otherPlayer->SetObjectInfo(objectInfo);
+			// 2. NetworkState 부착 및 최초 정보 적용
+			Sandbox2D::MyPlayerNetworkState* networkState = MGSL_OBJECT_MGR.AddComponent<Sandbox2D::MyPlayerNetworkState>(otherPlayer);
+			networkState->Apply(objectInfo);
 
 			// 3. Flipbook Controller 생성
 			Framework::FlipbookControllerPtr fighterController = Sandbox2D::FlipbookUtils::MakeFighterController(fighterAtlas); if (!fighterController) continue;
@@ -154,8 +156,6 @@ namespace MGSL::Net
 			if (!flipbookPlayer->ChangeController((Shared::usize)Sandbox2D::EWeaponType::FIGHTER)) continue;
 			if (!flipbookPlayer->SetState(static_cast<Shared::uint32>(Sandbox2D::EObjectState::IDLE))) continue;
 			flipbookPlayer->SetSize(Shared::vec2(1.0f, 1.0f));
-			const ::Protobuf::Color& color = objectInfo.color();
-			flipbookPlayer->SetColor(Shared::vec4(color.r(), color.g(), color.b(), color.a()));
 			flipbookPlayer->Play();
 
 			// 4. BoxCollider 부착
@@ -177,10 +177,13 @@ namespace MGSL::Net
 			Shared::vec3 spawnPosition(objectInfo.position().x(), objectInfo.position().y(), 0.0f);
 			otherPlayer->GetTransform().SetPosition(spawnPosition);
 			otherPlayer->GetTransform().SetScale(Shared::vec3(1.25f));
+
+			// 8. 네트워크 오브젝트 등록
+			MGSL_OBJECT_MGR.RegisterNetworkObject(scene, objectInfo.objectid(), otherPlayer);
 		}
 	}
 
-	void ClientPacketHandler::ApplyEnterGame(const ::Protobuf::ObjectInfo& playerInfo)
+	void ClientPacketHandler::ApplyEnterGame(const ::Protobuf::PlayerInfo& playerInfo)
 	{
 		Framework::Scene* scene = g_Game2D.GetScene();
 		if (!scene) return;
@@ -188,27 +191,28 @@ namespace MGSL::Net
 		Framework::GameObject* myPlayer = MGSL_OBJECT_MGR.FindGameObjectWithComponent<Sandbox2D::MyPlayerController>(scene);
 		if (!myPlayer) return;
 
-		myPlayer->SetObjectInfo(playerInfo);
+		Sandbox2D::MyPlayerNetworkState* networkState = myPlayer->GetComponent<Sandbox2D::MyPlayerNetworkState>();
+		if (!networkState) return;
+		networkState->Apply(playerInfo);
 
-		// 색상 적용
-		Sandbox2D::MyPlayerStateMachine* stateMachine = myPlayer->GetComponent<Sandbox2D::MyPlayerStateMachine>();
-		if (!stateMachine) return;
-		const ::Protobuf::Color& color = playerInfo.color();
-		stateMachine->SetPlayerColor(Shared::vec4(color.r(), color.g(), color.b(), color.a()));
+		MGSL_OBJECT_MGR.RegisterNetworkObject(scene, playerInfo.objectid(), myPlayer);
 	}
 
-	void ClientPacketHandler::ApplySyncObjects(const ::Protobuf::S_SyncObjects& pkt)
+	void ClientPacketHandler::ApplySyncPlayers(const ::Protobuf::S_SyncPlayers& pkt)
 	{
 		Framework::Scene* scene = g_Game2D.GetScene();
 		if (!scene) return;
 
 		for (const auto& objectInfo : pkt.objects())
 		{
-			Framework::GameObject* gameObject = MGSL_OBJECT_MGR.FindGameObject(scene, objectInfo.objectid());
+			Framework::GameObject* gameObject = MGSL_OBJECT_MGR.FindNetworkObject(scene, objectInfo.objectid());
 			if (!gameObject) continue;
 
+			Sandbox2D::MyPlayerNetworkState* networkState = gameObject->GetComponent<Sandbox2D::MyPlayerNetworkState>();
+			if (networkState) networkState->Apply(objectInfo);
+
 			// 위치 동기화
-			Shared::vec3 serverPosition(objectInfo.position().x(), objectInfo.position().y(), 0.0f);
+			const Shared::vec3 serverPosition { objectInfo.position().x(), objectInfo.position().y(), 0.0f };
 
 			// 충돌 동기화
 			Framework::BoxCollider* collider = gameObject->GetComponent<Framework::BoxCollider>();
@@ -220,15 +224,6 @@ namespace MGSL::Net
 			{
 				body->SetServerVelocity(objectInfo.velocity().x(), objectInfo.velocity().y());
 				body->SetServerGrounded(objectInfo.grounded());
-			}
-
-			// 상태 동기화
-			Sandbox2D::MyPlayerStateMachine* stateMachine = gameObject->GetComponent<Sandbox2D::MyPlayerStateMachine>();
-			if (stateMachine)
-			{
-				stateMachine->SetState(objectInfo.state());
-				stateMachine->SetFacing(objectInfo.facing());
-				stateMachine->SetWeapon(objectInfo.weapon());
 			}
 		}
 	}

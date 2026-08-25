@@ -59,13 +59,6 @@ namespace MGSL::Framework
 		Transform& GetTransform();
 		const Transform& GetTransform() const;
 
-	/*======================================//
-	//   default packet setter and getter   //
-	//======================================*/
-	public:
-		void SetObjectInfo(const ::Protobuf::ObjectInfo& info);
-		::Protobuf::ObjectInfo& GetObjectInfo();
-
 	private:
 		GameObject(Scene* scene);
 		Scene* m_owner;
@@ -75,9 +68,6 @@ namespace MGSL::Framework
 	
 		GameObject* m_parent = nullptr;
 		Shared::List<GameObject*> m_children;
-
-		// 패킷들
-		::Protobuf::ObjectInfo m_info;
 	};
 }
 

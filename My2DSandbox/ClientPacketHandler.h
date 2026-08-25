@@ -34,15 +34,15 @@ namespace MGSL::Net
 		static SendBufferPtr Make_C_Attack();
 
 		/* Packet Handling */
-		static void Handle_S_SPAWN(ServerSessionPtr session, BYTE* buffer, Shared::int32 len);
-		static void Handle_S_SYNC_OBJECTS(ServerSessionPtr session, BYTE* buffer, Shared::int32 len);
+		static void Handle_S_SPAWN_PLAYER(ServerSessionPtr session, BYTE* buffer, Shared::int32 len);
+		static void Handle_S_SYNC_PLAYERS(ServerSessionPtr session, BYTE* buffer, Shared::int32 len);
 
 	/*==========================//
 	//   works for main thread  //
 	//==========================*/
 	private:
-		static void SpawnObjects(const ::Protobuf::S_Spawn& pkt);
-		static void ApplyEnterGame(const ::Protobuf::ObjectInfo& playerInfo);
-		static void ApplySyncObjects(const ::Protobuf::S_SyncObjects& pkt);
+		static void SpawnPlayers(const ::Protobuf::S_SpawnPlayer& pkt);
+		static void ApplyEnterGame(const ::Protobuf::PlayerInfo& playerInfo);
+		static void ApplySyncPlayers(const ::Protobuf::S_SyncPlayers& pkt);
 	};
 }

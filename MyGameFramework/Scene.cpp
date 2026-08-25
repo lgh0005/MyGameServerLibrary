@@ -45,17 +45,14 @@ namespace MGSL::Framework
 	/*====================================//
 	//   rendering setting interfaces     //
 	//====================================*/
+	bool Scene::FinalizeRenderSetting() { return MGSL_RENDER_MGR.Finalize(); }
 	void Scene::SetMainCamera(Camera* camera) { MGSL_RENDER_MGR.SetMainCamera(camera); }
 	void Scene::SetUICamera(Camera* camera) { MGSL_UI_MGR.SetUICamera(camera); }
 	void Scene::SetSpriteShader(const ShaderPtr& shader) { MGSL_RENDER_MGR.SetSpriteShader(shader); }
 	void Scene::SetPostProcessing2DShader(const ShaderPtr& shader) { MGSL_RENDER_MGR.SetPostProcessing2DShader(shader); }
 	void Scene::SetUIImageShader(const ShaderPtr& shader) { MGSL_RENDER_MGR.SetUIImageShader(shader); }
 	void Scene::SetUITextShader(const ShaderPtr& shader) { MGSL_RENDER_MGR.SetUITextShader(shader); }
-	
-	// TEMP
 	void Scene::SetDebugShader(const ShaderPtr& shader) { MGSL_RENDER_MGR.SetDebugShader(shader); }
-
-	bool Scene::FinalizeRenderSetting() { return MGSL_RENDER_MGR.Finalize(); }
 
 	/*================================================//
 	//   default scene methods for resource loading   //
@@ -110,20 +107,24 @@ namespace MGSL::Framework
 		m_objectRegistry.Remove(gameObject);
 	}
 
-	GameObject* ObjectManager::FindGameObject(Scene* scene, Shared::uint64 objectID)
-	{
-		if (!scene) return nullptr;
-		return scene->FindGameObject(objectID);
-	}
-
-	GameObject* Scene::FindGameObject(Shared::uint64 objectID)
-	{
-		return m_objectRegistry.Find(objectID);
-	}
-
 	void Scene::ClearGameObjects()
 	{
 		m_objectRegistry.Clear();
+	}
+
+	bool Scene::RegisterNetworkObject(Shared::uint64 objectID, GameObject* gameObject)
+	{
+		return m_objectRegistry.RegisterNetworkObject(objectID, gameObject);
+	}
+
+	GameObject* Scene::FindNetworkObject(Shared::uint64 objectID)
+	{
+		return m_objectRegistry.FindNetworkObject(objectID);
+	}
+
+	bool Scene::UnregisterNetworkObject(Shared::uint64 objectID)
+	{
+		return m_objectRegistry.UnregisterNetworkObject(objectID);
 	}
 
 	void Scene::FlushGameObjects()

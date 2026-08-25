@@ -18,6 +18,7 @@ namespace MGSL::Server
 	//============================*/
 	public:
 		GameObject* CreateGameObject(VirtualScene* scene);
+		Shared::uint64 GenerateNetworkObjectID();
 		void RemoveGameObject(VirtualScene* scene, GameObject* gameObject);
 	
 	public:

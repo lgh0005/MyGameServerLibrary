@@ -16,17 +16,13 @@ namespace MGSL::Server
 
         GameObjectUPtr gameObject = GameObject::Create();
         if (!gameObject) return nullptr;
-
-        auto& info = gameObject->GetObjectInfo();
-        info.set_objectid(++s_idGenerator);
-
-        auto* color = info.mutable_color();
-        color->set_r(1.0f);
-        color->set_g(1.0f);
-        color->set_b(1.0f);
-        color->set_a(1.0f);
         
         return scene->AddGameObject(std::move(gameObject));
+    }
+
+    Shared::uint64 ObjectManager::GenerateNetworkObjectID()
+    {
+        return ++s_idGenerator;
     }
 
     void ObjectManager::RemoveGameObject(VirtualScene* scene, GameObject* gameObject)

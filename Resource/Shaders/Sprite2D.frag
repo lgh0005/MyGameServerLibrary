@@ -23,7 +23,6 @@ void main()
 {
 	vec4 textureColor = texture(uAtlasTexture, fsIn.texCoord);
 	vec4 finalColor = textureColor * fsIn.color;
-
 	if (finalColor.a <= 0.001)
 		discard;
 

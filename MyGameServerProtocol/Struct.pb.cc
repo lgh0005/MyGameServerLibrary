@@ -21,7 +21,7 @@ namespace _pb = ::PROTOBUF_NAMESPACE_ID;
 namespace _pbi = _pb::internal;
 
 namespace Protobuf {
-PROTOBUF_CONSTEXPR ObjectInfo::ObjectInfo(
+PROTOBUF_CONSTEXPR PlayerInfo::PlayerInfo(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.position_)*/nullptr
   , /*decltype(_impl_.velocity_)*/nullptr
@@ -33,48 +33,80 @@ PROTOBUF_CONSTEXPR ObjectInfo::ObjectInfo(
   , /*decltype(_impl_.facing_)*/0
   , /*decltype(_impl_.weapon_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
-struct ObjectInfoDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ObjectInfoDefaultTypeInternal()
+struct PlayerInfoDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR PlayerInfoDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
-  ~ObjectInfoDefaultTypeInternal() {}
+  ~PlayerInfoDefaultTypeInternal() {}
   union {
-    ObjectInfo _instance;
+    PlayerInfo _instance;
   };
 };
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ObjectInfoDefaultTypeInternal _ObjectInfo_default_instance_;
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerInfoDefaultTypeInternal _PlayerInfo_default_instance_;
+PROTOBUF_CONSTEXPR BulletInfo::BulletInfo(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.position_)*/nullptr
+  , /*decltype(_impl_.velocity_)*/nullptr
+  , /*decltype(_impl_.color_)*/nullptr
+  , /*decltype(_impl_.objectid_)*/uint64_t{0u}
+  , /*decltype(_impl_.ownerid_)*/uint64_t{0u}
+  , /*decltype(_impl_.facing_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct BulletInfoDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR BulletInfoDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~BulletInfoDefaultTypeInternal() {}
+  union {
+    BulletInfo _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 BulletInfoDefaultTypeInternal _BulletInfo_default_instance_;
 }  // namespace Protobuf
-static ::_pb::Metadata file_level_metadata_Struct_2eproto[1];
+static ::_pb::Metadata file_level_metadata_Struct_2eproto[2];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_Struct_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_Struct_2eproto = nullptr;
 
 const uint32_t TableStruct_Struct_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::Protobuf::ObjectInfo, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::Protobuf::PlayerInfo, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::Protobuf::ObjectInfo, _impl_.objectid_),
-  PROTOBUF_FIELD_OFFSET(::Protobuf::ObjectInfo, _impl_.objecttype_),
-  PROTOBUF_FIELD_OFFSET(::Protobuf::ObjectInfo, _impl_.state_),
-  PROTOBUF_FIELD_OFFSET(::Protobuf::ObjectInfo, _impl_.position_),
-  PROTOBUF_FIELD_OFFSET(::Protobuf::ObjectInfo, _impl_.velocity_),
-  PROTOBUF_FIELD_OFFSET(::Protobuf::ObjectInfo, _impl_.grounded_),
-  PROTOBUF_FIELD_OFFSET(::Protobuf::ObjectInfo, _impl_.facing_),
-  PROTOBUF_FIELD_OFFSET(::Protobuf::ObjectInfo, _impl_.weapon_),
-  PROTOBUF_FIELD_OFFSET(::Protobuf::ObjectInfo, _impl_.color_),
+  PROTOBUF_FIELD_OFFSET(::Protobuf::PlayerInfo, _impl_.objectid_),
+  PROTOBUF_FIELD_OFFSET(::Protobuf::PlayerInfo, _impl_.objecttype_),
+  PROTOBUF_FIELD_OFFSET(::Protobuf::PlayerInfo, _impl_.state_),
+  PROTOBUF_FIELD_OFFSET(::Protobuf::PlayerInfo, _impl_.position_),
+  PROTOBUF_FIELD_OFFSET(::Protobuf::PlayerInfo, _impl_.velocity_),
+  PROTOBUF_FIELD_OFFSET(::Protobuf::PlayerInfo, _impl_.grounded_),
+  PROTOBUF_FIELD_OFFSET(::Protobuf::PlayerInfo, _impl_.facing_),
+  PROTOBUF_FIELD_OFFSET(::Protobuf::PlayerInfo, _impl_.weapon_),
+  PROTOBUF_FIELD_OFFSET(::Protobuf::PlayerInfo, _impl_.color_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Protobuf::BulletInfo, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protobuf::BulletInfo, _impl_.objectid_),
+  PROTOBUF_FIELD_OFFSET(::Protobuf::BulletInfo, _impl_.ownerid_),
+  PROTOBUF_FIELD_OFFSET(::Protobuf::BulletInfo, _impl_.position_),
+  PROTOBUF_FIELD_OFFSET(::Protobuf::BulletInfo, _impl_.velocity_),
+  PROTOBUF_FIELD_OFFSET(::Protobuf::BulletInfo, _impl_.facing_),
+  PROTOBUF_FIELD_OFFSET(::Protobuf::BulletInfo, _impl_.color_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, -1, sizeof(::Protobuf::ObjectInfo)},
+  { 0, -1, -1, sizeof(::Protobuf::PlayerInfo)},
+  { 15, -1, -1, sizeof(::Protobuf::BulletInfo)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
-  &::Protobuf::_ObjectInfo_default_instance_._instance,
+  &::Protobuf::_PlayerInfo_default_instance_._instance,
+  &::Protobuf::_BulletInfo_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_Struct_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\014Struct.proto\022\010Protobuf\032\nEnum.proto\032\013Ty"
-  "pes.proto\"\271\002\n\nObjectInfo\022\020\n\010objectID\030\001 \001"
+  "pes.proto\"\271\002\n\nPlayerInfo\022\020\n\010objectID\030\001 \001"
   "(\004\022)\n\nobjectType\030\002 \001(\0162\025.Protobuf.OBJECT"
   "_TYPE\022*\n\005state\030\003 \001(\0162\033.Protobuf.OBJECT_S"
   "TATE_TYPE\022 \n\010position\030\004 \001(\0132\016.Protobuf.V"
@@ -82,7 +114,12 @@ const char descriptor_table_protodef_Struct_2eproto[] PROTOBUF_SECTION_VARIABLE(
   "\010grounded\030\006 \001(\010\022%\n\006facing\030\007 \001(\0162\025.Protob"
   "uf.FACING_TYPE\022%\n\006weapon\030\010 \001(\0162\025.Protobu"
   "f.WEAPON_TYPE\022\036\n\005color\030\t \001(\0132\017.Protobuf."
-  "Colorb\006proto3"
+  "Color\"\272\001\n\nBulletInfo\022\020\n\010objectID\030\001 \001(\004\022\017"
+  "\n\007ownerID\030\002 \001(\004\022 \n\010position\030\003 \001(\0132\016.Prot"
+  "obuf.Vec2\022 \n\010velocity\030\004 \001(\0132\016.Protobuf.V"
+  "ec2\022%\n\006facing\030\005 \001(\0162\025.Protobuf.FACING_TY"
+  "PE\022\036\n\005color\030\006 \001(\0132\017.Protobuf.Colorb\006prot"
+  "o3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_Struct_2eproto_deps[2] = {
   &::descriptor_table_Enum_2eproto,
@@ -90,9 +127,9 @@ static const ::_pbi::DescriptorTable* const descriptor_table_Struct_2eproto_deps
 };
 static ::_pbi::once_flag descriptor_table_Struct_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_Struct_2eproto = {
-    false, false, 373, descriptor_table_protodef_Struct_2eproto,
+    false, false, 562, descriptor_table_protodef_Struct_2eproto,
     "Struct.proto",
-    &descriptor_table_Struct_2eproto_once, descriptor_table_Struct_2eproto_deps, 2, 1,
+    &descriptor_table_Struct_2eproto_once, descriptor_table_Struct_2eproto_deps, 2, 2,
     schemas, file_default_instances, TableStruct_Struct_2eproto::offsets,
     file_level_metadata_Struct_2eproto, file_level_enum_descriptors_Struct_2eproto,
     file_level_service_descriptors_Struct_2eproto,
@@ -107,52 +144,52 @@ namespace Protobuf {
 
 // ===================================================================
 
-class ObjectInfo::_Internal {
+class PlayerInfo::_Internal {
  public:
-  static const ::Protobuf::Vec2& position(const ObjectInfo* msg);
-  static const ::Protobuf::Vec2& velocity(const ObjectInfo* msg);
-  static const ::Protobuf::Color& color(const ObjectInfo* msg);
+  static const ::Protobuf::Vec2& position(const PlayerInfo* msg);
+  static const ::Protobuf::Vec2& velocity(const PlayerInfo* msg);
+  static const ::Protobuf::Color& color(const PlayerInfo* msg);
 };
 
 const ::Protobuf::Vec2&
-ObjectInfo::_Internal::position(const ObjectInfo* msg) {
+PlayerInfo::_Internal::position(const PlayerInfo* msg) {
   return *msg->_impl_.position_;
 }
 const ::Protobuf::Vec2&
-ObjectInfo::_Internal::velocity(const ObjectInfo* msg) {
+PlayerInfo::_Internal::velocity(const PlayerInfo* msg) {
   return *msg->_impl_.velocity_;
 }
 const ::Protobuf::Color&
-ObjectInfo::_Internal::color(const ObjectInfo* msg) {
+PlayerInfo::_Internal::color(const PlayerInfo* msg) {
   return *msg->_impl_.color_;
 }
-void ObjectInfo::clear_position() {
+void PlayerInfo::clear_position() {
   if (GetArenaForAllocation() == nullptr && _impl_.position_ != nullptr) {
     delete _impl_.position_;
   }
   _impl_.position_ = nullptr;
 }
-void ObjectInfo::clear_velocity() {
+void PlayerInfo::clear_velocity() {
   if (GetArenaForAllocation() == nullptr && _impl_.velocity_ != nullptr) {
     delete _impl_.velocity_;
   }
   _impl_.velocity_ = nullptr;
 }
-void ObjectInfo::clear_color() {
+void PlayerInfo::clear_color() {
   if (GetArenaForAllocation() == nullptr && _impl_.color_ != nullptr) {
     delete _impl_.color_;
   }
   _impl_.color_ = nullptr;
 }
-ObjectInfo::ObjectInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+PlayerInfo::PlayerInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:Protobuf.ObjectInfo)
+  // @@protoc_insertion_point(arena_constructor:Protobuf.PlayerInfo)
 }
-ObjectInfo::ObjectInfo(const ObjectInfo& from)
+PlayerInfo::PlayerInfo(const PlayerInfo& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
-  ObjectInfo* const _this = this; (void)_this;
+  PlayerInfo* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.position_){nullptr}
     , decltype(_impl_.velocity_){nullptr}
@@ -178,10 +215,10 @@ ObjectInfo::ObjectInfo(const ObjectInfo& from)
   ::memcpy(&_impl_.objectid_, &from._impl_.objectid_,
     static_cast<size_t>(reinterpret_cast<char*>(&_impl_.weapon_) -
     reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.weapon_));
-  // @@protoc_insertion_point(copy_constructor:Protobuf.ObjectInfo)
+  // @@protoc_insertion_point(copy_constructor:Protobuf.PlayerInfo)
 }
 
-inline void ObjectInfo::SharedCtor(
+inline void PlayerInfo::SharedCtor(
     ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
   (void)is_message_owned;
@@ -199,8 +236,8 @@ inline void ObjectInfo::SharedCtor(
   };
 }
 
-ObjectInfo::~ObjectInfo() {
-  // @@protoc_insertion_point(destructor:Protobuf.ObjectInfo)
+PlayerInfo::~PlayerInfo() {
+  // @@protoc_insertion_point(destructor:Protobuf.PlayerInfo)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -208,19 +245,19 @@ ObjectInfo::~ObjectInfo() {
   SharedDtor();
 }
 
-inline void ObjectInfo::SharedDtor() {
+inline void PlayerInfo::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   if (this != internal_default_instance()) delete _impl_.position_;
   if (this != internal_default_instance()) delete _impl_.velocity_;
   if (this != internal_default_instance()) delete _impl_.color_;
 }
 
-void ObjectInfo::SetCachedSize(int size) const {
+void PlayerInfo::SetCachedSize(int size) const {
   _impl_._cached_size_.Set(size);
 }
 
-void ObjectInfo::Clear() {
-// @@protoc_insertion_point(message_clear_start:Protobuf.ObjectInfo)
+void PlayerInfo::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protobuf.PlayerInfo)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -243,7 +280,7 @@ void ObjectInfo::Clear() {
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* ObjectInfo::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+const char* PlayerInfo::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
@@ -348,9 +385,9 @@ failure:
 #undef CHK_
 }
 
-uint8_t* ObjectInfo::_InternalSerialize(
+uint8_t* PlayerInfo::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Protobuf.ObjectInfo)
+  // @@protoc_insertion_point(serialize_to_array_start:Protobuf.PlayerInfo)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -419,12 +456,12 @@ uint8_t* ObjectInfo::_InternalSerialize(
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Protobuf.ObjectInfo)
+  // @@protoc_insertion_point(serialize_to_array_end:Protobuf.PlayerInfo)
   return target;
 }
 
-size_t ObjectInfo::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Protobuf.ObjectInfo)
+size_t PlayerInfo::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protobuf.PlayerInfo)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
@@ -489,17 +526,17 @@ size_t ObjectInfo::ByteSizeLong() const {
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData ObjectInfo::_class_data_ = {
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData PlayerInfo::_class_data_ = {
     ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    ObjectInfo::MergeImpl
+    PlayerInfo::MergeImpl
 };
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*ObjectInfo::GetClassData() const { return &_class_data_; }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*PlayerInfo::GetClassData() const { return &_class_data_; }
 
 
-void ObjectInfo::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<ObjectInfo*>(&to_msg);
-  auto& from = static_cast<const ObjectInfo&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:Protobuf.ObjectInfo)
+void PlayerInfo::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<PlayerInfo*>(&to_msg);
+  auto& from = static_cast<const PlayerInfo&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protobuf.PlayerInfo)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -537,40 +574,423 @@ void ObjectInfo::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PRO
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void ObjectInfo::CopyFrom(const ObjectInfo& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Protobuf.ObjectInfo)
+void PlayerInfo::CopyFrom(const PlayerInfo& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protobuf.PlayerInfo)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool ObjectInfo::IsInitialized() const {
+bool PlayerInfo::IsInitialized() const {
   return true;
 }
 
-void ObjectInfo::InternalSwap(ObjectInfo* other) {
+void PlayerInfo::InternalSwap(PlayerInfo* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(ObjectInfo, _impl_.weapon_)
-      + sizeof(ObjectInfo::_impl_.weapon_)
-      - PROTOBUF_FIELD_OFFSET(ObjectInfo, _impl_.position_)>(
+      PROTOBUF_FIELD_OFFSET(PlayerInfo, _impl_.weapon_)
+      + sizeof(PlayerInfo::_impl_.weapon_)
+      - PROTOBUF_FIELD_OFFSET(PlayerInfo, _impl_.position_)>(
           reinterpret_cast<char*>(&_impl_.position_),
           reinterpret_cast<char*>(&other->_impl_.position_));
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata ObjectInfo::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata PlayerInfo::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_Struct_2eproto_getter, &descriptor_table_Struct_2eproto_once,
       file_level_metadata_Struct_2eproto[0]);
 }
 
+// ===================================================================
+
+class BulletInfo::_Internal {
+ public:
+  static const ::Protobuf::Vec2& position(const BulletInfo* msg);
+  static const ::Protobuf::Vec2& velocity(const BulletInfo* msg);
+  static const ::Protobuf::Color& color(const BulletInfo* msg);
+};
+
+const ::Protobuf::Vec2&
+BulletInfo::_Internal::position(const BulletInfo* msg) {
+  return *msg->_impl_.position_;
+}
+const ::Protobuf::Vec2&
+BulletInfo::_Internal::velocity(const BulletInfo* msg) {
+  return *msg->_impl_.velocity_;
+}
+const ::Protobuf::Color&
+BulletInfo::_Internal::color(const BulletInfo* msg) {
+  return *msg->_impl_.color_;
+}
+void BulletInfo::clear_position() {
+  if (GetArenaForAllocation() == nullptr && _impl_.position_ != nullptr) {
+    delete _impl_.position_;
+  }
+  _impl_.position_ = nullptr;
+}
+void BulletInfo::clear_velocity() {
+  if (GetArenaForAllocation() == nullptr && _impl_.velocity_ != nullptr) {
+    delete _impl_.velocity_;
+  }
+  _impl_.velocity_ = nullptr;
+}
+void BulletInfo::clear_color() {
+  if (GetArenaForAllocation() == nullptr && _impl_.color_ != nullptr) {
+    delete _impl_.color_;
+  }
+  _impl_.color_ = nullptr;
+}
+BulletInfo::BulletInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:Protobuf.BulletInfo)
+}
+BulletInfo::BulletInfo(const BulletInfo& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  BulletInfo* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.position_){nullptr}
+    , decltype(_impl_.velocity_){nullptr}
+    , decltype(_impl_.color_){nullptr}
+    , decltype(_impl_.objectid_){}
+    , decltype(_impl_.ownerid_){}
+    , decltype(_impl_.facing_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  if (from._internal_has_position()) {
+    _this->_impl_.position_ = new ::Protobuf::Vec2(*from._impl_.position_);
+  }
+  if (from._internal_has_velocity()) {
+    _this->_impl_.velocity_ = new ::Protobuf::Vec2(*from._impl_.velocity_);
+  }
+  if (from._internal_has_color()) {
+    _this->_impl_.color_ = new ::Protobuf::Color(*from._impl_.color_);
+  }
+  ::memcpy(&_impl_.objectid_, &from._impl_.objectid_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.facing_) -
+    reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.facing_));
+  // @@protoc_insertion_point(copy_constructor:Protobuf.BulletInfo)
+}
+
+inline void BulletInfo::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.position_){nullptr}
+    , decltype(_impl_.velocity_){nullptr}
+    , decltype(_impl_.color_){nullptr}
+    , decltype(_impl_.objectid_){uint64_t{0u}}
+    , decltype(_impl_.ownerid_){uint64_t{0u}}
+    , decltype(_impl_.facing_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+BulletInfo::~BulletInfo() {
+  // @@protoc_insertion_point(destructor:Protobuf.BulletInfo)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void BulletInfo::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  if (this != internal_default_instance()) delete _impl_.position_;
+  if (this != internal_default_instance()) delete _impl_.velocity_;
+  if (this != internal_default_instance()) delete _impl_.color_;
+}
+
+void BulletInfo::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void BulletInfo::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protobuf.BulletInfo)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (GetArenaForAllocation() == nullptr && _impl_.position_ != nullptr) {
+    delete _impl_.position_;
+  }
+  _impl_.position_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.velocity_ != nullptr) {
+    delete _impl_.velocity_;
+  }
+  _impl_.velocity_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.color_ != nullptr) {
+    delete _impl_.color_;
+  }
+  _impl_.color_ = nullptr;
+  ::memset(&_impl_.objectid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.facing_) -
+      reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.facing_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* BulletInfo::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // uint64 objectID = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.objectid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // uint64 ownerID = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.ownerid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .Protobuf.Vec2 position = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          ptr = ctx->ParseMessage(_internal_mutable_position(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .Protobuf.Vec2 velocity = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          ptr = ctx->ParseMessage(_internal_mutable_velocity(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .Protobuf.FACING_TYPE facing = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_facing(static_cast<::Protobuf::FACING_TYPE>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // .Protobuf.Color color = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
+          ptr = ctx->ParseMessage(_internal_mutable_color(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* BulletInfo::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:Protobuf.BulletInfo)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 objectID = 1;
+  if (this->_internal_objectid() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt64ToArray(1, this->_internal_objectid(), target);
+  }
+
+  // uint64 ownerID = 2;
+  if (this->_internal_ownerid() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt64ToArray(2, this->_internal_ownerid(), target);
+  }
+
+  // .Protobuf.Vec2 position = 3;
+  if (this->_internal_has_position()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(3, _Internal::position(this),
+        _Internal::position(this).GetCachedSize(), target, stream);
+  }
+
+  // .Protobuf.Vec2 velocity = 4;
+  if (this->_internal_has_velocity()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(4, _Internal::velocity(this),
+        _Internal::velocity(this).GetCachedSize(), target, stream);
+  }
+
+  // .Protobuf.FACING_TYPE facing = 5;
+  if (this->_internal_facing() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      5, this->_internal_facing(), target);
+  }
+
+  // .Protobuf.Color color = 6;
+  if (this->_internal_has_color()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(6, _Internal::color(this),
+        _Internal::color(this).GetCachedSize(), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Protobuf.BulletInfo)
+  return target;
+}
+
+size_t BulletInfo::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protobuf.BulletInfo)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // .Protobuf.Vec2 position = 3;
+  if (this->_internal_has_position()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.position_);
+  }
+
+  // .Protobuf.Vec2 velocity = 4;
+  if (this->_internal_has_velocity()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.velocity_);
+  }
+
+  // .Protobuf.Color color = 6;
+  if (this->_internal_has_color()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.color_);
+  }
+
+  // uint64 objectID = 1;
+  if (this->_internal_objectid() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_objectid());
+  }
+
+  // uint64 ownerID = 2;
+  if (this->_internal_ownerid() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_ownerid());
+  }
+
+  // .Protobuf.FACING_TYPE facing = 5;
+  if (this->_internal_facing() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_facing());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData BulletInfo::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    BulletInfo::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*BulletInfo::GetClassData() const { return &_class_data_; }
+
+
+void BulletInfo::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<BulletInfo*>(&to_msg);
+  auto& from = static_cast<const BulletInfo&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protobuf.BulletInfo)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_has_position()) {
+    _this->_internal_mutable_position()->::Protobuf::Vec2::MergeFrom(
+        from._internal_position());
+  }
+  if (from._internal_has_velocity()) {
+    _this->_internal_mutable_velocity()->::Protobuf::Vec2::MergeFrom(
+        from._internal_velocity());
+  }
+  if (from._internal_has_color()) {
+    _this->_internal_mutable_color()->::Protobuf::Color::MergeFrom(
+        from._internal_color());
+  }
+  if (from._internal_objectid() != 0) {
+    _this->_internal_set_objectid(from._internal_objectid());
+  }
+  if (from._internal_ownerid() != 0) {
+    _this->_internal_set_ownerid(from._internal_ownerid());
+  }
+  if (from._internal_facing() != 0) {
+    _this->_internal_set_facing(from._internal_facing());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void BulletInfo::CopyFrom(const BulletInfo& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protobuf.BulletInfo)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool BulletInfo::IsInitialized() const {
+  return true;
+}
+
+void BulletInfo::InternalSwap(BulletInfo* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(BulletInfo, _impl_.facing_)
+      + sizeof(BulletInfo::_impl_.facing_)
+      - PROTOBUF_FIELD_OFFSET(BulletInfo, _impl_.position_)>(
+          reinterpret_cast<char*>(&_impl_.position_),
+          reinterpret_cast<char*>(&other->_impl_.position_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata BulletInfo::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_Struct_2eproto_getter, &descriptor_table_Struct_2eproto_once,
+      file_level_metadata_Struct_2eproto[1]);
+}
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace Protobuf
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::Protobuf::ObjectInfo*
-Arena::CreateMaybeMessage< ::Protobuf::ObjectInfo >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::Protobuf::ObjectInfo >(arena);
+template<> PROTOBUF_NOINLINE ::Protobuf::PlayerInfo*
+Arena::CreateMaybeMessage< ::Protobuf::PlayerInfo >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protobuf::PlayerInfo >(arena);
+}
+template<> PROTOBUF_NOINLINE ::Protobuf::BulletInfo*
+Arena::CreateMaybeMessage< ::Protobuf::BulletInfo >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protobuf::BulletInfo >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

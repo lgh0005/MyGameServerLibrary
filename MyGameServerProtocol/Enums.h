@@ -6,8 +6,8 @@ namespace MGSL::Protocol
 	{
 		S_TEST = 1,
 		S_EnterGame = 2,
-		S_Spawn = 3,
-		S_SyncObjects = 4,
+		S_SpawnPlayer = 3,
+		S_SyncPlayers = 4,
 
 		C_EnterGame = 10,
 		C_Move = 11,

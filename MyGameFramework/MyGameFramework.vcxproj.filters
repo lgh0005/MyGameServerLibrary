@@ -259,6 +259,9 @@
     <ClCompile Include="DebugGizmo.cpp">
       <Filter>소스 파일\Debug</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkState.cpp">
+      <Filter>소스 파일\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameFrameworkPch.h">
@@ -477,6 +480,9 @@
     <ClInclude Include="DebugGizmo.h">
       <Filter>소스 파일\Debug</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkState.h">
+      <Filter>소스 파일\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ResourceManager.inl">
@@ -499,6 +505,9 @@
     </None>
     <None Include="Scene.inl">
       <Filter>소스 파일\Entities</Filter>
+    </None>
+    <None Include="NetworkState.inl">
+      <Filter>소스 파일\Components</Filter>
     </None>
   </ItemGroup>
 </Project>

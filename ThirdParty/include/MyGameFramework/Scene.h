@@ -38,8 +38,6 @@ namespace MGSL::Framework
 		void SetPostProcessing2DShader(const ShaderPtr& shader);
 		void SetUIImageShader(const ShaderPtr& shader);
 		void SetUITextShader(const ShaderPtr& shader);
-
-		// TEMP
 		void SetDebugShader(const ShaderPtr& shader);
 
 	/*================================================//
@@ -62,10 +60,13 @@ namespace MGSL::Framework
 	public:
 		template<typename T>
 		GameObject*  FindGameObjectWithComponent();
-		GameObject* FindGameObject(Shared::uint64 objectID);
 		GameObject* AddGameObject(GameObjectUPtr&& gameObject);
 		void RemoveGameObject(GameObject* gameObject);
 		void ClearGameObjects();
+
+		bool RegisterNetworkObject(Shared::uint64 objectID, GameObject* gameObject);
+		GameObject* FindNetworkObject(Shared::uint64 objectID);
+		bool UnregisterNetworkObject(Shared::uint64 objectID);
 
 	private:
 		void FlushGameObjects();

@@ -166,17 +166,4 @@ namespace MGSL::Framework
 	{
 		return m_transform;
 	}
-
-	/*======================================//
-	//   default packet setter and getter   //
-	//======================================*/
-	void GameObject::SetObjectInfo(const ::Protobuf::ObjectInfo& info)
-	{
-		m_info.CopyFrom(info);
-	}
-
-	::Protobuf::ObjectInfo& GameObject::GetObjectInfo()
-	{
-		return m_info;
-	}
 }

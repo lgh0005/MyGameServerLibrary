@@ -129,26 +129,7 @@ namespace MGSL::Server
 	/*===============================//
 	//   default transform methods   //
 	//===============================*/
-	Transform& GameObject::GetTransform()
-	{
-		return m_transform;
-	}
+	Transform& GameObject::GetTransform() { return m_transform; }
 
-	const Transform& GameObject::GetTransform() const
-	{
-		return m_transform;
-	}
-
-	/*======================================//
-	//   default packet setter and getter   //
-	//======================================*/
-	void GameObject::SetObjectInfo(const ::Protobuf::ObjectInfo& info)
-	{
-		m_info.CopyFrom(info);
-	}
-
-	::Protobuf::ObjectInfo& GameObject::GetObjectInfo()
-	{
-		return m_info;
-	}
+	const Transform& GameObject::GetTransform() const { return m_transform; }
 }

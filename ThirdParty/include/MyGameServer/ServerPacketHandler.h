@@ -24,7 +24,7 @@ namespace MGSL::Net
 	//    default packet generators    //
 	//=================================*/
 	public:
-		static SendBufferPtr Create_S_EnterGame(bool success, const ::Protobuf::ObjectInfo& player);
+		static SendBufferPtr Create_S_EnterGame(bool success, const ::Protobuf::PlayerInfo& player);
 
 	/*========================//
 	//   Packet Test Methods  //
@@ -38,7 +38,7 @@ namespace MGSL::Net
 		static void Handle_C_ATTACK(GameSessionPtr session, BYTE* buffer, Shared::int32 len);
 
 		/* Create */
-		static SendBufferPtr Make_S_Spawn(const ::Protobuf::S_Spawn& pkt);
-		static SendBufferPtr Make_S_SyncObjects(const ::Protobuf::S_SyncObjects& pkt);
+		static SendBufferPtr Make_S_SpawnPlayer(const ::Protobuf::S_SpawnPlayer& pkt);
+		static SendBufferPtr Make_S_SyncPlayers(const ::Protobuf::S_SyncPlayers& pkt);
 	};		
 }

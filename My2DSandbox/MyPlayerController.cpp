@@ -3,6 +3,7 @@
 #include "MyGameFramework/MouseDevice.h"
 #include "MyGameFramework/KeyboardDevice.h"
 #include "MyGameFramework/CharacterBody2D.h"
+#include "MyPlayerNetworkState.h"
 #include "ClientPacketHandler.h"
 
 namespace MGSL::Sandbox2D
@@ -17,11 +18,22 @@ namespace MGSL::Sandbox2D
 
 	void MyPlayerController::Awake()
 	{
+		m_playerNetworkState = GetOwner()->GetComponent<MyPlayerNetworkState>();
 		m_characterBody = GetOwner()->GetComponent<Framework::CharacterBody2D>();
 	}
 
 	void MyPlayerController::Update(float deltaTime)
 	{
+		/*=====================//
+		//   Is status dead?   //
+		//=====================*/
+		if (m_playerNetworkState->GetState() == Protobuf::OBJECT_STATE_TYPE_DEATH)
+		{
+			m_characterBody->SetHorizontalVelocity(0.0f);
+			return;
+		}
+
+		// 이동과 공격 인풋 처리
 		HandleMovementInput(deltaTime);
 		HandleAttackInput();
 	}
@@ -29,8 +41,7 @@ namespace MGSL::Sandbox2D
 	void MyPlayerController::HandleMovementInput(float deltaTime)
 	{
 		auto keyboard = MGSL_INPUT_MGR.GetKeyboard();
-		Framework::CharacterBody2D* body = GetOwner()->GetComponent<Framework::CharacterBody2D>();
-		if (!body) return;
+		if (!m_characterBody) return;
 
 		/*========================//
 		//   Horizontal Movement  //
@@ -40,14 +51,14 @@ namespace MGSL::Sandbox2D
 		if (keyboard->GetKeyPress('D')) directionX += 1.0f;
 		const bool isRunning = keyboard->GetKeyPress(VK_SHIFT);
 		const float moveSpeed = isRunning ? m_runSpeed : m_moveSpeed;
-		body->SetHorizontalVelocity(directionX * moveSpeed);
+		m_characterBody->SetHorizontalVelocity(directionX * moveSpeed);
 		
 		/*========================//
 		//          Jump          //
 		//========================*/
 		if (keyboard->GetKeyDown(VK_SPACE))
 		{
-			body->Jump(m_jumpPower);
+			m_characterBody->Jump(m_jumpPower);
 			SendJumpPacket();
 		}
 

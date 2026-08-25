@@ -2,7 +2,7 @@
 
 namespace MGSL::Server 
 { 
-	MGSL_CLASS_PTR(GameObject) 
+	MGSL_CLASS_PTR(PlayerController)
 	MGSL_CLASS_PTR(VirtualSandbox2DScene)
 }
 
@@ -33,13 +33,13 @@ namespace MGSL::Net
 	//===========================*/
 	private:
 		void SendExistingPlayers(GameSessionPtr session);
-		void BroadcastSpawn(Server::GameObject* player);
+		void BroadcastSpawn(Server::PlayerController* controller);
 		void BroadcastSyncObjects();
 
 	private:
 		GameRoomPtr GetGameRoom();
 
-		Shared::Dictionary<Shared::uint64, Server::GameObject*> m_players;
+		Shared::Dictionary<Shared::uint64, Server::PlayerController*> m_players;
 		Server::VirtualSandbox2DSceneUPtr m_virtualScene;
 	};
 }

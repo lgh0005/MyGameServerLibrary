@@ -13,11 +13,19 @@ namespace MGSL::Framework
 		ObjectRegistry();
 		~ObjectRegistry();
 
+	/*===================================//
+	//   Network GameObject Management   //
+	//===================================*/
+	public:
+		bool RegisterNetworkObject(Shared::uint64 objectID, GameObject* gameObject);
+		GameObject* FindNetworkObject(Shared::uint64 objectID);
+		bool UnregisterNetworkObject(Shared::uint64 objectID);
+
+	/*==================================//
+	//   Client GameObject Management   //
+	//==================================*/
 	public:
 		template<typename T> GameObject* FindGameObjectWithComponent();
-		GameObject* Find(Shared::uint64 objectID);
-
-	public:
 		GameObject* Add(GameObjectUPtr go);
 		void Remove(GameObject* go);
 		const Shared::List<GameObject*>& Flush();
@@ -34,6 +42,7 @@ namespace MGSL::Framework
 		void FlushAddObjects();
 
 	private:
+		Shared::Dictionary<Shared::uint64, GameObject*> m_networkObjects;
 		Shared::List<GameObjectUPtr> m_gameObjects;
 		Shared::List<GameObject*> m_addedObjects;
 		Shared::List<GameObjectUPtr> m_pendingAddObjects;

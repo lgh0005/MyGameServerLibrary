@@ -54,7 +54,7 @@ namespace MGSL::Net
 	/*=================================//
 	//    default packet generators    //
 	//=================================*/
-	SendBufferPtr ServerPacketHandler::Create_S_EnterGame(bool success, const Protobuf::ObjectInfo& player)
+	SendBufferPtr ServerPacketHandler::Create_S_EnterGame(bool success, const Protobuf::PlayerInfo& player)
 	{
 		// Protobuf를 이용한 패킷 생성
 		::Protobuf::S_EnterGame pkt;
@@ -87,11 +87,11 @@ namespace MGSL::Net
 		playerController->SetMoveDirection(dir);
 		playerController->SetRunning(running);
 
-		// debug
+		// DEBUF
 		MGSL_LOG_INFO
 		(
 			"C_Move received. ObjectID = {}, Dir = {}, Running = {}",
-			player->GetObjectInfo().objectid(),
+			playerController->GetObjectID(),
 			static_cast<int>(dir),
 			running
 		);
@@ -114,6 +114,9 @@ namespace MGSL::Net
 		Server::GameObject* player = session->GetGameObject();
 		if (!player) return;
 
+		Server::PlayerController* playerController = player->GetComponent<Server::PlayerController>();
+		if (!playerController) return;
+
 		auto* body = player->GetComponent<Server::CharacterBody2D>();
 		if (!body) return;
 
@@ -122,7 +125,7 @@ namespace MGSL::Net
 		MGSL_LOG_INFO
 		(
 			"C_Jump received. ObjectID = {}",
-			player->GetObjectInfo().objectid()
+			playerController->GetObjectID()
 		);
 	}
 
@@ -162,13 +165,13 @@ namespace MGSL::Net
 		playerController->Attack();
 	}
 
-	SendBufferPtr ServerPacketHandler::Make_S_Spawn(const ::Protobuf::S_Spawn& pkt)
+	SendBufferPtr ServerPacketHandler::Make_S_SpawnPlayer(const ::Protobuf::S_SpawnPlayer& pkt)
 	{
-		return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::S_Spawn));
+		return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::S_SpawnPlayer));
 	}
 
-	SendBufferPtr ServerPacketHandler::Make_S_SyncObjects(const ::Protobuf::S_SyncObjects& pkt)
+	SendBufferPtr ServerPacketHandler::Make_S_SyncPlayers(const ::Protobuf::S_SyncPlayers& pkt)
 	{
-		return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::S_SyncObjects));
+		return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::S_SyncPlayers));
 	}
 }

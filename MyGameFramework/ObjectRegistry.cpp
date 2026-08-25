@@ -1,23 +1,44 @@
 #include "GameFrameworkPch.h"
 #include "ObjectRegistry.h"
+#include "GameObject.h"
 
 namespace MGSL::Framework
 {
 	ObjectRegistry::ObjectRegistry() = default;
 	ObjectRegistry::~ObjectRegistry() { Clear(); }
 
-	GameObject* ObjectRegistry::Find(Shared::uint64 objectID)
+	/*===============================//
+	//   Network GameObject Methods  //
+	//===============================*/
+	bool ObjectRegistry::RegisterNetworkObject(Shared::uint64 objectID, GameObject* gameObject)
 	{
-		for (const GameObjectUPtr& gameObject : m_gameObjects)
-		{
-			if (!gameObject) continue;
-			if (gameObject->GetObjectInfo().objectid() == objectID)
-				return gameObject.get();
-		}
-
-		return nullptr;
+		if (!gameObject) return false;
+		const auto [it, object] = m_networkObjects.emplace(objectID, gameObject);
+		return object;
 	}
 
+	GameObject* ObjectRegistry::FindNetworkObject(Shared::uint64 objectID)
+	{
+		const auto it = m_networkObjects.find(objectID);
+		if (it == m_networkObjects.end()) return nullptr;
+		return it->second;
+	}
+
+	bool ObjectRegistry::UnregisterNetworkObject(Shared::uint64 objectID)
+	{
+		const auto it = m_networkObjects.find(objectID);
+		if (it == m_networkObjects.end()) return false;
+		GameObject* gameObject = it->second;
+		m_networkObjects.erase(it);
+		
+		if (!gameObject) return false;
+		Remove(gameObject);
+		return true;
+	}
+
+	/*==================================//
+	//   Client GameObject Management   //
+	//==================================*/
 	GameObject* ObjectRegistry::Add(GameObjectUPtr go)
 	{
 		if (!go) return nullptr;
@@ -43,6 +64,7 @@ namespace MGSL::Framework
 
 	void ObjectRegistry::Clear()
 	{
+		m_networkObjects.clear();
 		m_pendingRemoveObjects.clear();
 		m_pendingAddObjects.clear();
 		m_gameObjects.clear();

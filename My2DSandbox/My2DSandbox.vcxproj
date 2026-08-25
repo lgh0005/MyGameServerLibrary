@@ -176,6 +176,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="2DPch.h" />
+    <ClInclude Include="BulletState.h" />
     <ClInclude Include="CameraController.h" />
     <ClInclude Include="ClientPacketHandler.h" />
     <ClInclude Include="Enums.h" />
@@ -183,13 +184,15 @@
     <ClInclude Include="MyPlayerController.h" />
     <ClInclude Include="MyPlayerStateMachine.h" />
     <ClInclude Include="NetworkManager.h" />
+    <ClInclude Include="MyPlayerNetworkState.h" />
     <ClInclude Include="Sandbox2D.h" />
     <ClInclude Include="Sandbox2DScene.h" />
     <ClInclude Include="Sandbox2DWindow.h" />
     <ClInclude Include="ServerSession.h" />
-    <ClInclude Include="UIController.h" />
+    <ClInclude Include="MainUIController.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BulletState.cpp" />
     <ClCompile Include="ClientPacketHandler.cpp" />
     <ClCompile Include="CameraController.cpp" />
     <ClCompile Include="FlipbookUtils.cpp" />
@@ -203,8 +206,9 @@
     <ClCompile Include="MyPlayerController.cpp" />
     <ClCompile Include="MyPlayerStateMachine.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
+    <ClCompile Include="MyPlayerNetworkState.cpp" />
     <ClCompile Include="Sandbox2D.cpp" />
-    <ClCompile Include="UIController.cpp" />
+    <ClCompile Include="MainUIController.cpp" />
     <ClInclude Include="Sandbox2DGlobal.h" />
     <ClCompile Include="Sandbox2DScene.cpp" />
     <ClCompile Include="Sandbox2DWindow.cpp" />

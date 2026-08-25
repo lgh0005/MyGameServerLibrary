@@ -25,10 +25,11 @@ namespace MGSL::Framework
 	public:
 		GameObject* AddGameObject(GameObjectUPtr go);
 		void RemoveGameObject(GameObject* go);
-		GameObject* FindGameObject(Scene* scene, Shared::uint64 objectID);
+		template<typename T> GameObject* FindGameObjectWithComponent(Scene* scene);
 
-		template<typename T>
-		GameObject* FindGameObjectWithComponent(Scene* scene);
+		bool RegisterNetworkObject(Scene* scene, Shared::uint64 objectID, GameObject* gameObject);
+		GameObject* FindNetworkObject(Scene* scene, Shared::uint64 objectID);
+		bool UnregisterNetworkObject(Scene* scene, Shared::uint64 objectID);
 
 	/*===========================//
 	//   Component Creation      //

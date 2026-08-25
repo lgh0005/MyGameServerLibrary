@@ -34,26 +34,23 @@ namespace MGSL::Net
 		/*========================//
 		//    ObjectInfo Sync     //
 		//========================*/
-		for (auto& [objectID, player] : m_players)
+		for (auto& [objectID, controller] : m_players)
 		{
+			if (!controller) continue;
+
+			Server::GameObject* player = controller->GetOwner();
 			if (!player) continue;
 
 			Server::CharacterBody2D* body = player->GetComponent<Server::CharacterBody2D>();
 			if (!body) continue;
 
-			Server::PlayerController* controller = player->GetComponent<Server::PlayerController>();
-			if (!controller) continue;
-
+			auto& info = controller->GetInfo();
 			const auto& position = player->GetTransform().GetPosition();
-			auto& info = player->GetObjectInfo();
 			info.mutable_position()->set_x(position.x);
 			info.mutable_position()->set_y(position.y);
 			info.mutable_velocity()->set_x(body->GetHorizontalVelocity());
 			info.mutable_velocity()->set_y(body->GetVerticalVelocity());
 			info.set_grounded(body->IsGrounded());
-			info.set_state(controller->GetState());
-			info.set_facing(controller->GetFacing());
-			info.set_weapon(controller->GetWeapon());
 		}
 
 		/*========================//
@@ -71,28 +68,28 @@ namespace MGSL::Net
 		auto scenePtr = m_virtualScene.get();
 
 		// 1. 서버 논리 플레이어 생성
-		Server::GameObject* player = MGSL_OBJECT_MGR.CreateGameObject(scenePtr);
-		if (!player) return;
+		Server::GameObject* player = MGSL_OBJECT_MGR.CreateGameObject(scenePtr); if (!player) return;
 		player->GetTransform().SetScale(Shared::vec3(1.25f));
+		Server::PlayerController* controller = MGSL_OBJECT_MGR.AddComponent<Server::PlayerController>(player); if (!controller) return;
+		Server::CharacterBody2D* body = MGSL_OBJECT_MGR.AddComponent<Server::CharacterBody2D>(player); if (!body) return;
+		Server::BoxCollider* playerCollider = MGSL_OBJECT_MGR.AddComponent<Server::BoxCollider>(player); if (!playerCollider) return;
+
+		controller->SetObjectID(MGSL_OBJECT_MGR.GenerateNetworkObjectID());
 		const Shared::vec3 playerColor = Server::ColorUtils::HSVToRGB(Shared::Random::Range(0.0f, 360.0f), 0.75f, 1.0f);
-		Protobuf::Color* color = player->GetObjectInfo().mutable_color();
+		Protobuf::Color* color = controller->GetInfo().mutable_color();
 		color->set_r(playerColor.r);
 		color->set_g(playerColor.g);
 		color->set_b(playerColor.b);
 		color->set_a(1.0f);
 
-		// 2. 서버 전용 컴포넌트 부착
-		MGSL_OBJECT_MGR.AddComponent<Server::PlayerController>(player);
-		MGSL_OBJECT_MGR.AddComponent<Server::CharacterBody2D>(player);
-		auto* playerCollider = MGSL_OBJECT_MGR.AddComponent<Server::BoxCollider>(player);
+		// 2. 충돌 컴포넌트 설정
 		playerCollider->SetMobility(Server::EColliderMobility::DYNAMIC);
 		playerCollider->SetCollisionLayer(Server::ECollisionLayer::PLAYER);
 		playerCollider->SetSize(Shared::vec2(0.3f, 0.6f));
 		playerCollider->SetOffset(Shared::vec2(0.0f, -0.2f));
 		MGSL_SERVER_COLLISION_MGR.Register(playerCollider);
 
-		Server::GameObject* leftHitbox = MGSL_OBJECT_MGR.CreateGameObject(scenePtr);
-		if (!leftHitbox) return;
+		Server::GameObject* leftHitbox = MGSL_OBJECT_MGR.CreateGameObject(scenePtr); if (!leftHitbox) return;
 		leftHitbox->GetTransform().SetPosition(Shared::vec3(-0.4f, -0.2f, 0.0f));
 		Server::BoxCollider* leftHitboxCollider = MGSL_OBJECT_MGR.AddComponent<Server::BoxCollider>(leftHitbox);
 		leftHitboxCollider->SetMobility(Server::EColliderMobility::DYNAMIC);
@@ -102,8 +99,7 @@ namespace MGSL::Net
 		player->AddChild(leftHitbox);
 		MGSL_SERVER_COLLISION_MGR.Register(leftHitboxCollider);
 
-		Server::GameObject* rightHitbox = MGSL_OBJECT_MGR.CreateGameObject(scenePtr);
-		if (!rightHitbox) return;
+		Server::GameObject* rightHitbox = MGSL_OBJECT_MGR.CreateGameObject(scenePtr); if (!rightHitbox) return;
 		rightHitbox->GetTransform().SetPosition(Shared::vec3(0.4f, -0.2f, 0.0f));
 		Server::BoxCollider* rightHitboxCollider = MGSL_OBJECT_MGR.AddComponent<Server::BoxCollider>(rightHitbox);
 		rightHitboxCollider->SetMobility(Server::EColliderMobility::DYNAMIC);
@@ -122,14 +118,14 @@ namespace MGSL::Net
 		SendExistingPlayers(session);
 
 		// 5. Room 등록
-		const Shared::uint64 objectID = player->GetObjectInfo().objectid();
-		m_players.emplace(objectID, player);
+		const Shared::uint64 objectID = controller->GetObjectID();
+		m_players.emplace(objectID, controller);
 
 		// 6. 신규 플레이어에게 자신의 입장 완료 정보 전달, S_EnterGame 전송
-		session->GetSessionBuffer().Send(ServerPacketHandler::Create_S_EnterGame(true, player->GetObjectInfo()));
+		session->GetSessionBuffer().Send(ServerPacketHandler::Create_S_EnterGame(true, controller->GetInfo()));
 
 		// 7. 기존 플레이어들에게 신규 플레이어 전달
-		BroadcastSpawn(player);
+		BroadcastSpawn(controller);
 
 		MGSL_LOG_INFO
 		(
@@ -153,56 +149,63 @@ namespace MGSL::Net
 			m_players.size()
 		);
 
-		Protobuf::S_Spawn spawnPkt;
-		for (const auto& [id, otherPlayer] : m_players)
+		Protobuf::S_SpawnPlayer spawnPkt;
+		for (const auto& [id, controller] : m_players)
 		{
-			if (!otherPlayer) continue;
-			*spawnPkt.add_objects() = otherPlayer->GetObjectInfo();
+			if (!controller) continue;
+			*spawnPkt.add_objects() = controller->GetInfo();
 		}
 
 		if (spawnPkt.objects_size() == 0) return;
-		MGSL_LOG_INFO("Send S_Spawn. ObjectCount = {}", spawnPkt.objects_size());
-		session->GetSessionBuffer().Send(ServerPacketHandler::Make_S_Spawn(spawnPkt));
+		MGSL_LOG_INFO("Send S_SpawnPlayer. ObjectCount = {}", spawnPkt.objects_size());
+		session->GetSessionBuffer().Send(ServerPacketHandler::Make_S_SpawnPlayer(spawnPkt));
 	}
 
-	void GameRoom::BroadcastSpawn(Server::GameObject* player)
+	void GameRoom::BroadcastSpawn(Server::PlayerController* controller)
 	{
-		if (!player) return;
+		if (!controller) return;
 
-		Protobuf::S_Spawn spawnPkt;
-		*spawnPkt.add_objects() = player->GetObjectInfo();
+		Protobuf::S_SpawnPlayer spawnPkt;
+		*spawnPkt.add_objects() = controller->GetInfo();
 
-		const Shared::uint64 newObjectID = player->GetObjectInfo().objectid();
-		for (const auto& [objectID, otherPlayer] : m_players)
+		const Shared::uint64 newObjectID = controller->GetObjectID();
+		for (const auto& [objectID, otherController] : m_players)
 		{
-			if (!otherPlayer) continue;
+			if (!otherController) continue;
 			if (objectID == newObjectID) continue;
+
+			Server::GameObject* otherPlayer = otherController->GetOwner();
+			if (!otherPlayer) continue;
 
 			GameSessionPtr otherSession = otherPlayer->GetGameSession();
 			if (!otherSession) continue;
-			otherSession->GetSessionBuffer().Send(ServerPacketHandler::Make_S_Spawn(spawnPkt));
+			otherSession->GetSessionBuffer().Send(ServerPacketHandler::Make_S_SpawnPlayer(spawnPkt));
 		}
 	}
 
 	void GameRoom::BroadcastSyncObjects()
 	{
-		::Protobuf::S_SyncObjects pkt;
+		::Protobuf::S_SyncPlayers pkt;
 
-		for (const auto& [objectID, player] : m_players)
+		for (const auto& [objectID, controller] : m_players)
 		{
-			if (!player) continue;
-			*pkt.add_objects() = player->GetObjectInfo();
+			if (!controller) continue;
+			*pkt.add_objects() = controller->GetInfo();
 		}
 
 		if (pkt.objects_size() == 0) return;
-		auto sendBuffer = ServerPacketHandler::Make_S_SyncObjects(pkt);
 
-		for (const auto& [objectID, player] : m_players)
+		for (const auto& [objectID, controller] : m_players)
 		{
+			if (!controller) continue;
+			
+			Server::GameObject* player = controller->GetOwner();
 			if (!player) continue;
-			auto session = player->GetGameSession();
+		
+			GameSessionPtr session = player->GetGameSession();
 			if (!session) continue;
-			session->GetSessionBuffer().Send(sendBuffer);
+
+			session->GetSessionBuffer().Send(ServerPacketHandler::Make_S_SyncPlayers(pkt));
 		}
 	}
 

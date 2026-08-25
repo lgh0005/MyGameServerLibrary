@@ -9,17 +9,20 @@ namespace MGSL::Framework
 
 namespace MGSL::Sandbox2D
 {
-	MGSL_CLASS_PTR(UIController)
+	MGSL_CLASS_PTR(MyPlayerNetworkState)
+	MGSL_CLASS_PTR(MainUIController)
 
-	class UIController : public Framework::MonoBehaviour
+	class MainUIController : public Framework::MonoBehaviour
 	{
-		MGSL_DISABLE_COPY(UIController)
-		MGSL_DISABLE_MOVE(UIController)
+		MGSL_DISABLE_COPY(MainUIController)
+		MGSL_DISABLE_MOVE(MainUIController)
 		using Super = Framework::MonoBehaviour;
 
 	public:
-		virtual ~UIController() override;
-		static UIControllerUPtr Create(Framework::GameObject* owner);
+		virtual ~MainUIController() override;
+		static MainUIControllerUPtr Create(Framework::GameObject* owner);
+		virtual void Awake() override;
+		virtual void Update(float deltaTime) override;
 
 	/*===========================//
 	//    UI reference setters   //
@@ -34,13 +37,13 @@ namespace MGSL::Sandbox2D
 	//      HUD state setters    //
 	//===========================*/
 	public:
-		void SetPlayerColor(const Shared::vec4& color);
 		void SetHeartCount(Shared::uint32 heartCount);
 		void SetKillCount(Shared::uint32 killCount);
-		void SetWeaponType(EWeaponType weaponType);
 
 	private:
-		explicit UIController(Framework::GameObject* owner);
+		explicit MainUIController(Framework::GameObject* owner);
+		void ApplyPlayerColor();
+		void ApplyWeaponType();
 
 	/*===========================//
 	//       UI references       //
@@ -52,12 +55,21 @@ namespace MGSL::Sandbox2D
 		Framework::UIText* m_weaponTypeText = nullptr;
 	
 	/*===========================//
-	//        HUD states         //
+	//       Network state       //
 	//===========================*/
 	private:
-		Shared::vec4 m_playerColor{ 1.0f };
-		Shared::uint32 m_heartCount = 3;
+		MyPlayerNetworkState* m_playerNetworkState = nullptr;
+		Shared::vec4 m_prevPlayerColor{};
+		Protobuf::WEAPON_TYPE m_prevWeapon{};
+
+	/*===========================//
+	//        HUD states         //
+	//===========================*/
+
+	// TODO : 내가 봤을 땐, 이 부분도 PlayerInfo로 넘어가야
+	// 할 대상으로 보임
+	private:
+		Shared::uint32 m_heartCount = 5;
 		Shared::uint32 m_killCount = 0;
-		EWeaponType m_weaponType = EWeaponType::FIGHTER;
 	};
 }

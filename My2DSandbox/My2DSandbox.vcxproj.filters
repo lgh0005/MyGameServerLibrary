@@ -64,7 +64,13 @@
     <ClCompile Include="FlipbookUtils.cpp">
       <Filter>소스 파일\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="UIController.cpp">
+    <ClCompile Include="MyPlayerNetworkState.cpp">
+      <Filter>소스 파일\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletState.cpp">
+      <Filter>소스 파일\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="MainUIController.cpp">
       <Filter>소스 파일\Scripts</Filter>
     </ClCompile>
   </ItemGroup>
@@ -108,7 +114,13 @@
     <ClInclude Include="FlipbookUtils.h">
       <Filter>소스 파일\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="UIController.h">
+    <ClInclude Include="MyPlayerNetworkState.h">
+      <Filter>소스 파일\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletState.h">
+      <Filter>소스 파일\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="MainUIController.h">
       <Filter>소스 파일\Scripts</Filter>
     </ClInclude>
   </ItemGroup>

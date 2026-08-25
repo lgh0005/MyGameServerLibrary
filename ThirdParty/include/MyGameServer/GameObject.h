@@ -57,9 +57,6 @@ namespace MGSL::Server
 	//   default packet setter and getter   //
 	//======================================*/
 	public:
-		void SetObjectInfo(const ::Protobuf::ObjectInfo& info);
-		::Protobuf::ObjectInfo& GetObjectInfo();
-
 		void SetGameRoom(Net::GameRoomPtr room) { m_gameRoom = room; }
 		Net::GameRoomPtr GetGameRoom() const { return m_gameRoom.lock(); }
 		void SetGameSession(Net::GameSessionPtr session) { m_gameSession = session; }
@@ -68,7 +65,6 @@ namespace MGSL::Server
 	private:
 		GameObject();
 
-		::Protobuf::ObjectInfo m_info;
 		Net::GameRoomWPtr m_gameRoom;
 		Net::GameSessionWPtr m_gameSession;
 

@@ -17,23 +17,20 @@
     <Filter Include="소스 파일\Manager">
       <UniqueIdentifier>{ed8b2260-09f9-4a7f-a766-0beca6cf5e17}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Contents">
-      <UniqueIdentifier>{4d002513-24cb-4dae-ae26-b072438f0674}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Contents\Entities">
-      <UniqueIdentifier>{014e71b9-cd7c-4d35-9ced-2c1573d4cef7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Contents\Components">
-      <UniqueIdentifier>{497519ef-0e79-4e9a-b637-a2453392d0f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Contents\Collision">
-      <UniqueIdentifier>{36dd4b30-8871-47c0-a0d0-a07becc43aaf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Contents\Clients">
-      <UniqueIdentifier>{d0306593-bc6e-402d-b05f-0a8712b3906c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Utils">
       <UniqueIdentifier>{1e1ba35f-13f4-467f-b46c-606cbcd119a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Clients">
+      <UniqueIdentifier>{d0306593-bc6e-402d-b05f-0a8712b3906c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Collision">
+      <UniqueIdentifier>{36dd4b30-8871-47c0-a0d0-a07becc43aaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Components">
+      <UniqueIdentifier>{497519ef-0e79-4e9a-b637-a2453392d0f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Entities">
+      <UniqueIdentifier>{014e71b9-cd7c-4d35-9ced-2c1573d4cef7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -56,13 +53,13 @@
       <Filter>소스 파일\Network</Filter>
     </ClCompile>
     <ClCompile Include="Component.cpp">
-      <Filter>소스 파일\Contents\Entities</Filter>
+      <Filter>소스 파일\Entities</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>소스 파일\Contents\Entities</Filter>
+      <Filter>소스 파일\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Server.cpp">
-      <Filter>소스 파일\Contents\Entities</Filter>
+      <Filter>소스 파일\Entities</Filter>
     </ClCompile>
     <ClCompile Include="ObjectManager.cpp">
       <Filter>소스 파일\Manager</Filter>
@@ -71,40 +68,46 @@
       <Filter>소스 파일\Manager</Filter>
     </ClCompile>
     <ClCompile Include="AABB.cpp">
-      <Filter>소스 파일\Contents\Collision</Filter>
+      <Filter>소스 파일\Collision</Filter>
     </ClCompile>
     <ClCompile Include="ColliderFunctor.cpp">
-      <Filter>소스 파일\Contents\Collision</Filter>
+      <Filter>소스 파일\Collision</Filter>
     </ClCompile>
     <ClCompile Include="BoxCollider.cpp">
-      <Filter>소스 파일\Contents\Components</Filter>
+      <Filter>소스 파일\Components</Filter>
     </ClCompile>
     <ClCompile Include="CharacterBody2D.cpp">
-      <Filter>소스 파일\Contents\Components</Filter>
+      <Filter>소스 파일\Components</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
-      <Filter>소스 파일\Contents\Entities</Filter>
+      <Filter>소스 파일\Entities</Filter>
     </ClCompile>
     <ClCompile Include="ClientBehaviour.cpp">
-      <Filter>소스 파일\Contents\Components</Filter>
+      <Filter>소스 파일\Components</Filter>
     </ClCompile>
     <ClCompile Include="PlayerController.cpp">
-      <Filter>소스 파일\Contents\Clients</Filter>
+      <Filter>소스 파일\Clients</Filter>
     </ClCompile>
     <ClCompile Include="ServerCollisionManager.cpp">
       <Filter>소스 파일\Manager</Filter>
     </ClCompile>
     <ClCompile Include="CollisionResolveInfo.cpp">
-      <Filter>소스 파일\Contents\Collision</Filter>
+      <Filter>소스 파일\Collision</Filter>
     </ClCompile>
     <ClCompile Include="VirtualScene.cpp">
-      <Filter>소스 파일\Contents\Entities</Filter>
+      <Filter>소스 파일\Entities</Filter>
     </ClCompile>
     <ClCompile Include="VirtualSandbox2DScene.cpp">
-      <Filter>소스 파일\Contents\Clients</Filter>
+      <Filter>소스 파일\Clients</Filter>
     </ClCompile>
     <ClCompile Include="ColorUtils.cpp">
       <Filter>소스 파일\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="INetworkState.cpp">
+      <Filter>소스 파일\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletController.cpp">
+      <Filter>소스 파일\Clients</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -124,13 +127,13 @@
       <Filter>소스 파일\Network</Filter>
     </ClInclude>
     <ClInclude Include="Component.h">
-      <Filter>소스 파일\Contents\Entities</Filter>
+      <Filter>소스 파일\Entities</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>소스 파일\Contents\Entities</Filter>
+      <Filter>소스 파일\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Server.h">
-      <Filter>소스 파일\Contents\Entities</Filter>
+      <Filter>소스 파일\Entities</Filter>
     </ClInclude>
     <ClInclude Include="ObjectManager.h">
       <Filter>소스 파일\Manager</Filter>
@@ -145,45 +148,51 @@
       <Filter>소스 파일\Manager</Filter>
     </ClInclude>
     <ClInclude Include="AABB.h">
-      <Filter>소스 파일\Contents\Collision</Filter>
+      <Filter>소스 파일\Collision</Filter>
     </ClInclude>
     <ClInclude Include="ColliderFunctor.h">
-      <Filter>소스 파일\Contents\Collision</Filter>
+      <Filter>소스 파일\Collision</Filter>
     </ClInclude>
     <ClInclude Include="BoxCollider.h">
-      <Filter>소스 파일\Contents\Components</Filter>
+      <Filter>소스 파일\Components</Filter>
     </ClInclude>
     <ClInclude Include="CharacterBody2D.h">
-      <Filter>소스 파일\Contents\Components</Filter>
+      <Filter>소스 파일\Components</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
-      <Filter>소스 파일\Contents\Entities</Filter>
+      <Filter>소스 파일\Entities</Filter>
     </ClInclude>
     <ClInclude Include="ClientBehaviour.h">
-      <Filter>소스 파일\Contents\Components</Filter>
+      <Filter>소스 파일\Components</Filter>
     </ClInclude>
     <ClInclude Include="PlayerController.h">
-      <Filter>소스 파일\Contents\Clients</Filter>
+      <Filter>소스 파일\Clients</Filter>
     </ClInclude>
     <ClInclude Include="ServerCollisionManager.h">
       <Filter>소스 파일\Manager</Filter>
     </ClInclude>
     <ClInclude Include="CollisionResolveInfo.h">
-      <Filter>소스 파일\Contents\Collision</Filter>
+      <Filter>소스 파일\Collision</Filter>
     </ClInclude>
     <ClInclude Include="VirtualScene.h">
-      <Filter>소스 파일\Contents\Entities</Filter>
+      <Filter>소스 파일\Entities</Filter>
     </ClInclude>
     <ClInclude Include="VirtualSandbox2DScene.h">
-      <Filter>소스 파일\Contents\Clients</Filter>
+      <Filter>소스 파일\Clients</Filter>
     </ClInclude>
     <ClInclude Include="ColorUtils.h">
       <Filter>소스 파일\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="INetworkState.h">
+      <Filter>소스 파일\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletController.h">
+      <Filter>소스 파일\Clients</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="GameObject.inl">
-      <Filter>소스 파일\Contents\Entities</Filter>
+      <Filter>소스 파일\Entities</Filter>
     </None>
     <None Include="ObjectManager.inl">
       <Filter>소스 파일\Manager</Filter>

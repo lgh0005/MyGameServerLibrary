@@ -16,9 +16,10 @@
 
 #include "FlipbookUtils.h"
 #include "CameraController.h"
+#include "MyPlayerNetworkState.h"
 #include "MyPlayerController.h"
 #include "MyPlayerStateMachine.h"
-#include "UIController.h"
+#include "MainUIController.h"
 
 namespace MGSL::Sandbox2D
 {
@@ -295,13 +296,17 @@ namespace MGSL::Sandbox2D
 		playerCollider->SetDebugOffset(Shared::vec2(0.0f, -0.2f));
 		MGSL_COLLIDE_MGR.Register(playerCollider);
 
-		// PlayerController & MyPlayerStateMachine
-		MyPlayerController* playerController = MGSL_OBJECT_MGR.AddComponent<MyPlayerController>(player);
-		MyPlayerStateMachine* statemachine = MGSL_OBJECT_MGR.AddComponent<MyPlayerStateMachine>(player);
+		// PlayerNetworkState
+		if (!MGSL_OBJECT_MGR.AddComponent<MyPlayerNetworkState>(player)) return;
+
+		// PlayerController
+		if (!MGSL_OBJECT_MGR.AddComponent<MyPlayerController>(player)) return;
+
+		// PlayerStateMachine
+		if (!MGSL_OBJECT_MGR.AddComponent<MyPlayerStateMachine>(player)) return;
 
 		// CharacterBody2D
-		Framework::CharacterBody2D* characterBody = MGSL_OBJECT_MGR.AddComponent<Framework::CharacterBody2D>(player);
-		if (!characterBody) return;
+		Framework::CharacterBody2D* characterBody = MGSL_OBJECT_MGR.AddComponent<Framework::CharacterBody2D>(player); if (!characterBody) return;
 		characterBody->SetGravity(-11.0f);
 
 		// Hitbox : Left
@@ -345,7 +350,7 @@ namespace MGSL::Sandbox2D
 		Framework::GameObject* hudCanvas = MGSL_OBJECT_MGR.CreateGameObject(this); if (!hudCanvas) return;
 		Framework::UICanvas* canvas = MGSL_OBJECT_MGR.AddComponent<Framework::UICanvas>(hudCanvas);
 		canvas->SetCanvasSize(referenceResolution);
-		UIController* uiController = MGSL_OBJECT_MGR.AddComponent<UIController>(hudCanvas); if (!uiController) return;
+		MainUIController* uiController = MGSL_OBJECT_MGR.AddComponent<MainUIController>(hudCanvas); if (!uiController) return;
 
 		// TEMP : Face
 		Framework::GameObject* faceObject = MGSL_OBJECT_MGR.CreateGameObject(this); if (!faceObject) return;
@@ -411,7 +416,5 @@ namespace MGSL::Sandbox2D
 		// UIController 세팅
 		uiController->SetHeartCount(heartCount);
 		uiController->SetKillCount(0);
-		uiController->SetWeaponType(EWeaponType::FIGHTER);
-		statemachine->SetUIController(uiController);
 	}
 }

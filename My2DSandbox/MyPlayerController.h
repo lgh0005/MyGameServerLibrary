@@ -5,6 +5,7 @@ namespace MGSL::Framework { MGSL_CLASS_PTR(CharacterBody2D) }
 
 namespace MGSL::Sandbox2D
 {
+	MGSL_CLASS_PTR(MyPlayerNetworkState)
 	MGSL_CLASS_PTR(MyPlayerController)
 
 	/*===============================//
@@ -34,6 +35,9 @@ namespace MGSL::Sandbox2D
 		float m_jumpPower = 3.5f;
 		::Protobuf::DIR_TYPE m_prevMoveDir = ::Protobuf::DIR_TYPE_NONE;
 		Framework::CharacterBody2D* m_characterBody = nullptr;
+
+		// 상태 조회
+		MyPlayerNetworkState* m_playerNetworkState = nullptr;
 
 	/*========================//
 	//   Packet Test Methods  //
