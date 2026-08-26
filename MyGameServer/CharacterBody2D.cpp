@@ -21,7 +21,8 @@ namespace MGSL::Server
 		m_isGrounded = false;
 
 		// 중력 적용
-		m_velocityY += m_gravity * deltaTime;
+		if (m_isGravityEnabled)
+			m_velocityY += m_gravity * deltaTime;
 
 		// 실제 이동
 		GetTransform().Translate(Shared::vec3(m_velocityX * deltaTime, m_velocityY * deltaTime, 0.0f));
@@ -58,6 +59,24 @@ namespace MGSL::Server
 	//============================*/
 	void CharacterBody2D::SetGravity(float gravity) { m_gravity = gravity; }
 	float CharacterBody2D::GetGravity() const { return m_gravity; }
+	void CharacterBody2D::SetGravityEnabled(bool enabled)
+	{
+		m_isGravityEnabled = enabled;
+	}
+
+	bool CharacterBody2D::IsGravityEnabled() const
+	{
+		return m_isGravityEnabled;
+	}
+	void CharacterBody2D::SetIgnorePlatform(bool ignore)
+	{
+		m_ignorePlatform = ignore;
+	}
+
+	bool CharacterBody2D::IsIgnoringPlatform() const
+	{
+		return m_ignorePlatform;
+	}
 	void CharacterBody2D::SetMass(float mass) { if (mass <= 0.0f) return; m_mass = mass; }
 	float CharacterBody2D::GetMass() const { return m_mass; }
 }

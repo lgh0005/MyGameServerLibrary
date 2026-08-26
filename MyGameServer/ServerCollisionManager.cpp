@@ -438,7 +438,12 @@ namespace MGSL::Server
 	{
 		if (!staticCollider || !dynamicCollider || !dynamicBody) return;
 
+		// 플랫폼 무시 상태라면 충돌 해결하지 않음
+		if (dynamicBody->IsIgnoringPlatform())
+			return;
+
 		// 위로 이동 중이면 플랫폼 통과
+		// TODO : 이것도 무시 상태에 포함시킬 수 잇음
 		if (dynamicBody->GetVerticalVelocity() > 0.0f)
 			return;
 

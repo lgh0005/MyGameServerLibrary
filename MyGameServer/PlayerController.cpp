@@ -61,7 +61,8 @@ namespace MGSL::Server
         //        Movement        //
         //========================*/
         float directionX = 0.0f;
-        switch (m_moveDirection)
+        float directionY = 0.0f;
+        switch (m_horizontalDirection)
         {
             case ::Protobuf::DIR_TYPE_LEFT:
                 directionX = -1.0f;
@@ -77,10 +78,58 @@ namespace MGSL::Server
                 break;
         }
 
+        switch (m_verticalDirection)
+        {
+            case ::Protobuf::DIR_TYPE_UP:
+                directionY = 1.0f;
+                break;
+
+            case ::Protobuf::DIR_TYPE_DOWN:
+                directionY = -1.0f;
+                break;
+
+            default:
+                break;
+        }
+
+        /*========================//
+        //         Ladder         //
+        //========================*/
+        if (m_isOnLadder && directionY != 0.0f)
+        {
+            if (!m_isClimbing)
+            {
+                m_isClimbing = true;
+                body->SetVerticalVelocity(0.0f);
+            }
+        }
+
+        if (!m_isOnLadder)
+        {
+            m_isClimbing = false;
+        }
+
+        if (m_isClimbing)
+        {
+            body->SetGravityEnabled(false);
+            body->SetIgnorePlatform(true);
+            body->SetVerticalVelocity(directionY * m_climbSpeed);
+        }
+        else
+        {
+            body->SetGravityEnabled(true);
+            body->SetIgnorePlatform(false);
+        }
+
         /*========================//
         //          State         //
         //========================*/
-        if (!body->IsGrounded())
+        if (m_isClimbing)
+        {
+            m_info.set_state(
+                ::Protobuf::OBJECT_STATE_TYPE_CLIMB);
+        }
+        else if (!body->IsGrounded())
         {
             if (body->GetVerticalVelocity() > 0.0f) m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_JUMP);
             else m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_FALL);
@@ -89,7 +138,7 @@ namespace MGSL::Server
         {
             if (directionX != 0.0f)
             {
-                if (m_isRunning)  m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_RUN);
+                if (m_isRunning) m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_RUN);
                 else m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_WALK);
             }
             else
@@ -118,34 +167,72 @@ namespace MGSL::Server
         HandleHitboxTrigger(other);
     }
 
+    void PlayerController::OnTriggerExit(BoxCollider* other)
+    {
+        if (!other) return;
+
+        switch (other->GetCollisionLayer())
+        {
+        case ECollisionLayer::LADDER:
+        {
+            m_isOnLadder = false;
+            m_isClimbing = false;
+            break;
+        }
+
+        default:
+            break;
+        }
+    }
+
     void PlayerController::HandleHitboxTrigger(BoxCollider* other)
     {
         if (!other) return;
-        if (other->GetCollisionLayer() != ECollisionLayer::HITBOX) return;
 
-        GameObject* hitboxObject = other->GetOwner();
-        if (!hitboxObject) return;
+        switch (other->GetCollisionLayer())
+        {
+        case ECollisionLayer::HITBOX:
+        {
+            GameObject* hitboxObject = other->GetOwner();
+            if (!hitboxObject) return;
 
-        GameObject* attacker = hitboxObject->GetParent();
-        if (!attacker) return;
+            GameObject* attacker = hitboxObject->GetParent();
+            if (!attacker) return;
 
-        PlayerController* attackerController = attacker->GetComponent<PlayerController>();
-        if (!attackerController) return;
+            PlayerController* attackerController =
+                attacker->GetComponent<PlayerController>();
 
-        // 실제 공격 중이 아니면 충돌은 있었어도 Hit로 인정하지 않음
-        if (!attackerController->IsAttacking()) return;
+            if (!attackerController) return;
 
-        const Shared::uint64 targetID = GetObjectID();
-        if (!attackerController->RegisterHitTarget(targetID))
-            return;
+            // 실제 공격 중이 아니면 충돌은 있었어도 Hit로 인정하지 않음
+            if (!attackerController->IsAttacking())
+                return;
 
-        // DEBUG
-        MGSL_LOG_INFO
-        (
-            "HITBOX collision detected. Attacker = {}, Target = {}",
-            attackerController->GetObjectID(),
-            targetID
-        );
+            const Shared::uint64 targetID =
+                GetObjectID();
+
+            if (!attackerController->RegisterHitTarget(targetID))
+                return;
+
+            MGSL_LOG_INFO
+            (
+                "HITBOX collision detected. Attacker = {}, Target = {}",
+                attackerController->GetObjectID(),
+                targetID
+            );
+
+            break;
+        }
+
+        case ECollisionLayer::LADDER:
+        {
+            m_isOnLadder = true;
+            break;
+        }
+
+        default:
+            break;
+        }
     }
 
     bool PlayerController::RegisterHitTarget(Shared::uint64 objectID)
@@ -214,9 +301,14 @@ namespace MGSL::Server
         }
     }
 
-    void PlayerController::SetMoveDirection(::Protobuf::DIR_TYPE dir)
+    void PlayerController::SetHorizontalDirection(::Protobuf::DIR_TYPE dir)
     {
-        m_moveDirection = dir;
+        m_horizontalDirection = dir;
+    }
+
+    void PlayerController::SetVerticalDirection(::Protobuf::DIR_TYPE dir)
+    {
+        m_verticalDirection = dir;
     }
 
     void PlayerController::SetRunning(bool running)
@@ -229,9 +321,14 @@ namespace MGSL::Server
         m_info.set_weapon(weapon);
     }
 
-    ::Protobuf::DIR_TYPE PlayerController::GetMoveDirection() const
+    ::Protobuf::DIR_TYPE PlayerController::GetHorizontalDirection() const
     {
-        return m_moveDirection;
+        return m_horizontalDirection;
+    }
+
+    ::Protobuf::DIR_TYPE PlayerController::GetVerticalDirection() const
+    {
+        return m_verticalDirection;
     }
 
     Protobuf::OBJECT_STATE_TYPE PlayerController::GetState() const

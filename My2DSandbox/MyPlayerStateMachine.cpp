@@ -27,6 +27,7 @@ namespace MGSL::Sandbox2D
 		if (m_prevFacing != m_playerNetworkState->GetFacing()) ApplyFacing();
 		if (m_prevWeapon != m_playerNetworkState->GetWeapon()) ApplyWeapon();
 		if (m_prevColor != m_playerNetworkState->GetColor()) ApplyColor();
+		UpdateClimbAnimation();
 	}
 
 	void MyPlayerStateMachine::ApplyState()
@@ -58,5 +59,23 @@ namespace MGSL::Sandbox2D
 		const Shared::vec4 color = m_playerNetworkState->GetColor();
 		m_prevColor = color;
 		m_flipbookPlayer->SetColor(color);
+	}
+
+	void MyPlayerStateMachine::UpdateClimbAnimation()
+	{
+		if (m_playerNetworkState->GetState() != ::Protobuf::OBJECT_STATE_TYPE_CLIMB)
+		{
+			return;
+		}
+
+		const float verticalVelocity = m_playerNetworkState->GetVerticalVelocity();
+		if (std::abs(verticalVelocity) > 0.01f)
+		{
+			m_flipbookPlayer->Play();
+		}
+		else
+		{
+			m_flipbookPlayer->Pause();
+		}
 	}
 }

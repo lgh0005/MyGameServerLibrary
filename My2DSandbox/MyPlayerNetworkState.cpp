@@ -19,6 +19,8 @@ namespace MGSL::Sandbox2D
     
 	::Protobuf::WEAPON_TYPE MyPlayerNetworkState::GetWeapon() const { return GetInfo().weapon(); }
 	
+	float MyPlayerNetworkState::GetVerticalVelocity() const { return GetInfo().velocity().y(); }
+
 	Shared::vec4 MyPlayerNetworkState::GetColor() const
 	{
 		const auto& color = GetInfo().color();

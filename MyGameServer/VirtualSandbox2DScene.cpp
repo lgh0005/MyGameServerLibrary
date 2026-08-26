@@ -68,7 +68,7 @@ namespace MGSL::Server
 		ladder1Collider->SetMobility(EColliderMobility::STATIC);
 		ladder1Collider->SetCollisionLayer(ECollisionLayer::LADDER);
 		ladder1Collider->SetTrigger(true);
-		ladder1Collider->SetSize(Shared::vec2(0.65f, 3.95f));
+		ladder1Collider->SetSize(Shared::vec2(0.3575f, 1.67875f));
 		ladder1Collider->SetOffset(Shared::vec2(-0.02f, 0.06f));
 		MGSL_SERVER_COLLISION_MGR.Register(ladder1Collider);
 
@@ -89,7 +89,7 @@ namespace MGSL::Server
 		ladder2Collider->SetMobility(EColliderMobility::STATIC);
 		ladder2Collider->SetCollisionLayer(ECollisionLayer::LADDER);
 		ladder2Collider->SetTrigger(true);
-		ladder2Collider->SetSize(Shared::vec2(0.65f, 3.95f));
+		ladder2Collider->SetSize(Shared::vec2(0.2925f, 1.58f));
 		ladder2Collider->SetOffset(Shared::vec2(-0.02f, 0.06f));
 		MGSL_SERVER_COLLISION_MGR.Register(ladder2Collider);
 
@@ -110,7 +110,7 @@ namespace MGSL::Server
 		ladder3Collider->SetMobility(EColliderMobility::STATIC);
 		ladder3Collider->SetCollisionLayer(ECollisionLayer::LADDER);
 		ladder3Collider->SetTrigger(true);
-		ladder3Collider->SetSize(Shared::vec2(0.65f, 3.8f));
+		ladder3Collider->SetSize(Shared::vec2(0.4225f, 1.9f));
 		ladder3Collider->SetOffset(Shared::vec2(-0.02f, 0.06f));
 		MGSL_SERVER_COLLISION_MGR.Register(ladder3Collider);
 
@@ -131,7 +131,7 @@ namespace MGSL::Server
 		ladder4Collider->SetMobility(EColliderMobility::STATIC);
 		ladder4Collider->SetCollisionLayer(ECollisionLayer::LADDER);
 		ladder4Collider->SetTrigger(true);
-		ladder4Collider->SetSize(Shared::vec2(0.65f, 3.95f));
+		ladder4Collider->SetSize(Shared::vec2(0.2925f, 1.58f));
 		ladder4Collider->SetOffset(Shared::vec2(-0.02f, 0.06f));
 		MGSL_SERVER_COLLISION_MGR.Register(ladder4Collider);
 	}

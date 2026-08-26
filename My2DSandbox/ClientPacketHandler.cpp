@@ -71,10 +71,11 @@ namespace MGSL::Net
 		return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::C_EnterGame));
 	}
 
-	SendBufferPtr ClientPacketHandler::Make_C_Move(::Protobuf::DIR_TYPE dir, bool running)
+	SendBufferPtr ClientPacketHandler::Make_C_Move(::Protobuf::DIR_TYPE horizontalDir, ::Protobuf::DIR_TYPE verticalDir, bool running)
 	{
 		::Protobuf::C_Move pkt;
-		pkt.set_dir(dir);
+		pkt.set_horizontal_dir(horizontalDir);
+		pkt.set_vertical_dir(verticalDir);
 		pkt.set_running(running);
 		return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::C_Move));
 	}
@@ -168,6 +169,7 @@ namespace MGSL::Net
 			// 5. CharacterBody2D 부착
 			Framework::CharacterBody2D* body = MGSL_OBJECT_MGR.AddComponent<Framework::CharacterBody2D>(otherPlayer);
 			if (!body) continue;
+			body->SetGravity(-11.0f);
 
 			// 6. MyPlayerStateMachine 부착
 			Sandbox2D::MyPlayerStateMachine* stateMachine = MGSL_OBJECT_MGR.AddComponent<Sandbox2D::MyPlayerStateMachine>(otherPlayer);

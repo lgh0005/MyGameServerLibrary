@@ -26,6 +26,7 @@ namespace MGSL::Server
 		virtual void Update(float deltaTime) override;
 		virtual void OnTriggerEnter(BoxCollider* other) override;
 		virtual void OnTriggerStay(BoxCollider* other) override;
+		virtual void OnTriggerExit(BoxCollider* other) override;
 		void Attack();
 
 	private:
@@ -33,12 +34,14 @@ namespace MGSL::Server
 		bool RegisterHitTarget(Shared::uint64 objectID);
 
 	public:
-		void SetMoveDirection(::Protobuf::DIR_TYPE dir);
+		void SetHorizontalDirection(::Protobuf::DIR_TYPE dir);
+		void SetVerticalDirection(::Protobuf::DIR_TYPE dir);
 		void SetRunning(bool running);
 		void SetWeapon(Protobuf::WEAPON_TYPE weapon);
 
 	public:
-		Protobuf::DIR_TYPE GetMoveDirection() const;
+		::Protobuf::DIR_TYPE GetHorizontalDirection() const;
+		::Protobuf::DIR_TYPE GetVerticalDirection() const;
 		Protobuf::OBJECT_STATE_TYPE GetState() const;
 		Protobuf::FACING_TYPE GetFacing() const;
 		Protobuf::WEAPON_TYPE GetWeapon() const;
@@ -62,12 +65,18 @@ namespace MGSL::Server
 		::Protobuf::PlayerInfo m_info;
 
 		// 인풋과 움직임 상태
-		Protobuf::DIR_TYPE m_moveDirection = ::Protobuf::DIR_TYPE_NONE;
+		::Protobuf::DIR_TYPE m_horizontalDirection = ::Protobuf::DIR_TYPE_NONE;
+		::Protobuf::DIR_TYPE m_verticalDirection = ::Protobuf::DIR_TYPE_NONE;
 
 		// 이동 관련 멤버
 		float m_moveSpeed = 3.0f;
 		float m_runSpeed = 4.5f;
 		bool m_isRunning = false;
+
+		// 사다리 관련 멤버
+		float m_climbSpeed = 2.5f;
+		bool m_isOnLadder = false;
+		bool m_isClimbing = false;
 
 		// 공격 관련 멤버
 		bool m_isAttacking = false;

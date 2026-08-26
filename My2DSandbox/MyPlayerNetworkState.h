@@ -18,6 +18,7 @@ namespace MGSL::Sandbox2D
 		::Protobuf::OBJECT_STATE_TYPE GetState() const;
 		::Protobuf::FACING_TYPE GetFacing()		 const;
 		::Protobuf::WEAPON_TYPE GetWeapon()		 const;
+		float GetVerticalVelocity()				 const;
 		Shared::vec4 GetColor()					 const;
 
 	private:

@@ -82,17 +82,20 @@ namespace MGSL::Net
 		auto* playerController = player->GetComponent<Server::PlayerController>();
 		if (!playerController) return;
 
-		const auto dir = pkt.dir();
+		const auto horizontalDir = pkt.horizontal_dir();
+		const auto verticalDir = pkt.vertical_dir();
 		const bool running = pkt.running();
-		playerController->SetMoveDirection(dir);
+		playerController->SetHorizontalDirection(horizontalDir);
+		playerController->SetVerticalDirection(verticalDir);
 		playerController->SetRunning(running);
 
 		// DEBUF
 		MGSL_LOG_INFO
 		(
-			"C_Move received. ObjectID = {}, Dir = {}, Running = {}",
+			"C_Move received. ObjectID = {}, Horizontal = {}, Vertical = {}, Running = {}",
 			playerController->GetObjectID(),
-			static_cast<int>(dir),
+			static_cast<int>(horizontalDir),
+			static_cast<int>(verticalDir),
 			running
 		);
 	}

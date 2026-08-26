@@ -72,6 +72,7 @@ namespace MGSL::Net
 		player->GetTransform().SetScale(Shared::vec3(1.25f));
 		Server::PlayerController* controller = MGSL_OBJECT_MGR.AddComponent<Server::PlayerController>(player); if (!controller) return;
 		Server::CharacterBody2D* body = MGSL_OBJECT_MGR.AddComponent<Server::CharacterBody2D>(player); if (!body) return;
+		body->SetGravity(-11.0f);
 		Server::BoxCollider* playerCollider = MGSL_OBJECT_MGR.AddComponent<Server::BoxCollider>(player); if (!playerCollider) return;
 
 		controller->SetObjectID(MGSL_OBJECT_MGR.GenerateNetworkObjectID());

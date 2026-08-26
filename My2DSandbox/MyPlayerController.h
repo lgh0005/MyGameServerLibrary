@@ -29,11 +29,12 @@ namespace MGSL::Sandbox2D
 		void HandleAttackInput();
 
 		// 이동 처리
-		bool m_prevRunning = false;
 		float m_moveSpeed = 3.0f;
 		float m_runSpeed = 4.5f;
 		float m_jumpPower = 3.5f;
-		::Protobuf::DIR_TYPE m_prevMoveDir = ::Protobuf::DIR_TYPE_NONE;
+		bool m_prevRunning = false;
+		::Protobuf::DIR_TYPE m_prevHorizontalDir = ::Protobuf::DIR_TYPE_NONE;
+		::Protobuf::DIR_TYPE m_prevVerticalDir = ::Protobuf::DIR_TYPE_NONE;
 		Framework::CharacterBody2D* m_characterBody = nullptr;
 
 		// 상태 조회
@@ -43,7 +44,12 @@ namespace MGSL::Sandbox2D
 	//   Packet Test Methods  //
 	//========================*/
 	private:
-		void SendMovePacket(::Protobuf::DIR_TYPE dir, bool running);
+		void SendMovePacket
+		(
+			::Protobuf::DIR_TYPE horizontalDir,
+			::Protobuf::DIR_TYPE verticalDir,
+			bool running
+		);
 		void SendJumpPacket();
 		void SendChangeWeaponPacket(::Protobuf::WEAPON_TYPE weapon);
 		void SendAttackPacket();

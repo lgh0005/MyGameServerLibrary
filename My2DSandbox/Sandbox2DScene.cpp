@@ -311,19 +311,37 @@ namespace MGSL::Sandbox2D
 
 		// Hitbox : Left
 		Framework::GameObject* leftHitbox = MGSL_OBJECT_MGR.CreateGameObject(this);
+		leftHitbox->GetTransform().SetPosition(Shared::vec3(-0.4f, -0.2f, 0.0f));
 		Framework::BoxCollider* lHitbox = MGSL_OBJECT_MGR.AddComponent<Framework::BoxCollider>(leftHitbox);
+		lHitbox->SetTrigger(true);
 		lHitbox->SetDebugSize(Shared::vec2(0.3f, 0.3f));
-		lHitbox->SetDebugOffset(Shared::vec2(0.4f, -0.2f));
 		player->AddChild(leftHitbox);
 		MGSL_COLLIDE_MGR.Register(lHitbox);
 
 		// Hitbox : Right
 		Framework::GameObject* rightHitbox = MGSL_OBJECT_MGR.CreateGameObject(this);
+		rightHitbox->GetTransform().SetPosition(Shared::vec3(0.4f, -0.2f, 0.0f));
 		Framework::BoxCollider* rHitbox = MGSL_OBJECT_MGR.AddComponent<Framework::BoxCollider>(rightHitbox);
+		rHitbox->SetTrigger(true);
 		rHitbox->SetDebugSize(Shared::vec2(0.3f, 0.3f));
-		rHitbox->SetDebugOffset(Shared::vec2(-0.4f, -0.2f));
 		player->AddChild(rightHitbox);
 		MGSL_COLLIDE_MGR.Register(rHitbox);
+
+		// BulletSpawner : Left
+		Framework::GameObject* leftBulletSpawner = MGSL_OBJECT_MGR.CreateGameObject(this);
+		leftBulletSpawner->GetTransform().SetPosition(Shared::vec3(-0.45f, -0.15f, 0.0f));
+		Framework::SpriteRenderer* leftSpawnerGizmo = MGSL_OBJECT_MGR.AddComponent<Framework::SpriteRenderer>(leftBulletSpawner); if (!leftSpawnerGizmo) return;
+		leftSpawnerGizmo->SetAtlasTexture(background3);
+		leftSpawnerGizmo->SetSize(Shared::vec2(0.0625f, 0.0625f));
+		player->AddChild(leftBulletSpawner);
+
+		// BulletSpawner : Right
+		Framework::GameObject* rightBulletSpawner = MGSL_OBJECT_MGR.CreateGameObject(this);
+		rightBulletSpawner->GetTransform().SetPosition(Shared::vec3(0.45f, -0.15f, 0.0f));
+		Framework::SpriteRenderer* rightSpawnerGizmo = MGSL_OBJECT_MGR.AddComponent<Framework::SpriteRenderer>(rightBulletSpawner); if (!rightSpawnerGizmo) return;
+		rightSpawnerGizmo->SetAtlasTexture(background3);
+		rightSpawnerGizmo->SetSize(Shared::vec2(0.0625f, 0.0625f));
+		player->AddChild(rightBulletSpawner);
 
 		/*===========================//
 		//   Scene camera creation   //

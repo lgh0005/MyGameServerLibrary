@@ -13,8 +13,9 @@ message C_Attack { }
 
 message C_Move
 {
-    DIR_TYPE dir = 1;
-    bool running = 2;
+    DIR_TYPE horizontal_dir = 1;
+    DIR_TYPE vertical_dir = 2;
+    bool running = 3;
 }
 
 message C_ChangeWeapon

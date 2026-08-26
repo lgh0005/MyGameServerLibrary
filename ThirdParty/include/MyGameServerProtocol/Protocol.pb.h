@@ -578,19 +578,29 @@ class C_Move final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kDirFieldNumber = 1,
-    kRunningFieldNumber = 2,
+    kHorizontalDirFieldNumber = 1,
+    kVerticalDirFieldNumber = 2,
+    kRunningFieldNumber = 3,
   };
-  // .Protobuf.DIR_TYPE dir = 1;
-  void clear_dir();
-  ::Protobuf::DIR_TYPE dir() const;
-  void set_dir(::Protobuf::DIR_TYPE value);
+  // .Protobuf.DIR_TYPE horizontal_dir = 1;
+  void clear_horizontal_dir();
+  ::Protobuf::DIR_TYPE horizontal_dir() const;
+  void set_horizontal_dir(::Protobuf::DIR_TYPE value);
   private:
-  ::Protobuf::DIR_TYPE _internal_dir() const;
-  void _internal_set_dir(::Protobuf::DIR_TYPE value);
+  ::Protobuf::DIR_TYPE _internal_horizontal_dir() const;
+  void _internal_set_horizontal_dir(::Protobuf::DIR_TYPE value);
   public:
 
-  // bool running = 2;
+  // .Protobuf.DIR_TYPE vertical_dir = 2;
+  void clear_vertical_dir();
+  ::Protobuf::DIR_TYPE vertical_dir() const;
+  void set_vertical_dir(::Protobuf::DIR_TYPE value);
+  private:
+  ::Protobuf::DIR_TYPE _internal_vertical_dir() const;
+  void _internal_set_vertical_dir(::Protobuf::DIR_TYPE value);
+  public:
+
+  // bool running = 3;
   void clear_running();
   bool running() const;
   void set_running(bool value);
@@ -607,7 +617,8 @@ class C_Move final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    int dir_;
+    int horizontal_dir_;
+    int vertical_dir_;
     bool running_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -1739,27 +1750,47 @@ class S_SyncBullet final :
 
 // C_Move
 
-// .Protobuf.DIR_TYPE dir = 1;
-inline void C_Move::clear_dir() {
-  _impl_.dir_ = 0;
+// .Protobuf.DIR_TYPE horizontal_dir = 1;
+inline void C_Move::clear_horizontal_dir() {
+  _impl_.horizontal_dir_ = 0;
 }
-inline ::Protobuf::DIR_TYPE C_Move::_internal_dir() const {
-  return static_cast< ::Protobuf::DIR_TYPE >(_impl_.dir_);
+inline ::Protobuf::DIR_TYPE C_Move::_internal_horizontal_dir() const {
+  return static_cast< ::Protobuf::DIR_TYPE >(_impl_.horizontal_dir_);
 }
-inline ::Protobuf::DIR_TYPE C_Move::dir() const {
-  // @@protoc_insertion_point(field_get:Protobuf.C_Move.dir)
-  return _internal_dir();
+inline ::Protobuf::DIR_TYPE C_Move::horizontal_dir() const {
+  // @@protoc_insertion_point(field_get:Protobuf.C_Move.horizontal_dir)
+  return _internal_horizontal_dir();
 }
-inline void C_Move::_internal_set_dir(::Protobuf::DIR_TYPE value) {
+inline void C_Move::_internal_set_horizontal_dir(::Protobuf::DIR_TYPE value) {
   
-  _impl_.dir_ = value;
+  _impl_.horizontal_dir_ = value;
 }
-inline void C_Move::set_dir(::Protobuf::DIR_TYPE value) {
-  _internal_set_dir(value);
-  // @@protoc_insertion_point(field_set:Protobuf.C_Move.dir)
+inline void C_Move::set_horizontal_dir(::Protobuf::DIR_TYPE value) {
+  _internal_set_horizontal_dir(value);
+  // @@protoc_insertion_point(field_set:Protobuf.C_Move.horizontal_dir)
 }
 
-// bool running = 2;
+// .Protobuf.DIR_TYPE vertical_dir = 2;
+inline void C_Move::clear_vertical_dir() {
+  _impl_.vertical_dir_ = 0;
+}
+inline ::Protobuf::DIR_TYPE C_Move::_internal_vertical_dir() const {
+  return static_cast< ::Protobuf::DIR_TYPE >(_impl_.vertical_dir_);
+}
+inline ::Protobuf::DIR_TYPE C_Move::vertical_dir() const {
+  // @@protoc_insertion_point(field_get:Protobuf.C_Move.vertical_dir)
+  return _internal_vertical_dir();
+}
+inline void C_Move::_internal_set_vertical_dir(::Protobuf::DIR_TYPE value) {
+  
+  _impl_.vertical_dir_ = value;
+}
+inline void C_Move::set_vertical_dir(::Protobuf::DIR_TYPE value) {
+  _internal_set_vertical_dir(value);
+  // @@protoc_insertion_point(field_set:Protobuf.C_Move.vertical_dir)
+}
+
+// bool running = 3;
 inline void C_Move::clear_running() {
   _impl_.running_ = false;
 }

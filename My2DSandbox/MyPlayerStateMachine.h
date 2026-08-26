@@ -28,6 +28,8 @@ namespace MGSL::Sandbox2D
 		void ApplyWeapon();
 		void ApplyColor();
 
+		void UpdateClimbAnimation();
+
 	private:
 		MyPlayerNetworkState* m_playerNetworkState = nullptr;
 		Framework::FlipbookPlayer* m_flipbookPlayer = nullptr;

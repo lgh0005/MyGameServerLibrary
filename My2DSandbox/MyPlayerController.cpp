@@ -70,15 +70,25 @@ namespace MGSL::Sandbox2D
 		if (keyboard->GetKeyDown('3')) SendChangeWeaponPacket(::Protobuf::WEAPON_TYPE_SWORD);
 
 		/*========================//
+	    //     Direction Input    //
+	    //========================*/
+		::Protobuf::DIR_TYPE horizontalDir = ::Protobuf::DIR_TYPE_NONE;
+		::Protobuf::DIR_TYPE verticalDir = ::Protobuf::DIR_TYPE_NONE;
+		if (directionX < 0.0f) horizontalDir = ::Protobuf::DIR_TYPE_LEFT;
+		else if (directionX > 0.0f) horizontalDir = ::Protobuf::DIR_TYPE_RIGHT;
+		if (keyboard->GetKeyPress('W')) verticalDir = ::Protobuf::DIR_TYPE_UP;
+		else if (keyboard->GetKeyPress('S')) verticalDir = ::Protobuf::DIR_TYPE_DOWN;
+
+		/*========================//
 		//      Move Packet       //
 		//========================*/
-		::Protobuf::DIR_TYPE moveDir = ::Protobuf::DIR_TYPE_NONE;
-		if (directionX < 0.0f) moveDir = ::Protobuf::DIR_TYPE_LEFT;
-		else if (directionX > 0.0f) moveDir = ::Protobuf::DIR_TYPE_RIGHT;
-		if (moveDir != m_prevMoveDir || isRunning != m_prevRunning)
+		if (horizontalDir != m_prevHorizontalDir ||
+			verticalDir != m_prevVerticalDir ||
+			isRunning != m_prevRunning)
 		{
-			SendMovePacket(moveDir, isRunning);
-			m_prevMoveDir = moveDir;
+			SendMovePacket(horizontalDir, verticalDir, isRunning);
+			m_prevHorizontalDir = horizontalDir;
+			m_prevVerticalDir = verticalDir;
 			m_prevRunning = isRunning;
 		}
 	}
@@ -93,9 +103,9 @@ namespace MGSL::Sandbox2D
 	/*========================//
 	//   Packet Test Methods  //
 	//========================*/
-	void MyPlayerController::SendMovePacket(::Protobuf::DIR_TYPE dir, bool running)
+	void MyPlayerController::SendMovePacket(::Protobuf::DIR_TYPE horizontalDir, ::Protobuf::DIR_TYPE verticalDir, bool running)
 	{
-		auto sendBuffer = Net::ClientPacketHandler::Make_C_Move(dir, running);
+		auto sendBuffer = Net::ClientPacketHandler::Make_C_Move(horizontalDir, verticalDir, running);
 		MGSL_NETWORK_MGR.SendPacket(sendBuffer);
 	}
 

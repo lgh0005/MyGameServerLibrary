@@ -28,7 +28,7 @@ namespace MGSL::Net
 	public:
 		/* Packet Making */
 		static SendBufferPtr Make_C_EnterGame();
-		static SendBufferPtr Make_C_Move(::Protobuf::DIR_TYPE dir, bool running);
+		static SendBufferPtr Make_C_Move(::Protobuf::DIR_TYPE horizontalDir, ::Protobuf::DIR_TYPE verticalDir, bool running);
 		static SendBufferPtr Make_C_Jump();
 		static SendBufferPtr Make_C_ChangeWeapon(::Protobuf::WEAPON_TYPE weapon);
 		static SendBufferPtr Make_C_Attack();

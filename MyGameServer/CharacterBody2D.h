@@ -35,6 +35,10 @@ namespace MGSL::Server
 	public:
 		void SetGravity(float gravity);
 		float GetGravity() const;
+		void SetGravityEnabled(bool enabled);
+		bool IsGravityEnabled() const;
+		void SetIgnorePlatform(bool ignore);
+		bool IsIgnoringPlatform() const;
 		void SetMass(float mass);
 		float GetMass() const;
 
@@ -45,7 +49,10 @@ namespace MGSL::Server
 		float m_velocityX = 0.0f;
 		float m_velocityY = 0.0f;
 		float m_gravity = -9.8f;
+
 		bool m_isGrounded = false;
+		bool m_isGravityEnabled = true;
+		bool m_ignorePlatform = false;
 	};
 }
 
