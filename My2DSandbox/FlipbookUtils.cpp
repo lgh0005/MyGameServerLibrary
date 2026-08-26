@@ -70,6 +70,60 @@ namespace MGSL::Sandbox2D
 		return controller->SetClip(stateIndex, clip);
 	}
 
+	bool FlipbookUtils::AddAtlasRowClip
+	(
+		const Framework::FlipbookControllerPtr& controller,
+		Shared::uint32 stateIndex,
+		Shared::uint32 row,
+		Shared::uint32 startColumn,
+		Shared::usize frameCount,
+		Shared::uint32 columnCount,
+		Shared::uint32 rowCount,
+		float fps,
+		bool loop
+	)
+	{
+		if (!controller) return false;
+		Framework::FlipbookClipPtr clip = MakeAtlasRowClip(row, startColumn, frameCount, columnCount, rowCount, fps, loop);
+		if (!clip) return false;
+		return controller->SetClip(stateIndex, clip);
+	}
+
+	Framework::FlipbookClipPtr FlipbookUtils::MakeAtlasRowClip
+	(
+		Shared::uint32 row,
+		Shared::uint32 startColumn,
+		Shared::usize frameCount,
+		Shared::uint32 columnCount,
+		Shared::uint32 rowCount,
+		float fps,
+		bool loop
+	)
+	{
+		if (columnCount == 0) return nullptr;
+		if (rowCount == 0) return nullptr;
+		if (frameCount == 0) return nullptr;
+		if (row >= rowCount) return nullptr;
+		if (startColumn >= columnCount) return nullptr;
+		if (startColumn + frameCount > columnCount) return nullptr;
+
+		const float frameWidth = 1.0f / static_cast<float>(columnCount);
+		const float frameHeight = 1.0f / static_cast<float>(rowCount);
+		const float frameY = static_cast<float>(row) * frameHeight;
+
+		Shared::List<Shared::vec4> frames;
+		frames.reserve(frameCount);
+
+		for (Shared::usize frame = 0; frame < frameCount; ++frame)
+		{
+			const Shared::usize column = static_cast<Shared::usize>(startColumn) + frame;
+			frames.emplace_back(static_cast<float>(column) * frameWidth, frameY, frameWidth, frameHeight);
+		}
+
+		return Framework::FlipbookClip::Create(frames, fps, loop);
+	}
+
+
 	/*================================================================//
 	//   hardcoded flipbook and flipbook controller loading methods   //
 	//================================================================*/
@@ -85,8 +139,8 @@ namespace MGSL::Sandbox2D
 		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_IDLE, 0, 8, columnCount, rowCount, fps, true))  return nullptr;
 		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_WALK, 1, 8, columnCount, rowCount, fps, true))  return nullptr;
 		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_RUN, 2, 8, columnCount, rowCount, fps, true))  return nullptr;
-		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_JUMP, 3, 5, columnCount, rowCount, fps, false)) return nullptr;
-		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_FALL, 3, 5, columnCount, rowCount, fps, false)) return nullptr;
+		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_JUMP, 3, 0, 3, columnCount, rowCount, fps, false)) return nullptr;
+		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_LAND, 3, 3, 2, columnCount, rowCount, fps, false)) return nullptr;
 		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_DASH, 4, 6, columnCount, rowCount, fps, false)) return nullptr;
 		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_CLIMB, 5, 4, columnCount, rowCount, fps, true))  return nullptr;
 		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_AIR_ATTACK, 6, 2, columnCount, rowCount, fps, false)) return nullptr;
@@ -111,8 +165,8 @@ namespace MGSL::Sandbox2D
 		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_IDLE, 0, 8, columnCount, rowCount, fps, true))  return nullptr;
 		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_WALK, 1, 8, columnCount, rowCount, fps, true))  return nullptr;
 		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_RUN, 2, 8, columnCount, rowCount, fps, true))  return nullptr;
-		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_JUMP, 3, 5, columnCount, rowCount, fps, false)) return nullptr;
-		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_FALL, 3, 5, columnCount, rowCount, fps, false)) return nullptr;
+		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_JUMP, 3, 0, 3, columnCount, rowCount, fps, false)) return nullptr;
+		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_LAND, 3, 3, 2, columnCount, rowCount, fps, false)) return nullptr;
 		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_SLIDE, 4, 8, columnCount, rowCount, fps, false)) return nullptr;
 		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_DASH, 5, 6, columnCount, rowCount, fps, false)) return nullptr;
 		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_CLIMB, 6, 4, columnCount, rowCount, fps, true))  return nullptr;
@@ -136,8 +190,8 @@ namespace MGSL::Sandbox2D
 		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_IDLE, 0, 8, columnCount, rowCount, fps, true))  return nullptr;
 		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_WALK, 1, 8, columnCount, rowCount, fps, true))  return nullptr;
 		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_RUN, 2, 8, columnCount, rowCount, fps, true))  return nullptr;
-		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_JUMP, 3, 5, columnCount, rowCount, fps, false)) return nullptr;
-		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_FALL, 3, 5, columnCount, rowCount, fps, false)) return nullptr;
+		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_JUMP, 3, 0, 3, columnCount, rowCount, fps, false)) return nullptr;
+		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_LAND, 3, 3, 2, columnCount, rowCount, fps, false)) return nullptr;
 		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_SLIDE, 4, 8, columnCount, rowCount, fps, false)) return nullptr;
 		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_DASH, 5, 6, columnCount, rowCount, fps, false)) return nullptr;
 		if (!AddAtlasRowClip(controller, Protobuf::OBJECT_STATE_TYPE_CLIMB, 6, 4, columnCount, rowCount, fps, true))  return nullptr;
@@ -150,4 +204,6 @@ namespace MGSL::Sandbox2D
 
 		return controller;
 	}
+
+
 }

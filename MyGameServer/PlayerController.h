@@ -77,6 +77,18 @@ namespace MGSL::Server
 
 #pragma endregion
 
+#pragma region LAND
+	private:
+		void UpdateLand(CharacterBody2D* body, float deltaTime);
+		bool IsLanding() const { return m_isLanding; }
+
+	private:
+		bool m_wasGrounded = true;
+		bool m_isLanding = false;
+		float m_landElapsedTime = 0.0f;
+		float m_landDuration = 0.15f;
+#pragma endregion
+
 #pragma region MOVE
 	/*========================//
 	//          Move          //
@@ -178,4 +190,3 @@ namespace MGSL::Server
 #pragma endregion
 	};
 }
-

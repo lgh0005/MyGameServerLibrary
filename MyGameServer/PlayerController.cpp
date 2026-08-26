@@ -42,6 +42,10 @@ namespace MGSL::Server
         // Attack
         if (UpdateAttack(deltaTime)) return;
         
+        // Land
+        UpdateLand(body, deltaTime);
+        if (IsLanding()) return;
+
         // Climb
         UpdateClimb(body, directionY);
 
@@ -176,6 +180,37 @@ namespace MGSL::Server
             }
         }
     }
+#pragma endregion
+
+#pragma region LAND
+    void PlayerController::UpdateLand(CharacterBody2D* body, float deltaTime)
+    {
+        if (!body) return;
+
+        const bool isGrounded = body->IsGrounded();
+
+        // Landing State
+        if (!m_wasGrounded && isGrounded)
+        {
+            m_isLanding = true;
+            m_landElapsedTime = 0.0f;
+            m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_LAND);
+        }
+
+        if (m_isLanding)
+        {
+            m_landElapsedTime += deltaTime;
+            if (m_landElapsedTime >= m_landDuration)
+            {
+                m_isLanding = false;
+                m_landElapsedTime = 0.0f;
+            }
+        }
+
+        m_wasGrounded = isGrounded;
+    }
+
+
 #pragma endregion
 
 #pragma region MOVE
@@ -427,17 +462,10 @@ namespace MGSL::Server
             return;
         }
 
-        // Above the ground : Jump or Fall
+        // Above the ground : Jump
         if (!body->IsGrounded())
         {
-            if (body->GetVerticalVelocity() > 0.0f)
-            {
-                m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_JUMP);
-            }
-            else
-            {
-                m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_FALL);
-            }
+            m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_JUMP);
             return;
         }
 

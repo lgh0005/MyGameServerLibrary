@@ -30,11 +30,35 @@ namespace MGSL::Sandbox2D
 			bool loop
 		);
 
+		static Framework::FlipbookClipPtr MakeAtlasRowClip
+		(
+			Shared::uint32 row,
+			Shared::uint32 startColumn,
+			Shared::usize frameCount,
+			Shared::uint32 columnCount,
+			Shared::uint32 rowCount,
+			float fps,
+			bool loop
+		);
+
 		static bool AddAtlasRowClip
 		(
 			const Framework::FlipbookControllerPtr& controller,
 			Shared::uint32 stateIndex,
 			Shared::uint32 row,
+			Shared::usize frameCount,
+			Shared::uint32 columnCount,
+			Shared::uint32 rowCount,
+			float fps,
+			bool loop
+		);
+
+		static bool AddAtlasRowClip
+		(
+			const Framework::FlipbookControllerPtr& controller,
+			Shared::uint32 stateIndex,
+			Shared::uint32 row,
+			Shared::uint32 startColumn,
 			Shared::usize frameCount,
 			Shared::uint32 columnCount,
 			Shared::uint32 rowCount,
