@@ -1,7 +1,12 @@
 #pragma once
 #include "MyGameFramework/MonoBehaviour.h"
 
-namespace MGSL::Framework { MGSL_CLASS_PTR(CharacterBody2D) }
+namespace MGSL::Framework 
+{ 
+	MGSL_CLASS_PTR(KeyboardDevice)
+	MGSL_CLASS_PTR(MouseDevice)
+	MGSL_CLASS_PTR(CharacterBody2D) 
+}
 
 namespace MGSL::Sandbox2D
 {
@@ -15,18 +20,38 @@ namespace MGSL::Sandbox2D
 	{
 		using Super = Framework::MonoBehaviour;
 
+	/*========================================//
+	//   Default MyPlayerController Methods   //
+	//========================================*/
 	public:
 		virtual ~MyPlayerController() override;
 		static MyPlayerControllerUPtr Create(Framework::GameObject* owner);
-
-	public:
 		virtual void Awake() override;
 		virtual void Update(float deltaTime) override;
 
+	/*=========================//
+	//   Behaviour Handlers    //
+	//=========================*/
+	private:
+		void HandleMovementInput(Framework::KeyboardDevice* keyboard);
+		void HandleWeaponInput(Framework::KeyboardDevice* keyboard);
+		void HandleAttackInput(Framework::MouseDevice* mouse);
+
+	/*================//
+	//   Behaviours   //
+	//================*/
+	private:
+		void Move(Framework::KeyboardDevice* keyboard);
+		void Jump(Framework::KeyboardDevice* keyboard);
+		void Dash(Framework::KeyboardDevice* keyboard);
+		void Slide(Framework::KeyboardDevice* keyboard);
+		bool Dead();
+
 	private:
 		explicit MyPlayerController(Framework::GameObject* owner);
-		void HandleMovementInput(float deltaTime);
-		void HandleAttackInput();
+
+		// 상태 조회
+		MyPlayerNetworkState* m_playerNetworkState = nullptr;
 
 		// 이동 처리
 		float m_moveSpeed = 3.0f;
@@ -37,22 +62,16 @@ namespace MGSL::Sandbox2D
 		::Protobuf::DIR_TYPE m_prevVerticalDir = ::Protobuf::DIR_TYPE_NONE;
 		Framework::CharacterBody2D* m_characterBody = nullptr;
 
-		// 상태 조회
-		MyPlayerNetworkState* m_playerNetworkState = nullptr;
-
+#pragma region PACKET_SENDINGS
 	/*========================//
 	//   Packet Test Methods  //
 	//========================*/
 	private:
-		void SendMovePacket
-		(
-			::Protobuf::DIR_TYPE horizontalDir,
-			::Protobuf::DIR_TYPE verticalDir,
-			bool running
-		);
+		void SendMovePacket(::Protobuf::DIR_TYPE horizontalDir, ::Protobuf::DIR_TYPE verticalDir, bool running);
 		void SendJumpPacket();
 		void SendChangeWeaponPacket(::Protobuf::WEAPON_TYPE weapon);
 		void SendAttackPacket();
 	};
+#pragma endregion
 }
 

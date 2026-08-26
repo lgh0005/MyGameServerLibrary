@@ -65,4 +65,11 @@ namespace MGSL::Server
 		SWORD,
 		COUNT
 	};
+
+	enum class ELadderState : Shared::uint8
+	{
+		NONE,
+		CONTACT,
+		CLIMBING
+	};
 }

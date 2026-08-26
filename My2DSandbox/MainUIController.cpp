@@ -32,6 +32,12 @@ namespace MGSL::Sandbox2D
 
 		if (m_prevPlayerColor != m_playerNetworkState->GetColor())
 			ApplyPlayerColor();
+
+		if (m_prevLife != m_playerNetworkState->GetLife())
+			ApplyLife();
+
+		if (m_prevKillCount != m_playerNetworkState->GetKillCount())
+			ApplyKillCount();
 	}
 
 	/*===========================//
@@ -50,26 +56,23 @@ namespace MGSL::Sandbox2D
 	//===========================*/
 	void MainUIController::SetHeartCount(Shared::uint32 heartCount)
 	{
-		m_heartCount = heartCount;
-
-		if (m_heartCount > m_heartImages.size())
-			m_heartCount = static_cast<Shared::uint32>(m_heartImages.size());
+		if (heartCount > m_heartImages.size())
+			heartCount = static_cast<Shared::uint32>(m_heartImages.size());
 
 		for (Shared::usize i = 0; i < m_heartImages.size(); ++i)
 		{
 			Framework::UIImage* heartImage = m_heartImages[i];
 			if (!heartImage) continue;
 
-			if (i < m_heartCount) heartImage->SetColor(Shared::vec4(1.0f));
+			if (i < heartCount) heartImage->SetColor(Shared::vec4(1.0f));
 			else heartImage->SetColor(Shared::vec4(0.35f, 0.35f, 0.35f, 1.0f));
 		}
 	}
 
 	void MainUIController::SetKillCount(Shared::uint32 killCount)
 	{
-		m_killCount = killCount;
 		if (!m_killCountText) return;
-		m_killCountText->SetText("KILL : " + std::to_string(m_killCount));
+		m_killCountText->SetText("KILL : " + std::to_string(killCount));
 	}
 
 	void MainUIController::ApplyPlayerColor()
@@ -94,5 +97,19 @@ namespace MGSL::Sandbox2D
 		}
 
 		m_prevWeapon = weapon;
+	}
+
+	void MainUIController::ApplyLife()
+	{
+		const Shared::uint32 life = m_playerNetworkState->GetLife();
+		m_prevLife = life;
+		SetHeartCount(life);
+	}
+
+	void MainUIController::ApplyKillCount()
+	{
+		const Shared::uint32 killCount = m_playerNetworkState->GetKillCount();
+		m_prevKillCount = killCount;
+		SetKillCount(killCount);
 	}
 }

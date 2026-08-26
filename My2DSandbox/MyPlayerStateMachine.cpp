@@ -20,7 +20,7 @@ namespace MGSL::Sandbox2D
 		m_playerNetworkState = GetOwner()->GetComponent<MyPlayerNetworkState>();
 	}
 
-	void MyPlayerStateMachine::Update(float /*deltaTime*/)
+	void MyPlayerStateMachine::Update(float deltaTime)
 	{
 		if (!m_playerNetworkState || !m_flipbookPlayer) return;
 		if (m_prevState != m_playerNetworkState->GetState()) ApplyState();
@@ -28,6 +28,7 @@ namespace MGSL::Sandbox2D
 		if (m_prevWeapon != m_playerNetworkState->GetWeapon()) ApplyWeapon();
 		if (m_prevColor != m_playerNetworkState->GetColor()) ApplyColor();
 		UpdateClimbAnimation();
+		UpdateInvincibleEffect(deltaTime);
 	}
 
 	void MyPlayerStateMachine::ApplyState()
@@ -64,9 +65,7 @@ namespace MGSL::Sandbox2D
 	void MyPlayerStateMachine::UpdateClimbAnimation()
 	{
 		if (m_playerNetworkState->GetState() != ::Protobuf::OBJECT_STATE_TYPE_CLIMB)
-		{
 			return;
-		}
 
 		const float verticalVelocity = m_playerNetworkState->GetVerticalVelocity();
 		if (std::abs(verticalVelocity) > 0.01f)
@@ -77,5 +76,35 @@ namespace MGSL::Sandbox2D
 		{
 			m_flipbookPlayer->Pause();
 		}
+	}
+
+	void MyPlayerStateMachine::UpdateInvincibleEffect(float deltaTime)
+	{
+		const bool isInvincible = m_playerNetworkState->IsInvincible();
+
+		if (!isInvincible)
+		{
+			m_blinkElapsedTime = 0.0f;
+			m_isBlinkVisible = true;
+
+			Shared::vec4 color = m_playerNetworkState->GetColor();
+			color.a = 1.0f;
+
+			m_flipbookPlayer->SetColor(color);
+			m_prevInvincible = false;
+			return;
+		}
+
+		m_blinkElapsedTime += deltaTime;
+		if (m_blinkElapsedTime >= m_blinkInterval)
+		{
+			m_blinkElapsedTime = 0.0f;
+			m_isBlinkVisible = !m_isBlinkVisible;
+		}
+
+		Shared::vec4 color =m_playerNetworkState->GetColor();
+		color.a = m_isBlinkVisible ? 1.0f : 0.3f;
+		m_flipbookPlayer->SetColor(color);
+		m_prevInvincible = true;
 	}
 }

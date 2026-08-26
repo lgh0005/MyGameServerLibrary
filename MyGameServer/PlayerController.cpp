@@ -11,7 +11,13 @@ namespace MGSL::Server
         m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_IDLE);
         m_info.set_facing(::Protobuf::FACING_TYPE_RIGHT);
         m_info.set_weapon(::Protobuf::WEAPON_TYPE_NONE);
+
+        // TODO : Hard-coded value
+        m_info.set_life(5);
+        m_info.set_kill_cnt(0);
+        m_info.set_invincible(true);
     }
+
     PlayerController::~PlayerController() = default;
 
     PlayerControllerUPtr PlayerController::Create(GameObject* owner)
@@ -21,171 +27,346 @@ namespace MGSL::Server
 
     void PlayerController::Update(float deltaTime)
     {
-        GameObject* owner = GetOwner();
-        if (!owner) return;
+        GameObject* owner = GetOwner(); if (!owner) return;
+        CharacterBody2D* body = owner->GetComponent<CharacterBody2D>(); if (!body) return;
 
-        CharacterBody2D* body = owner->GetComponent<CharacterBody2D>();
-        if (!body) return;
+        // Death
+        if (UpdateDeath(deltaTime)) return;
 
-        /*========================//
-        //         Attack         //
-        //========================*/
-        if (m_isAttacking)
+        const float directionX = GetHorizontalDirectionValue();
+        const float directionY = GetVerticalDirectionValue();
+
+        // Hit
+        UpdateHit(deltaTime);
+
+        // Attack
+        if (UpdateAttack(deltaTime)) return;
+        
+        // Climb
+        UpdateClimb(body, directionY);
+
+        // Move
+        UpdateMove(owner, directionX, deltaTime);
+
+        // Player State
+        UpdatePlayerState(body, directionX);
+    }
+
+    /*==============================================//
+    //      Default player syncing behaviours       //
+    //==============================================*/
+
+#pragma region DEATH
+    void PlayerController::Death()
+    {
+        if (m_isDead) return;
+
+        m_isDead = true;
+
+        // Network State
+        m_info.set_life(0);
+        m_info.set_invincible(false);
+        m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_DEATH);
+
+        // Hit State
+        m_isHit = false;
+        m_hitElapsedTime = 0.0f;
+        m_invincibleElapsedTime = 0.0f;
+
+        // Attack State
+        m_isAttacking = false;
+        m_attackQueued = false;
+        m_comboIndex = 0;
+        m_attackElapsedTime = 0.0f;
+        m_hitTargets.clear();
+
+        // Climb State
+        m_ladderState = ELadderState::NONE;
+
+        // Move State
+        m_horizontalDirection = ::Protobuf::DIR_TYPE_NONE;
+        m_verticalDirection = ::Protobuf::DIR_TYPE_NONE;
+        m_isRunning = false;
+    }
+
+    bool PlayerController::UpdateDeath(float /*deltaTime*/)
+    {
+        return IsDead();
+
+        // TODO : 연결을 끊을 시간을 마련해준다.
+        //if (!m_isDead)
+        //    return false;
+
+        //m_deathElapsedTime += deltaTime;
+
+        //if (m_deathElapsedTime >= m_deathDuration)
+        //{
+        //    // Disconnect
+        //}
+
+        //return true;
+    }
+#pragma endregion
+
+#pragma region HIT
+    void PlayerController::Hit()
+    {
+        // 무적 상태에서는 피해 무시
+        if (IsInvincible()) return;
+
+        // 피해 상태 처리
+        m_isHit = true;
+        m_hitElapsedTime = 0.0f;
+        m_invincibleElapsedTime = 0.0f;
+        m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_HIT);
+        m_info.set_invincible(true);
+    }
+
+    void PlayerController::TakeDamage(Shared::uint32 damage, PlayerController* attacker)
+    {
+        if (damage <= 0) return;
+
+        if (IsDead())
+            return;
+
+        // 무적 중에는 Damage 무시
+        if (IsInvincible())
+            return;
+
+        const Shared::uint32 currentLife = m_info.life();
+        if (currentLife <= 0) return;
+
+        // Life 감소
+        const Shared::uint32 nextLife = damage >= currentLife ? 0 : currentLife - damage;
+        m_info.set_life(nextLife);
+
+        // 사망
+        if (nextLife == 0)
         {
-            m_attackElapsedTime += deltaTime;
-            if (m_attackElapsedTime < m_attackDuration) return;
-            if (m_attackQueued && m_comboIndex < 3)
-            {
-                ++m_comboIndex;
-                switch (m_comboIndex)
-                {
-                    case 2: m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_ATTACK_2); break;
-                    case 3: m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_ATTACK_3); break;
-                    default: break;
-                }
-
-                m_attackQueued = false;
-                m_attackElapsedTime = 0.0f;
-                m_hitTargets.clear();
-                return;
-            }
-
-            m_isAttacking = false;
-            m_attackQueued = false;
-            m_comboIndex = 0;
-            m_attackElapsedTime = 0.0f;
-            m_hitTargets.clear();
+            attacker->AddKill();
+            Death();
+            return;
         }
 
-        /*========================//
-        //        Movement        //
-        //========================*/
-        float directionX = 0.0f;
-        float directionY = 0.0f;
+        // 살아있으면 Hit
+        Hit();
+    }
+
+    void PlayerController::UpdateHit(float deltaTime)
+    {
+        // Hit 상태
+        if (m_isHit)
+        {
+            m_hitElapsedTime += deltaTime;
+            if (m_hitElapsedTime >= m_hitDuration)
+            {
+                m_isHit = false;
+                m_hitElapsedTime = 0.0f;
+            }
+        }
+
+        // Invincible 상태
+        if (IsInvincible())
+        {
+            m_invincibleElapsedTime += deltaTime;
+            if (m_invincibleElapsedTime >= m_invincibleDuration)
+            {
+                m_invincibleElapsedTime = 0.0f;
+                m_info.set_invincible(false);
+            }
+        }
+    }
+#pragma endregion
+
+#pragma region MOVE
+    void PlayerController::UpdateMove(GameObject* owner, float directionX, float deltaTime)
+    {
+        if (!owner || directionX == 0.0f) return;
+        const float moveSpeed = m_isRunning ? m_runSpeed : m_moveSpeed;
+        owner->GetTransform().Translate(Shared::vec3(directionX * moveSpeed * deltaTime, 0.0f, 0.0f));
+    }
+
+    float PlayerController::GetHorizontalDirectionValue()
+    {
         switch (m_horizontalDirection)
         {
             case ::Protobuf::DIR_TYPE_LEFT:
-                directionX = -1.0f;
-                m_info.set_facing(Protobuf::FACING_TYPE_LEFT);
-                break;
+                m_info.set_facing(::Protobuf::FACING_TYPE_LEFT);
+                return -1.0f;
 
             case ::Protobuf::DIR_TYPE_RIGHT:
-                directionX = 1.0f;
-                m_info.set_facing(Protobuf::FACING_TYPE_RIGHT);
-                break;
+                m_info.set_facing(::Protobuf::FACING_TYPE_RIGHT);
+                return 1.0f;
 
             default:
-                break;
+                return 0.0f;
         }
+    }
 
+    
+    
+    float PlayerController::GetVerticalDirectionValue()
+    {
         switch (m_verticalDirection)
         {
-            case ::Protobuf::DIR_TYPE_UP:
-                directionY = 1.0f;
+            case ::Protobuf::DIR_TYPE_UP: return 1.0f;
+            case ::Protobuf::DIR_TYPE_DOWN: return -1.0f;
+            default: return 0.0f;
+        }
+    }
+#pragma endregion
+
+#pragma region CLIMB
+    void PlayerController::UpdateClimb(CharacterBody2D* body, float directionY)
+    {
+        if (!body) return;
+
+        switch (m_ladderState)
+        {
+            case ELadderState::NONE:
+            {
+                body->SetGravityEnabled(true);
+                body->SetIgnorePlatform(false);
+                break;
+            }
+
+            case ELadderState::CONTACT:
+            {
+                if (directionY == 0.0f) break;
+                m_ladderState = ELadderState::CLIMBING;
+                body->SetGravityEnabled(false);
+                body->SetIgnorePlatform(true);
+                body->SetVerticalVelocity(directionY * m_climbSpeed);
+                break;
+            }
+
+            case ELadderState::CLIMBING:
+            {
+                body->SetGravityEnabled(false);
+                body->SetIgnorePlatform(true);
+                body->SetVerticalVelocity(directionY * m_climbSpeed);
+                break;
+            }
+        }
+    }
+#pragma endregion
+
+#pragma region ATTACK
+    void PlayerController::Attack()
+    {
+        GameObject* owner = GetOwner(); if (!owner) return;
+        CharacterBody2D* body = owner->GetComponent<CharacterBody2D>(); if (!body) return;
+
+        // Combo Queue
+        if (m_isAttacking)
+        {
+            if (m_info.weapon() == ::Protobuf::WEAPON_TYPE_NONE ||
+                m_info.weapon() == ::Protobuf::WEAPON_TYPE_SWORD)
+            {
+                const bool isComboWindow =
+                    m_attackElapsedTime >= m_comboWindowStart &&
+                    m_attackElapsedTime <= m_comboWindowEnd;
+
+                if (m_comboIndex < 3 && isComboWindow)
+                    m_attackQueued = true;
+            }
+            return;
+        }
+
+        // Attack Start
+        m_isAttacking = true;
+        m_attackQueued = false;
+        m_attackElapsedTime = 0.0f;
+        if (!body->IsGrounded())
+        {
+            m_comboIndex = 0;
+            m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_AIR_ATTACK);
+            return;
+        }
+
+        switch (m_info.weapon())
+        {
+            case ::Protobuf::WEAPON_TYPE_NONE:
+            case ::Protobuf::WEAPON_TYPE_SWORD:
+                m_comboIndex = 1;
+                m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_ATTACK_1);
                 break;
 
-            case ::Protobuf::DIR_TYPE_DOWN:
-                directionY = -1.0f;
+            case ::Protobuf::WEAPON_TYPE_PISTOL:
+                m_comboIndex = 0;
+                m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_SHOT);
                 break;
 
             default:
+                m_isAttacking = false;
                 break;
         }
-
-        /*========================//
-        //         Ladder         //
-        //========================*/
-        if (m_isOnLadder && directionY != 0.0f)
-        {
-            if (!m_isClimbing)
-            {
-                m_isClimbing = true;
-                body->SetVerticalVelocity(0.0f);
-            }
-        }
-
-        if (!m_isOnLadder)
-        {
-            m_isClimbing = false;
-        }
-
-        if (m_isClimbing)
-        {
-            body->SetGravityEnabled(false);
-            body->SetIgnorePlatform(true);
-            body->SetVerticalVelocity(directionY * m_climbSpeed);
-        }
-        else
-        {
-            body->SetGravityEnabled(true);
-            body->SetIgnorePlatform(false);
-        }
-
-        /*========================//
-        //          State         //
-        //========================*/
-        if (m_isClimbing)
-        {
-            m_info.set_state(
-                ::Protobuf::OBJECT_STATE_TYPE_CLIMB);
-        }
-        else if (!body->IsGrounded())
-        {
-            if (body->GetVerticalVelocity() > 0.0f) m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_JUMP);
-            else m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_FALL);
-        }
-        else
-        {
-            if (directionX != 0.0f)
-            {
-                if (m_isRunning) m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_RUN);
-                else m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_WALK);
-            }
-            else
-            {
-                m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_IDLE);
-            }
-        }
-
-        /*========================//
-        //      Translation       //
-        //========================*/
-        if (directionX != 0.0f)
-        {
-            const float moveSpeed = m_isRunning ? m_runSpeed : m_moveSpeed;
-            owner->GetTransform().Translate(Shared::vec3(directionX * moveSpeed * deltaTime, 0.0f, 0.0f));
-        }
     }
 
-    void PlayerController::OnTriggerEnter(BoxCollider* other)
+    bool PlayerController::UpdateAttack(float deltaTime)
     {
-        HandleHitboxTrigger(other);
+        if (!m_isAttacking)
+            return false;
+
+        m_attackElapsedTime += deltaTime;
+
+        // 아직 공격 동작 진행 중
+        if (m_attackElapsedTime < m_attackDuration)
+            return true;
+
+        // 다음 콤보 진행
+        if (m_attackQueued && m_comboIndex < 3)
+        {
+            ++m_comboIndex;
+
+            switch (m_comboIndex)
+            {
+                case 2: m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_ATTACK_2); break;
+                case 3: m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_ATTACK_3); break;
+                default: break;
+            }
+
+            m_attackQueued = false;
+            m_attackElapsedTime = 0.0f;
+            m_hitTargets.clear();
+            return true;
+        }
+
+        // 공격 종료
+        m_isAttacking = false;
+        m_attackQueued = false;
+        m_comboIndex = 0;
+        m_attackElapsedTime = 0.0f;
+        m_hitTargets.clear();
+        return false;
     }
 
-    void PlayerController::OnTriggerStay(BoxCollider* other)
+    bool PlayerController::RegisterHitTarget(Shared::uint64 objectID)
     {
-        HandleHitboxTrigger(other);
+        auto [it, inserted] = m_hitTargets.insert(objectID);
+        return inserted;
     }
+#pragma endregion
+
+#pragma region COLLISION
+    void PlayerController::OnTriggerEnter(BoxCollider* other) { HandleTrigger(other); }
+
+    void PlayerController::OnTriggerStay(BoxCollider* other) { HandleTrigger(other); }
 
     void PlayerController::OnTriggerExit(BoxCollider* other)
     {
         if (!other) return;
-
         switch (other->GetCollisionLayer())
         {
-        case ECollisionLayer::LADDER:
-        {
-            m_isOnLadder = false;
-            m_isClimbing = false;
-            break;
-        }
+            case ECollisionLayer::LADDER: m_ladderState = ELadderState::NONE; break;
 
-        default:
-            break;
+            // TODO CASE ECollisionLayer::BULLET: break;
+
+            default: break;
         }
     }
 
-    void PlayerController::HandleHitboxTrigger(BoxCollider* other)
+    void PlayerController::HandleTrigger(BoxCollider* other)
     {
         if (!other) return;
 
@@ -193,26 +374,19 @@ namespace MGSL::Server
         {
         case ECollisionLayer::HITBOX:
         {
-            GameObject* hitboxObject = other->GetOwner();
-            if (!hitboxObject) return;
-
-            GameObject* attacker = hitboxObject->GetParent();
-            if (!attacker) return;
-
-            PlayerController* attackerController =
-                attacker->GetComponent<PlayerController>();
-
-            if (!attackerController) return;
+            GameObject* hitboxObject = other->GetOwner(); if (!hitboxObject) return;
+            GameObject* attacker = hitboxObject->GetParent(); if (!attacker) return;
+            PlayerController* attackerController = attacker->GetComponent<PlayerController>(); if (!attackerController) return;
 
             // 실제 공격 중이 아니면 충돌은 있었어도 Hit로 인정하지 않음
-            if (!attackerController->IsAttacking())
-                return;
+            if (!attackerController->IsAttacking()) return;
 
-            const Shared::uint64 targetID =
-                GetObjectID();
-
+            const Shared::uint64 targetID = GetObjectID();
             if (!attackerController->RegisterHitTarget(targetID))
                 return;
+
+            // Damage
+            TakeDamage(1, attackerController);
 
             MGSL_LOG_INFO
             (
@@ -226,7 +400,7 @@ namespace MGSL::Server
 
         case ECollisionLayer::LADDER:
         {
-            m_isOnLadder = true;
+            if (m_ladderState == ELadderState::NONE) m_ladderState = ELadderState::CONTACT;
             break;
         }
 
@@ -234,150 +408,53 @@ namespace MGSL::Server
             break;
         }
     }
+#pragma endregion
 
-    bool PlayerController::RegisterHitTarget(Shared::uint64 objectID)
+#pragma region PLYAER_STATE
+    void PlayerController::UpdatePlayerState(CharacterBody2D* body, float directionX)
     {
-        auto [it, inserted] = m_hitTargets.insert(objectID);
-        return inserted;
-    }
-
-    void PlayerController::Attack()
-    {
-        GameObject* owner = GetOwner();
-        if (!owner) return;
-
-        CharacterBody2D* body = owner->GetComponent<CharacterBody2D>();
-        if (!body) return;
-
-        /*========================//
-        //      Combo Queue       //
-        //========================*/
-        if (m_isAttacking)
+        // Hit State
+        if (m_isHit)
         {
-            if (m_info.weapon() == ::Protobuf::WEAPON_TYPE_NONE ||
-                m_info.weapon() == ::Protobuf::WEAPON_TYPE_SWORD)
-            {
-                const bool isComboWindow =
-                    m_attackElapsedTime >= m_comboWindowStart &&
-                    m_attackElapsedTime <= m_comboWindowEnd;
-
-                if (m_comboIndex < 3 && isComboWindow)
-                    m_attackQueued = true;
-            }
-
+            m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_HIT);
             return;
         }
 
-        /*========================//
-        //      Attack Start      //
-        //========================*/
-        m_isAttacking = true;
-        m_attackQueued = false;
-        m_attackElapsedTime = 0.0f;
+        // Climbing State
+        if (IsClimbing())
+        {
+            m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_CLIMB);
+            return;
+        }
 
+        // Above the ground : Jump or Fall
         if (!body->IsGrounded())
         {
-            m_comboIndex = 0;
-            m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_AIR_ATTACK);
+            if (body->GetVerticalVelocity() > 0.0f)
+            {
+                m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_JUMP);
+            }
+            else
+            {
+                m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_FALL);
+            }
             return;
         }
 
-        switch (m_info.weapon())
+        // Doesn't move on ground : Idle
+        if (directionX == 0.0f)
         {
-            case Protobuf::WEAPON_TYPE_NONE:
-            case Protobuf::WEAPON_TYPE_SWORD:
-                m_comboIndex = 1;
-                m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_ATTACK_1);
-                break;
-
-            case Protobuf::WEAPON_TYPE_PISTOL:
-                m_comboIndex = 0;
-                m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_SHOT);
-                break;
-
-            default:
-                m_isAttacking = false;
-                break;
+            m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_IDLE);
+            return;
         }
-    }
 
-    void PlayerController::SetHorizontalDirection(::Protobuf::DIR_TYPE dir)
-    {
-        m_horizontalDirection = dir;
+        // Running
+        m_info.set_state
+        (
+            m_isRunning
+            ? ::Protobuf::OBJECT_STATE_TYPE_RUN
+            : ::Protobuf::OBJECT_STATE_TYPE_WALK
+        );
     }
-
-    void PlayerController::SetVerticalDirection(::Protobuf::DIR_TYPE dir)
-    {
-        m_verticalDirection = dir;
-    }
-
-    void PlayerController::SetRunning(bool running)
-    {
-        m_isRunning = running;
-    }
-
-    void PlayerController::SetWeapon(Protobuf::WEAPON_TYPE weapon)
-    {
-        m_info.set_weapon(weapon);
-    }
-
-    ::Protobuf::DIR_TYPE PlayerController::GetHorizontalDirection() const
-    {
-        return m_horizontalDirection;
-    }
-
-    ::Protobuf::DIR_TYPE PlayerController::GetVerticalDirection() const
-    {
-        return m_verticalDirection;
-    }
-
-    Protobuf::OBJECT_STATE_TYPE PlayerController::GetState() const
-    {
-        return m_info.state();
-    }
-
-    Protobuf::FACING_TYPE PlayerController::GetFacing() const
-    {
-        return m_info.facing();
-    }
-
-    Protobuf::WEAPON_TYPE PlayerController::GetWeapon() const
-    {
-        return m_info.weapon();
-    }
-
-    bool PlayerController::IsAttacking() const
-    {
-        return m_isAttacking;
-    }
-
-    Shared::uint64 PlayerController::GetObjectID() const
-    {
-        return m_info.objectid();
-    }
-
-    void PlayerController::SetObjectID(Shared::uint64 objectID)
-    {
-        m_info.set_objectid(objectID);
-    }
-
-    void PlayerController::SetInfo(const ::Protobuf::PlayerInfo& info)
-    {
-        m_info = info;
-    }
-
-    void PlayerController::SetInfo(::Protobuf::PlayerInfo&& info)
-    {
-        m_info = std::move(info);
-    }
-
-    ::Protobuf::PlayerInfo& PlayerController::GetInfo() noexcept
-    {
-        return m_info;
-    }
-
-    const ::Protobuf::PlayerInfo& PlayerController::GetInfo() const noexcept
-    {
-        return m_info;
-    }
+#pragma endregion
 }

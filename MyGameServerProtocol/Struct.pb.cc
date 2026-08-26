@@ -29,9 +29,12 @@ PROTOBUF_CONSTEXPR PlayerInfo::PlayerInfo(
   , /*decltype(_impl_.objectid_)*/uint64_t{0u}
   , /*decltype(_impl_.objecttype_)*/0
   , /*decltype(_impl_.state_)*/0
-  , /*decltype(_impl_.grounded_)*/false
   , /*decltype(_impl_.facing_)*/0
   , /*decltype(_impl_.weapon_)*/0
+  , /*decltype(_impl_.grounded_)*/false
+  , /*decltype(_impl_.invincible_)*/false
+  , /*decltype(_impl_.life_)*/0u
+  , /*decltype(_impl_.kill_cnt_)*/0u
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct PlayerInfoDefaultTypeInternal {
   PROTOBUF_CONSTEXPR PlayerInfoDefaultTypeInternal()
@@ -81,6 +84,9 @@ const uint32_t TableStruct_Struct_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(p
   PROTOBUF_FIELD_OFFSET(::Protobuf::PlayerInfo, _impl_.facing_),
   PROTOBUF_FIELD_OFFSET(::Protobuf::PlayerInfo, _impl_.weapon_),
   PROTOBUF_FIELD_OFFSET(::Protobuf::PlayerInfo, _impl_.color_),
+  PROTOBUF_FIELD_OFFSET(::Protobuf::PlayerInfo, _impl_.invincible_),
+  PROTOBUF_FIELD_OFFSET(::Protobuf::PlayerInfo, _impl_.life_),
+  PROTOBUF_FIELD_OFFSET(::Protobuf::PlayerInfo, _impl_.kill_cnt_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protobuf::BulletInfo, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -96,7 +102,7 @@ const uint32_t TableStruct_Struct_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(p
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Protobuf::PlayerInfo)},
-  { 15, -1, -1, sizeof(::Protobuf::BulletInfo)},
+  { 18, -1, -1, sizeof(::Protobuf::BulletInfo)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -106,7 +112,7 @@ static const ::_pb::Message* const file_default_instances[] = {
 
 const char descriptor_table_protodef_Struct_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\014Struct.proto\022\010Protobuf\032\nEnum.proto\032\013Ty"
-  "pes.proto\"\271\002\n\nPlayerInfo\022\020\n\010objectID\030\001 \001"
+  "pes.proto\"\355\002\n\nPlayerInfo\022\020\n\010objectID\030\001 \001"
   "(\004\022)\n\nobjectType\030\002 \001(\0162\025.Protobuf.OBJECT"
   "_TYPE\022*\n\005state\030\003 \001(\0162\033.Protobuf.OBJECT_S"
   "TATE_TYPE\022 \n\010position\030\004 \001(\0132\016.Protobuf.V"
@@ -114,12 +120,13 @@ const char descriptor_table_protodef_Struct_2eproto[] PROTOBUF_SECTION_VARIABLE(
   "\010grounded\030\006 \001(\010\022%\n\006facing\030\007 \001(\0162\025.Protob"
   "uf.FACING_TYPE\022%\n\006weapon\030\010 \001(\0162\025.Protobu"
   "f.WEAPON_TYPE\022\036\n\005color\030\t \001(\0132\017.Protobuf."
-  "Color\"\272\001\n\nBulletInfo\022\020\n\010objectID\030\001 \001(\004\022\017"
-  "\n\007ownerID\030\002 \001(\004\022 \n\010position\030\003 \001(\0132\016.Prot"
-  "obuf.Vec2\022 \n\010velocity\030\004 \001(\0132\016.Protobuf.V"
-  "ec2\022%\n\006facing\030\005 \001(\0162\025.Protobuf.FACING_TY"
-  "PE\022\036\n\005color\030\006 \001(\0132\017.Protobuf.Colorb\006prot"
-  "o3"
+  "Color\022\022\n\ninvincible\030\n \001(\010\022\014\n\004life\030\013 \001(\r\022"
+  "\020\n\010kill_cnt\030\014 \001(\r\"\272\001\n\nBulletInfo\022\020\n\010obje"
+  "ctID\030\001 \001(\004\022\017\n\007ownerID\030\002 \001(\004\022 \n\010position\030"
+  "\003 \001(\0132\016.Protobuf.Vec2\022 \n\010velocity\030\004 \001(\0132"
+  "\016.Protobuf.Vec2\022%\n\006facing\030\005 \001(\0162\025.Protob"
+  "uf.FACING_TYPE\022\036\n\005color\030\006 \001(\0132\017.Protobuf"
+  ".Colorb\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_Struct_2eproto_deps[2] = {
   &::descriptor_table_Enum_2eproto,
@@ -127,7 +134,7 @@ static const ::_pbi::DescriptorTable* const descriptor_table_Struct_2eproto_deps
 };
 static ::_pbi::once_flag descriptor_table_Struct_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_Struct_2eproto = {
-    false, false, 562, descriptor_table_protodef_Struct_2eproto,
+    false, false, 614, descriptor_table_protodef_Struct_2eproto,
     "Struct.proto",
     &descriptor_table_Struct_2eproto_once, descriptor_table_Struct_2eproto_deps, 2, 2,
     schemas, file_default_instances, TableStruct_Struct_2eproto::offsets,
@@ -197,9 +204,12 @@ PlayerInfo::PlayerInfo(const PlayerInfo& from)
     , decltype(_impl_.objectid_){}
     , decltype(_impl_.objecttype_){}
     , decltype(_impl_.state_){}
-    , decltype(_impl_.grounded_){}
     , decltype(_impl_.facing_){}
     , decltype(_impl_.weapon_){}
+    , decltype(_impl_.grounded_){}
+    , decltype(_impl_.invincible_){}
+    , decltype(_impl_.life_){}
+    , decltype(_impl_.kill_cnt_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -213,8 +223,8 @@ PlayerInfo::PlayerInfo(const PlayerInfo& from)
     _this->_impl_.color_ = new ::Protobuf::Color(*from._impl_.color_);
   }
   ::memcpy(&_impl_.objectid_, &from._impl_.objectid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.weapon_) -
-    reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.weapon_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.kill_cnt_) -
+    reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.kill_cnt_));
   // @@protoc_insertion_point(copy_constructor:Protobuf.PlayerInfo)
 }
 
@@ -229,9 +239,12 @@ inline void PlayerInfo::SharedCtor(
     , decltype(_impl_.objectid_){uint64_t{0u}}
     , decltype(_impl_.objecttype_){0}
     , decltype(_impl_.state_){0}
-    , decltype(_impl_.grounded_){false}
     , decltype(_impl_.facing_){0}
     , decltype(_impl_.weapon_){0}
+    , decltype(_impl_.grounded_){false}
+    , decltype(_impl_.invincible_){false}
+    , decltype(_impl_.life_){0u}
+    , decltype(_impl_.kill_cnt_){0u}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -275,8 +288,8 @@ void PlayerInfo::Clear() {
   }
   _impl_.color_ = nullptr;
   ::memset(&_impl_.objectid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.weapon_) -
-      reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.weapon_));
+      reinterpret_cast<char*>(&_impl_.kill_cnt_) -
+      reinterpret_cast<char*>(&_impl_.objectid_)) + sizeof(_impl_.kill_cnt_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -358,6 +371,30 @@ const char* PlayerInfo::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
       case 9:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 74)) {
           ptr = ctx->ParseMessage(_internal_mutable_color(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // bool invincible = 10;
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 80)) {
+          _impl_.invincible_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // uint32 life = 11;
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 88)) {
+          _impl_.life_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // uint32 kill_cnt = 12;
+      case 12:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 96)) {
+          _impl_.kill_cnt_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -452,6 +489,24 @@ uint8_t* PlayerInfo::_InternalSerialize(
         _Internal::color(this).GetCachedSize(), target, stream);
   }
 
+  // bool invincible = 10;
+  if (this->_internal_invincible() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(10, this->_internal_invincible(), target);
+  }
+
+  // uint32 life = 11;
+  if (this->_internal_life() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(11, this->_internal_life(), target);
+  }
+
+  // uint32 kill_cnt = 12;
+  if (this->_internal_kill_cnt() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(12, this->_internal_kill_cnt(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -506,11 +561,6 @@ size_t PlayerInfo::ByteSizeLong() const {
       ::_pbi::WireFormatLite::EnumSize(this->_internal_state());
   }
 
-  // bool grounded = 6;
-  if (this->_internal_grounded() != 0) {
-    total_size += 1 + 1;
-  }
-
   // .Protobuf.FACING_TYPE facing = 7;
   if (this->_internal_facing() != 0) {
     total_size += 1 +
@@ -521,6 +571,26 @@ size_t PlayerInfo::ByteSizeLong() const {
   if (this->_internal_weapon() != 0) {
     total_size += 1 +
       ::_pbi::WireFormatLite::EnumSize(this->_internal_weapon());
+  }
+
+  // bool grounded = 6;
+  if (this->_internal_grounded() != 0) {
+    total_size += 1 + 1;
+  }
+
+  // bool invincible = 10;
+  if (this->_internal_invincible() != 0) {
+    total_size += 1 + 1;
+  }
+
+  // uint32 life = 11;
+  if (this->_internal_life() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_life());
+  }
+
+  // uint32 kill_cnt = 12;
+  if (this->_internal_kill_cnt() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_kill_cnt());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -562,14 +632,23 @@ void PlayerInfo::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PRO
   if (from._internal_state() != 0) {
     _this->_internal_set_state(from._internal_state());
   }
-  if (from._internal_grounded() != 0) {
-    _this->_internal_set_grounded(from._internal_grounded());
-  }
   if (from._internal_facing() != 0) {
     _this->_internal_set_facing(from._internal_facing());
   }
   if (from._internal_weapon() != 0) {
     _this->_internal_set_weapon(from._internal_weapon());
+  }
+  if (from._internal_grounded() != 0) {
+    _this->_internal_set_grounded(from._internal_grounded());
+  }
+  if (from._internal_invincible() != 0) {
+    _this->_internal_set_invincible(from._internal_invincible());
+  }
+  if (from._internal_life() != 0) {
+    _this->_internal_set_life(from._internal_life());
+  }
+  if (from._internal_kill_cnt() != 0) {
+    _this->_internal_set_kill_cnt(from._internal_kill_cnt());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -589,8 +668,8 @@ void PlayerInfo::InternalSwap(PlayerInfo* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(PlayerInfo, _impl_.weapon_)
-      + sizeof(PlayerInfo::_impl_.weapon_)
+      PROTOBUF_FIELD_OFFSET(PlayerInfo, _impl_.kill_cnt_)
+      + sizeof(PlayerInfo::_impl_.kill_cnt_)
       - PROTOBUF_FIELD_OFFSET(PlayerInfo, _impl_.position_)>(
           reinterpret_cast<char*>(&_impl_.position_),
           reinterpret_cast<char*>(&other->_impl_.position_));

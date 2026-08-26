@@ -26,4 +26,10 @@ namespace MGSL::Sandbox2D
 		const auto& color = GetInfo().color();
 		return Shared::vec4{ color.r(), color.g(), color.b(), color.a() };
 	}
+
+	bool MyPlayerNetworkState::IsInvincible() const { return GetInfo().invincible(); }
+
+	Shared::uint32 MyPlayerNetworkState::GetLife() const { return GetInfo().life(); }
+
+	Shared::uint32 MyPlayerNetworkState::GetKillCount() const { return GetInfo().kill_cnt(); }
 }

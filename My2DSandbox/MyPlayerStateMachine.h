@@ -28,7 +28,9 @@ namespace MGSL::Sandbox2D
 		void ApplyWeapon();
 		void ApplyColor();
 
+	private:
 		void UpdateClimbAnimation();
+		void UpdateInvincibleEffect(float deltaTime);
 
 	private:
 		MyPlayerNetworkState* m_playerNetworkState = nullptr;
@@ -38,6 +40,11 @@ namespace MGSL::Sandbox2D
 		Protobuf::FACING_TYPE m_prevFacing{};
 		Protobuf::WEAPON_TYPE m_prevWeapon{};
 		Shared::vec4 m_prevColor{};
+
+		bool m_prevInvincible = false;
+		bool m_isBlinkVisible = true;
+		float m_blinkElapsedTime = 0.0f;
+		float m_blinkInterval = 0.1f;
 	};
 }
 

@@ -22,63 +22,112 @@ namespace MGSL::Server
 		virtual ~PlayerController() override;
 		static PlayerControllerUPtr Create(GameObject* owner);
 
+	/*========================================//
+	//      Default Controller Methods        //
+	//========================================*/
 	public:
 		virtual void Update(float deltaTime) override;
 		virtual void OnTriggerEnter(BoxCollider* other) override;
 		virtual void OnTriggerStay(BoxCollider* other) override;
 		virtual void OnTriggerExit(BoxCollider* other) override;
-		void Attack();
-
-	private:
-		void HandleHitboxTrigger(BoxCollider* other);
-		bool RegisterHitTarget(Shared::uint64 objectID);
-
-	public:
-		void SetHorizontalDirection(::Protobuf::DIR_TYPE dir);
-		void SetVerticalDirection(::Protobuf::DIR_TYPE dir);
-		void SetRunning(bool running);
-		void SetWeapon(Protobuf::WEAPON_TYPE weapon);
-
-	public:
-		::Protobuf::DIR_TYPE GetHorizontalDirection() const;
-		::Protobuf::DIR_TYPE GetVerticalDirection() const;
-		Protobuf::OBJECT_STATE_TYPE GetState() const;
-		Protobuf::FACING_TYPE GetFacing() const;
-		Protobuf::WEAPON_TYPE GetWeapon() const;
-		bool IsAttacking() const;
-
-	/*=======================================//
-	//   INetworkState interface overrides   //
-	//=======================================*/
-	public:
-		virtual Shared::uint64 GetObjectID() const override;
-		virtual void SetObjectID(Shared::uint64 objectID) override;
-		virtual void SetInfo(const ::Protobuf::PlayerInfo& info) override;
-		virtual void SetInfo(::Protobuf::PlayerInfo&& info) override;
-		virtual ::Protobuf::PlayerInfo& GetInfo() noexcept override;
-		virtual const ::Protobuf::PlayerInfo& GetInfo() const noexcept override;
 
 	private:
 		explicit PlayerController(GameObject* owner);
 
-		// 플레이어 패킷
-		::Protobuf::PlayerInfo m_info;
+	/*==============================================//
+	//      Default player syncing behaviours       //
+	//==============================================*/
 
-		// 인풋과 움직임 상태
+#pragma region DEATH
+	/*========================//
+	//          Death         //
+	//========================*/
+	public:
+		void Death();
+		bool IsDead() const { return m_isDead; }
+
+	private:
+		bool UpdateDeath(float deltaTime);
+
+	private:
+		bool m_isDead = false;
+#pragma endregion
+
+#pragma region HIT
+	/*======================//
+	//          Hit         //
+	//======================*/
+	public:
+		void Hit();
+		void TakeDamage(Shared::uint32 damage, PlayerController* attacker);
+		Shared::uint32 GetLife() const { return m_info.life(); }
+		bool IsInvincible() const { return m_info.invincible(); }
+		Shared::uint32 GetKillCount() const { return m_info.kill_cnt(); }
+		void AddKill() { m_info.set_kill_cnt(m_info.kill_cnt() + 1); }
+
+	private:
+		void UpdateHit(float deltaTime);
+
+	private:
+		bool m_isHit = false;
+		float m_hitElapsedTime = 0.0f;
+		float m_hitDuration = 0.3f;
+		float m_invincibleElapsedTime = 0.0f;
+		float m_invincibleDuration = 1.5f;
+
+#pragma endregion
+
+#pragma region MOVE
+	/*========================//
+	//          Move          //
+	//========================*/
+	public:
+		void SetHorizontalDirection(::Protobuf::DIR_TYPE dir) { m_horizontalDirection = dir; }
+		void SetVerticalDirection(::Protobuf::DIR_TYPE dir) { m_verticalDirection = dir; }
+		::Protobuf::DIR_TYPE GetHorizontalDirection() const { return m_horizontalDirection; }
+		::Protobuf::DIR_TYPE GetVerticalDirection() const { return m_verticalDirection; }
+		void SetRunning(bool running) { m_isRunning = running; }
+
+	private:
+		void UpdateMove(GameObject* owner, float directionX, float deltaTime);
+		float GetHorizontalDirectionValue();
+		float GetVerticalDirectionValue();
+
+	private:
 		::Protobuf::DIR_TYPE m_horizontalDirection = ::Protobuf::DIR_TYPE_NONE;
 		::Protobuf::DIR_TYPE m_verticalDirection = ::Protobuf::DIR_TYPE_NONE;
-
-		// 이동 관련 멤버
 		float m_moveSpeed = 3.0f;
 		float m_runSpeed = 4.5f;
 		bool m_isRunning = false;
+#pragma endregion
 
-		// 사다리 관련 멤버
+#pragma region CLIMB
+	/*========================//
+	//          Climb         //
+	//========================*/
+	private:
+		void UpdateClimb(CharacterBody2D* body, float directionY);
+		bool IsClimbing() const { return m_ladderState == ELadderState::CLIMBING; }
+
+	private:
 		float m_climbSpeed = 2.5f;
-		bool m_isOnLadder = false;
-		bool m_isClimbing = false;
+		ELadderState m_ladderState = ELadderState::NONE;
 
-		// 공격 관련 멤버
+#pragma endregion
+
+#pragma region ATTACK
+	/*========================//
+	//          Attack        //
+	//========================*/
+	public:
+		void Attack();
+		bool IsAttacking() const { return m_isAttacking; }
+
+	private:
+		bool UpdateAttack(float deltaTime);
+		bool RegisterHitTarget(Shared::uint64 objectID);
+
+	private:
 		bool m_isAttacking = false;
 		bool m_attackQueued = false;
 		Shared::uint32 m_comboIndex = 0;
@@ -87,6 +136,46 @@ namespace MGSL::Server
 		float m_comboWindowStart = 0.20f;
 		float m_comboWindowEnd = 0.27f;
 		Shared::HashSet<Shared::uint64> m_hitTargets;
+#pragma endregion
+
+#pragma region COLLISION
+	/*======================//
+	//   Trigger Handlers   //
+	//======================*/
+	private:
+		void HandleTrigger(BoxCollider* other);
+
+#pragma endregion
+
+#pragma region PLAYER_STATE
+	/*========================//
+	//      Player State      //
+	//========================*/
+	private:
+		void UpdatePlayerState(CharacterBody2D* body, float directionX);
+
+	public:
+		void SetWeapon(Protobuf::WEAPON_TYPE weapon) { m_info.set_weapon(weapon); }
+		Protobuf::OBJECT_STATE_TYPE GetState() const { return m_info.state(); }
+		Protobuf::FACING_TYPE GetFacing() const { return m_info.facing(); }
+		Protobuf::WEAPON_TYPE GetWeapon() const { return m_info.weapon(); }
+#pragma endregion		
+
+#pragma region NETWORK_STATE_INTERFACE_IMPL
+	/*=======================================//
+	//   INetworkState interface overrides   //
+	//=======================================*/
+	public:
+		virtual Shared::uint64 GetObjectID() const					   override { return m_info.objectid(); }
+		virtual void SetObjectID(Shared::uint64 objectID)			   override { m_info.set_objectid(objectID); }
+		virtual void SetInfo(const ::Protobuf::PlayerInfo& info)	   override { m_info = info; }
+		virtual void SetInfo(::Protobuf::PlayerInfo&& info)			   override { m_info = std::move(info); }
+		virtual ::Protobuf::PlayerInfo& GetInfo() noexcept             override { return m_info; }
+		virtual const ::Protobuf::PlayerInfo& GetInfo() const noexcept override { return m_info; }
+
+	private:
+		::Protobuf::PlayerInfo m_info;
+#pragma endregion
 	};
 }
 

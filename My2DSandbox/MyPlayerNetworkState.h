@@ -20,6 +20,9 @@ namespace MGSL::Sandbox2D
 		::Protobuf::WEAPON_TYPE GetWeapon()		 const;
 		float GetVerticalVelocity()				 const;
 		Shared::vec4 GetColor()					 const;
+		bool IsInvincible()						 const;
+		Shared::uint32 GetLife()				 const;
+		Shared::uint32 GetKillCount()			 const;
 
 	private:
 		explicit MyPlayerNetworkState(Framework::GameObject* owner);

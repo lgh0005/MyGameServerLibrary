@@ -18,6 +18,9 @@ message PlayerInfo
     FACING_TYPE facing = 7;
     WEAPON_TYPE weapon = 8;
     Color color = 9;
+    bool invincible = 10;
+    uint32 life = 11;
+    uint32 kill_cnt = 12;
 }
 
 /*==========================//

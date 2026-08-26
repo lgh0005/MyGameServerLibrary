@@ -189,9 +189,12 @@ class PlayerInfo final :
     kObjectIDFieldNumber = 1,
     kObjectTypeFieldNumber = 2,
     kStateFieldNumber = 3,
-    kGroundedFieldNumber = 6,
     kFacingFieldNumber = 7,
     kWeaponFieldNumber = 8,
+    kGroundedFieldNumber = 6,
+    kInvincibleFieldNumber = 10,
+    kLifeFieldNumber = 11,
+    kKillCntFieldNumber = 12,
   };
   // .Protobuf.Vec2 position = 4;
   bool has_position() const;
@@ -274,15 +277,6 @@ class PlayerInfo final :
   void _internal_set_state(::Protobuf::OBJECT_STATE_TYPE value);
   public:
 
-  // bool grounded = 6;
-  void clear_grounded();
-  bool grounded() const;
-  void set_grounded(bool value);
-  private:
-  bool _internal_grounded() const;
-  void _internal_set_grounded(bool value);
-  public:
-
   // .Protobuf.FACING_TYPE facing = 7;
   void clear_facing();
   ::Protobuf::FACING_TYPE facing() const;
@@ -301,6 +295,42 @@ class PlayerInfo final :
   void _internal_set_weapon(::Protobuf::WEAPON_TYPE value);
   public:
 
+  // bool grounded = 6;
+  void clear_grounded();
+  bool grounded() const;
+  void set_grounded(bool value);
+  private:
+  bool _internal_grounded() const;
+  void _internal_set_grounded(bool value);
+  public:
+
+  // bool invincible = 10;
+  void clear_invincible();
+  bool invincible() const;
+  void set_invincible(bool value);
+  private:
+  bool _internal_invincible() const;
+  void _internal_set_invincible(bool value);
+  public:
+
+  // uint32 life = 11;
+  void clear_life();
+  uint32_t life() const;
+  void set_life(uint32_t value);
+  private:
+  uint32_t _internal_life() const;
+  void _internal_set_life(uint32_t value);
+  public:
+
+  // uint32 kill_cnt = 12;
+  void clear_kill_cnt();
+  uint32_t kill_cnt() const;
+  void set_kill_cnt(uint32_t value);
+  private:
+  uint32_t _internal_kill_cnt() const;
+  void _internal_set_kill_cnt(uint32_t value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protobuf.PlayerInfo)
  private:
   class _Internal;
@@ -315,9 +345,12 @@ class PlayerInfo final :
     uint64_t objectid_;
     int objecttype_;
     int state_;
-    bool grounded_;
     int facing_;
     int weapon_;
+    bool grounded_;
+    bool invincible_;
+    uint32_t life_;
+    uint32_t kill_cnt_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -937,6 +970,66 @@ inline void PlayerInfo::set_allocated_color(::Protobuf::Color* color) {
   }
   _impl_.color_ = color;
   // @@protoc_insertion_point(field_set_allocated:Protobuf.PlayerInfo.color)
+}
+
+// bool invincible = 10;
+inline void PlayerInfo::clear_invincible() {
+  _impl_.invincible_ = false;
+}
+inline bool PlayerInfo::_internal_invincible() const {
+  return _impl_.invincible_;
+}
+inline bool PlayerInfo::invincible() const {
+  // @@protoc_insertion_point(field_get:Protobuf.PlayerInfo.invincible)
+  return _internal_invincible();
+}
+inline void PlayerInfo::_internal_set_invincible(bool value) {
+  
+  _impl_.invincible_ = value;
+}
+inline void PlayerInfo::set_invincible(bool value) {
+  _internal_set_invincible(value);
+  // @@protoc_insertion_point(field_set:Protobuf.PlayerInfo.invincible)
+}
+
+// uint32 life = 11;
+inline void PlayerInfo::clear_life() {
+  _impl_.life_ = 0u;
+}
+inline uint32_t PlayerInfo::_internal_life() const {
+  return _impl_.life_;
+}
+inline uint32_t PlayerInfo::life() const {
+  // @@protoc_insertion_point(field_get:Protobuf.PlayerInfo.life)
+  return _internal_life();
+}
+inline void PlayerInfo::_internal_set_life(uint32_t value) {
+  
+  _impl_.life_ = value;
+}
+inline void PlayerInfo::set_life(uint32_t value) {
+  _internal_set_life(value);
+  // @@protoc_insertion_point(field_set:Protobuf.PlayerInfo.life)
+}
+
+// uint32 kill_cnt = 12;
+inline void PlayerInfo::clear_kill_cnt() {
+  _impl_.kill_cnt_ = 0u;
+}
+inline uint32_t PlayerInfo::_internal_kill_cnt() const {
+  return _impl_.kill_cnt_;
+}
+inline uint32_t PlayerInfo::kill_cnt() const {
+  // @@protoc_insertion_point(field_get:Protobuf.PlayerInfo.kill_cnt)
+  return _internal_kill_cnt();
+}
+inline void PlayerInfo::_internal_set_kill_cnt(uint32_t value) {
+  
+  _impl_.kill_cnt_ = value;
+}
+inline void PlayerInfo::set_kill_cnt(uint32_t value) {
+  _internal_set_kill_cnt(value);
+  // @@protoc_insertion_point(field_set:Protobuf.PlayerInfo.kill_cnt)
 }
 
 // -------------------------------------------------------------------
