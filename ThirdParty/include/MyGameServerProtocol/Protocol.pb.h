@@ -75,6 +75,9 @@ extern S_RemovePlayerDefaultTypeInternal _S_RemovePlayer_default_instance_;
 class S_SpawnBullet;
 struct S_SpawnBulletDefaultTypeInternal;
 extern S_SpawnBulletDefaultTypeInternal _S_SpawnBullet_default_instance_;
+class S_SpawnEffect;
+struct S_SpawnEffectDefaultTypeInternal;
+extern S_SpawnEffectDefaultTypeInternal _S_SpawnEffect_default_instance_;
 class S_SpawnPlayer;
 struct S_SpawnPlayerDefaultTypeInternal;
 extern S_SpawnPlayerDefaultTypeInternal _S_SpawnPlayer_default_instance_;
@@ -95,6 +98,7 @@ template<> ::Protobuf::S_EnterGame* Arena::CreateMaybeMessage<::Protobuf::S_Ente
 template<> ::Protobuf::S_RemoveBullet* Arena::CreateMaybeMessage<::Protobuf::S_RemoveBullet>(Arena*);
 template<> ::Protobuf::S_RemovePlayer* Arena::CreateMaybeMessage<::Protobuf::S_RemovePlayer>(Arena*);
 template<> ::Protobuf::S_SpawnBullet* Arena::CreateMaybeMessage<::Protobuf::S_SpawnBullet>(Arena*);
+template<> ::Protobuf::S_SpawnEffect* Arena::CreateMaybeMessage<::Protobuf::S_SpawnEffect>(Arena*);
 template<> ::Protobuf::S_SpawnPlayer* Arena::CreateMaybeMessage<::Protobuf::S_SpawnPlayer>(Arena*);
 template<> ::Protobuf::S_SyncBullets* Arena::CreateMaybeMessage<::Protobuf::S_SyncBullets>(Arena*);
 template<> ::Protobuf::S_SyncPlayers* Arena::CreateMaybeMessage<::Protobuf::S_SyncPlayers>(Arena*);
@@ -1405,6 +1409,163 @@ class S_SyncPlayers final :
 };
 // -------------------------------------------------------------------
 
+class S_SpawnEffect final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protobuf.S_SpawnEffect) */ {
+ public:
+  inline S_SpawnEffect() : S_SpawnEffect(nullptr) {}
+  ~S_SpawnEffect() override;
+  explicit PROTOBUF_CONSTEXPR S_SpawnEffect(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S_SpawnEffect(const S_SpawnEffect& from);
+  S_SpawnEffect(S_SpawnEffect&& from) noexcept
+    : S_SpawnEffect() {
+    *this = ::std::move(from);
+  }
+
+  inline S_SpawnEffect& operator=(const S_SpawnEffect& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S_SpawnEffect& operator=(S_SpawnEffect&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S_SpawnEffect& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S_SpawnEffect* internal_default_instance() {
+    return reinterpret_cast<const S_SpawnEffect*>(
+               &_S_SpawnEffect_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    9;
+
+  friend void swap(S_SpawnEffect& a, S_SpawnEffect& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S_SpawnEffect* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S_SpawnEffect* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S_SpawnEffect* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<S_SpawnEffect>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const S_SpawnEffect& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const S_SpawnEffect& from) {
+    S_SpawnEffect::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S_SpawnEffect* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protobuf.S_SpawnEffect";
+  }
+  protected:
+  explicit S_SpawnEffect(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kEffectFieldNumber = 1,
+  };
+  // .Protobuf.EffectInfo effect = 1;
+  bool has_effect() const;
+  private:
+  bool _internal_has_effect() const;
+  public:
+  void clear_effect();
+  const ::Protobuf::EffectInfo& effect() const;
+  PROTOBUF_NODISCARD ::Protobuf::EffectInfo* release_effect();
+  ::Protobuf::EffectInfo* mutable_effect();
+  void set_allocated_effect(::Protobuf::EffectInfo* effect);
+  private:
+  const ::Protobuf::EffectInfo& _internal_effect() const;
+  ::Protobuf::EffectInfo* _internal_mutable_effect();
+  public:
+  void unsafe_arena_set_allocated_effect(
+      ::Protobuf::EffectInfo* effect);
+  ::Protobuf::EffectInfo* unsafe_arena_release_effect();
+
+  // @@protoc_insertion_point(class_scope:Protobuf.S_SpawnEffect)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::Protobuf::EffectInfo* effect_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
 class S_SpawnBullet final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protobuf.S_SpawnBullet) */ {
  public:
@@ -1453,7 +1614,7 @@ class S_SpawnBullet final :
                &_S_SpawnBullet_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    10;
 
   friend void swap(S_SpawnBullet& a, S_SpawnBullet& b) {
     a.Swap(&b);
@@ -1610,7 +1771,7 @@ class S_RemoveBullet final :
                &_S_RemoveBullet_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    11;
 
   friend void swap(S_RemoveBullet& a, S_RemoveBullet& b) {
     a.Swap(&b);
@@ -1758,7 +1919,7 @@ class S_SyncBullets final :
                &_S_SyncBullets_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    11;
+    12;
 
   friend void swap(S_SyncBullets& a, S_SyncBullets& b) {
     a.Swap(&b);
@@ -2189,6 +2350,95 @@ S_SyncPlayers::objects() const {
 
 // -------------------------------------------------------------------
 
+// S_SpawnEffect
+
+// .Protobuf.EffectInfo effect = 1;
+inline bool S_SpawnEffect::_internal_has_effect() const {
+  return this != internal_default_instance() && _impl_.effect_ != nullptr;
+}
+inline bool S_SpawnEffect::has_effect() const {
+  return _internal_has_effect();
+}
+inline const ::Protobuf::EffectInfo& S_SpawnEffect::_internal_effect() const {
+  const ::Protobuf::EffectInfo* p = _impl_.effect_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protobuf::EffectInfo&>(
+      ::Protobuf::_EffectInfo_default_instance_);
+}
+inline const ::Protobuf::EffectInfo& S_SpawnEffect::effect() const {
+  // @@protoc_insertion_point(field_get:Protobuf.S_SpawnEffect.effect)
+  return _internal_effect();
+}
+inline void S_SpawnEffect::unsafe_arena_set_allocated_effect(
+    ::Protobuf::EffectInfo* effect) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.effect_);
+  }
+  _impl_.effect_ = effect;
+  if (effect) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protobuf.S_SpawnEffect.effect)
+}
+inline ::Protobuf::EffectInfo* S_SpawnEffect::release_effect() {
+  
+  ::Protobuf::EffectInfo* temp = _impl_.effect_;
+  _impl_.effect_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::Protobuf::EffectInfo* S_SpawnEffect::unsafe_arena_release_effect() {
+  // @@protoc_insertion_point(field_release:Protobuf.S_SpawnEffect.effect)
+  
+  ::Protobuf::EffectInfo* temp = _impl_.effect_;
+  _impl_.effect_ = nullptr;
+  return temp;
+}
+inline ::Protobuf::EffectInfo* S_SpawnEffect::_internal_mutable_effect() {
+  
+  if (_impl_.effect_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protobuf::EffectInfo>(GetArenaForAllocation());
+    _impl_.effect_ = p;
+  }
+  return _impl_.effect_;
+}
+inline ::Protobuf::EffectInfo* S_SpawnEffect::mutable_effect() {
+  ::Protobuf::EffectInfo* _msg = _internal_mutable_effect();
+  // @@protoc_insertion_point(field_mutable:Protobuf.S_SpawnEffect.effect)
+  return _msg;
+}
+inline void S_SpawnEffect::set_allocated_effect(::Protobuf::EffectInfo* effect) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.effect_);
+  }
+  if (effect) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(effect));
+    if (message_arena != submessage_arena) {
+      effect = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, effect, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.effect_ = effect;
+  // @@protoc_insertion_point(field_set_allocated:Protobuf.S_SpawnEffect.effect)
+}
+
+// -------------------------------------------------------------------
+
 // S_SpawnBullet
 
 // .Protobuf.BulletInfo bullet = 1;
@@ -2344,6 +2594,8 @@ S_SyncBullets::bullets() const {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

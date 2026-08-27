@@ -35,3 +35,13 @@ message BulletInfo
     FACING_TYPE facing = 5;
     Color color = 6;
 }
+
+/*==========================//
+//   Effect sync Packets    //
+//==========================*/
+message EffectInfo
+{
+    Vec2 position = 1;
+    FACING_TYPE facing = 2;
+}
+

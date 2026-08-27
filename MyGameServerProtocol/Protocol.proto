@@ -50,6 +50,11 @@ message S_SyncPlayers
     repeated PlayerInfo objects = 1;
 }
 
+message S_SpawnEffect
+{
+    EffectInfo effect = 1;
+}
+
 /* Bullet Packets */
 message S_SpawnBullet
 {

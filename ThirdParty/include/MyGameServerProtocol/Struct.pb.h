@@ -50,12 +50,16 @@ namespace Protobuf {
 class BulletInfo;
 struct BulletInfoDefaultTypeInternal;
 extern BulletInfoDefaultTypeInternal _BulletInfo_default_instance_;
+class EffectInfo;
+struct EffectInfoDefaultTypeInternal;
+extern EffectInfoDefaultTypeInternal _EffectInfo_default_instance_;
 class PlayerInfo;
 struct PlayerInfoDefaultTypeInternal;
 extern PlayerInfoDefaultTypeInternal _PlayerInfo_default_instance_;
 }  // namespace Protobuf
 PROTOBUF_NAMESPACE_OPEN
 template<> ::Protobuf::BulletInfo* Arena::CreateMaybeMessage<::Protobuf::BulletInfo>(Arena*);
+template<> ::Protobuf::EffectInfo* Arena::CreateMaybeMessage<::Protobuf::EffectInfo>(Arena*);
 template<> ::Protobuf::PlayerInfo* Arena::CreateMaybeMessage<::Protobuf::PlayerInfo>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace Protobuf {
@@ -580,6 +584,174 @@ class BulletInfo final :
     ::Protobuf::Color* color_;
     uint64_t objectid_;
     uint64_t ownerid_;
+    int facing_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_Struct_2eproto;
+};
+// -------------------------------------------------------------------
+
+class EffectInfo final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protobuf.EffectInfo) */ {
+ public:
+  inline EffectInfo() : EffectInfo(nullptr) {}
+  ~EffectInfo() override;
+  explicit PROTOBUF_CONSTEXPR EffectInfo(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  EffectInfo(const EffectInfo& from);
+  EffectInfo(EffectInfo&& from) noexcept
+    : EffectInfo() {
+    *this = ::std::move(from);
+  }
+
+  inline EffectInfo& operator=(const EffectInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline EffectInfo& operator=(EffectInfo&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const EffectInfo& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const EffectInfo* internal_default_instance() {
+    return reinterpret_cast<const EffectInfo*>(
+               &_EffectInfo_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  friend void swap(EffectInfo& a, EffectInfo& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(EffectInfo* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(EffectInfo* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  EffectInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<EffectInfo>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const EffectInfo& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const EffectInfo& from) {
+    EffectInfo::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(EffectInfo* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protobuf.EffectInfo";
+  }
+  protected:
+  explicit EffectInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kPositionFieldNumber = 1,
+    kFacingFieldNumber = 2,
+  };
+  // .Protobuf.Vec2 position = 1;
+  bool has_position() const;
+  private:
+  bool _internal_has_position() const;
+  public:
+  void clear_position();
+  const ::Protobuf::Vec2& position() const;
+  PROTOBUF_NODISCARD ::Protobuf::Vec2* release_position();
+  ::Protobuf::Vec2* mutable_position();
+  void set_allocated_position(::Protobuf::Vec2* position);
+  private:
+  const ::Protobuf::Vec2& _internal_position() const;
+  ::Protobuf::Vec2* _internal_mutable_position();
+  public:
+  void unsafe_arena_set_allocated_position(
+      ::Protobuf::Vec2* position);
+  ::Protobuf::Vec2* unsafe_arena_release_position();
+
+  // .Protobuf.FACING_TYPE facing = 2;
+  void clear_facing();
+  ::Protobuf::FACING_TYPE facing() const;
+  void set_facing(::Protobuf::FACING_TYPE value);
+  private:
+  ::Protobuf::FACING_TYPE _internal_facing() const;
+  void _internal_set_facing(::Protobuf::FACING_TYPE value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protobuf.EffectInfo)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::Protobuf::Vec2* position_;
     int facing_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -1351,9 +1523,120 @@ inline void BulletInfo::set_allocated_color(::Protobuf::Color* color) {
   // @@protoc_insertion_point(field_set_allocated:Protobuf.BulletInfo.color)
 }
 
+// -------------------------------------------------------------------
+
+// EffectInfo
+
+// .Protobuf.Vec2 position = 1;
+inline bool EffectInfo::_internal_has_position() const {
+  return this != internal_default_instance() && _impl_.position_ != nullptr;
+}
+inline bool EffectInfo::has_position() const {
+  return _internal_has_position();
+}
+inline const ::Protobuf::Vec2& EffectInfo::_internal_position() const {
+  const ::Protobuf::Vec2* p = _impl_.position_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protobuf::Vec2&>(
+      ::Protobuf::_Vec2_default_instance_);
+}
+inline const ::Protobuf::Vec2& EffectInfo::position() const {
+  // @@protoc_insertion_point(field_get:Protobuf.EffectInfo.position)
+  return _internal_position();
+}
+inline void EffectInfo::unsafe_arena_set_allocated_position(
+    ::Protobuf::Vec2* position) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.position_);
+  }
+  _impl_.position_ = position;
+  if (position) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protobuf.EffectInfo.position)
+}
+inline ::Protobuf::Vec2* EffectInfo::release_position() {
+  
+  ::Protobuf::Vec2* temp = _impl_.position_;
+  _impl_.position_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::Protobuf::Vec2* EffectInfo::unsafe_arena_release_position() {
+  // @@protoc_insertion_point(field_release:Protobuf.EffectInfo.position)
+  
+  ::Protobuf::Vec2* temp = _impl_.position_;
+  _impl_.position_ = nullptr;
+  return temp;
+}
+inline ::Protobuf::Vec2* EffectInfo::_internal_mutable_position() {
+  
+  if (_impl_.position_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protobuf::Vec2>(GetArenaForAllocation());
+    _impl_.position_ = p;
+  }
+  return _impl_.position_;
+}
+inline ::Protobuf::Vec2* EffectInfo::mutable_position() {
+  ::Protobuf::Vec2* _msg = _internal_mutable_position();
+  // @@protoc_insertion_point(field_mutable:Protobuf.EffectInfo.position)
+  return _msg;
+}
+inline void EffectInfo::set_allocated_position(::Protobuf::Vec2* position) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.position_);
+  }
+  if (position) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(position));
+    if (message_arena != submessage_arena) {
+      position = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, position, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.position_ = position;
+  // @@protoc_insertion_point(field_set_allocated:Protobuf.EffectInfo.position)
+}
+
+// .Protobuf.FACING_TYPE facing = 2;
+inline void EffectInfo::clear_facing() {
+  _impl_.facing_ = 0;
+}
+inline ::Protobuf::FACING_TYPE EffectInfo::_internal_facing() const {
+  return static_cast< ::Protobuf::FACING_TYPE >(_impl_.facing_);
+}
+inline ::Protobuf::FACING_TYPE EffectInfo::facing() const {
+  // @@protoc_insertion_point(field_get:Protobuf.EffectInfo.facing)
+  return _internal_facing();
+}
+inline void EffectInfo::_internal_set_facing(::Protobuf::FACING_TYPE value) {
+  
+  _impl_.facing_ = value;
+}
+inline void EffectInfo::set_facing(::Protobuf::FACING_TYPE value) {
+  _internal_set_facing(value);
+  // @@protoc_insertion_point(field_set:Protobuf.EffectInfo.facing)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 

@@ -180,5 +180,5 @@ namespace MGSL::Net
 	SendBufferPtr ServerPacketHandler::Make_S_SpawnBullet(const ::Protobuf::S_SpawnBullet& pkt) { return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::S_SpawnBullet)); }
 	SendBufferPtr ServerPacketHandler::Make_S_SyncBullets(const ::Protobuf::S_SyncBullets& pkt) { return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::S_SyncBullets)); }
 	SendBufferPtr ServerPacketHandler::Make_S_RemoveBullet(const ::Protobuf::S_RemoveBullet& pkt) { return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::S_RemoveBullet)); }
-
+	SendBufferPtr ServerPacketHandler::Make_S_SpawnEffect(const ::Protobuf::S_SpawnEffect& pkt) { return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::S_SpawnEffect)); }
 }

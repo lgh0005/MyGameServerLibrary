@@ -42,7 +42,7 @@ namespace MGSL::Server
 
         // Attack
         if (UpdateAttack(deltaTime)) return;
-        
+
         // Land
         UpdateLand(body, deltaTime);
         if (IsLanding()) return;
@@ -231,7 +231,7 @@ namespace MGSL::Server
         bulletInfo.mutable_position()->set_y(spawnPosition.y);
         bulletInfo.set_facing(m_info.facing());
         *bulletInfo.mutable_color() = m_info.color();
-        
+
         room->SpawnBullet(bulletInfo);
     }
 #pragma endregion
@@ -248,28 +248,28 @@ namespace MGSL::Server
     {
         switch (m_horizontalDirection)
         {
-            case ::Protobuf::DIR_TYPE_LEFT:
-                m_info.set_facing(::Protobuf::FACING_TYPE_LEFT);
-                return -1.0f;
+        case ::Protobuf::DIR_TYPE_LEFT:
+            m_info.set_facing(::Protobuf::FACING_TYPE_LEFT);
+            return -1.0f;
 
-            case ::Protobuf::DIR_TYPE_RIGHT:
-                m_info.set_facing(::Protobuf::FACING_TYPE_RIGHT);
-                return 1.0f;
+        case ::Protobuf::DIR_TYPE_RIGHT:
+            m_info.set_facing(::Protobuf::FACING_TYPE_RIGHT);
+            return 1.0f;
 
-            default:
-                return 0.0f;
+        default:
+            return 0.0f;
         }
     }
 
-    
-    
+
+
     float PlayerController::GetVerticalDirectionValue()
     {
         switch (m_verticalDirection)
         {
-            case ::Protobuf::DIR_TYPE_UP: return 1.0f;
-            case ::Protobuf::DIR_TYPE_DOWN: return -1.0f;
-            default: return 0.0f;
+        case ::Protobuf::DIR_TYPE_UP: return 1.0f;
+        case ::Protobuf::DIR_TYPE_DOWN: return -1.0f;
+        default: return 0.0f;
         }
     }
 #pragma endregion
@@ -281,30 +281,30 @@ namespace MGSL::Server
 
         switch (m_ladderState)
         {
-            case ELadderState::NONE:
-            {
-                body->SetGravityEnabled(true);
-                body->SetIgnorePlatform(false);
-                break;
-            }
+        case ELadderState::NONE:
+        {
+            body->SetGravityEnabled(true);
+            body->SetIgnorePlatform(false);
+            break;
+        }
 
-            case ELadderState::CONTACT:
-            {
-                if (directionY == 0.0f) break;
-                m_ladderState = ELadderState::CLIMBING;
-                body->SetGravityEnabled(false);
-                body->SetIgnorePlatform(true);
-                body->SetVerticalVelocity(directionY * m_climbSpeed);
-                break;
-            }
+        case ELadderState::CONTACT:
+        {
+            if (directionY == 0.0f) break;
+            m_ladderState = ELadderState::CLIMBING;
+            body->SetGravityEnabled(false);
+            body->SetIgnorePlatform(true);
+            body->SetVerticalVelocity(directionY * m_climbSpeed);
+            break;
+        }
 
-            case ELadderState::CLIMBING:
-            {
-                body->SetGravityEnabled(false);
-                body->SetIgnorePlatform(true);
-                body->SetVerticalVelocity(directionY * m_climbSpeed);
-                break;
-            }
+        case ELadderState::CLIMBING:
+        {
+            body->SetGravityEnabled(false);
+            body->SetIgnorePlatform(true);
+            body->SetVerticalVelocity(directionY * m_climbSpeed);
+            break;
+        }
         }
     }
 #pragma endregion
@@ -345,21 +345,21 @@ namespace MGSL::Server
 
         switch (m_info.weapon())
         {
-            case ::Protobuf::WEAPON_TYPE_NONE:
-            case ::Protobuf::WEAPON_TYPE_SWORD:
-                m_comboIndex = 1;
-                m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_ATTACK_1);
-                break;
+        case ::Protobuf::WEAPON_TYPE_NONE:
+        case ::Protobuf::WEAPON_TYPE_SWORD:
+            m_comboIndex = 1;
+            m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_ATTACK_1);
+            break;
 
-            case ::Protobuf::WEAPON_TYPE_PISTOL:
-                m_comboIndex = 0;
-                m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_SHOT);
-                Shot();
-                break;
+        case ::Protobuf::WEAPON_TYPE_PISTOL:
+            m_comboIndex = 0;
+            m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_SHOT);
+            Shot();
+            break;
 
-            default:
-                m_isAttacking = false;
-                break;
+        default:
+            m_isAttacking = false;
+            break;
         }
     }
 
@@ -381,9 +381,9 @@ namespace MGSL::Server
 
             switch (m_comboIndex)
             {
-                case 2: m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_ATTACK_2); break;
-                case 3: m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_ATTACK_3); break;
-                default: break;
+            case 2: m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_ATTACK_2); break;
+            case 3: m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_ATTACK_3); break;
+            default: break;
             }
 
             m_attackQueued = false;
@@ -418,11 +418,11 @@ namespace MGSL::Server
         if (!other) return;
         switch (other->GetCollisionLayer())
         {
-            case ECollisionLayer::LADDER: m_ladderState = ELadderState::NONE; break;
+        case ECollisionLayer::LADDER: m_ladderState = ELadderState::NONE; break;
 
             // TODO CASE ECollisionLayer::BULLET: break;
 
-            default: break;
+        default: break;
         }
     }
 
@@ -448,6 +448,10 @@ namespace MGSL::Server
             // Damage
             TakeDamage(1, attackerController);
 
+            // Hit Effect
+            BoxCollider* targetCollider = GetOwner()->GetComponent<BoxCollider>(); if (!targetCollider) return;
+            BroadcastHitEffect(other, targetCollider, attackerController);
+
             MGSL_LOG_INFO
             (
                 "HITBOX collision detected. Attacker = {}, Target = {}",
@@ -467,6 +471,44 @@ namespace MGSL::Server
         default:
             break;
         }
+    }
+
+    void PlayerController::BroadcastHitEffect
+    (
+        BoxCollider* hitboxCollider,
+        BoxCollider* targetCollider,
+        PlayerController* attackerController
+    ) 
+    {
+        if (!hitboxCollider || !targetCollider || !attackerController)
+            return;
+
+        GameObject* owner = GetOwner();
+        if (!owner) return;
+
+        Net::GameRoomPtr room = owner->GetGameRoom();
+        if (!room) return;
+
+        const AABB& attackerBounds = hitboxCollider->GetBounds();
+        const AABB& targetBounds = targetCollider->GetBounds();
+
+        const float minX = std::max(attackerBounds.min.x, targetBounds.min.x);
+        const float maxX = std::min(attackerBounds.max.x, targetBounds.max.x);
+        const float minY = std::max(attackerBounds.min.y, targetBounds.min.y);
+        const float maxY = std::min(attackerBounds.max.y, targetBounds.max.y);
+
+        const Shared::vec2 hitPosition
+        (
+            (minX + maxX) * 0.5f,
+            (minY + maxY) * 0.5f
+        );
+
+        ::Protobuf::EffectInfo effectInfo;
+        effectInfo.mutable_position()->set_x(hitPosition.x);
+        effectInfo.mutable_position()->set_y(hitPosition.y);
+        effectInfo.set_facing(attackerController->GetFacing());
+
+        room->BroadcastEffect(effectInfo);
     }
 #pragma endregion
 

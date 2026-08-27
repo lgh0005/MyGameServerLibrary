@@ -12,6 +12,7 @@ namespace MGSL::Protocol
 		S_SpawnBullet = 6,
 		S_SyncBullets = 7,
 		S_RemoveBullet = 8,
+		S_SpawnEffect = 9,
 
 		C_EnterGame = 10,
 		C_Move = 11,

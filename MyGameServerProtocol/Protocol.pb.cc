@@ -135,6 +135,19 @@ struct S_SyncPlayersDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S_SyncPlayersDefaultTypeInternal _S_SyncPlayers_default_instance_;
+PROTOBUF_CONSTEXPR S_SpawnEffect::S_SpawnEffect(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.effect_)*/nullptr
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct S_SpawnEffectDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR S_SpawnEffectDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~S_SpawnEffectDefaultTypeInternal() {}
+  union {
+    S_SpawnEffect _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S_SpawnEffectDefaultTypeInternal _S_SpawnEffect_default_instance_;
 PROTOBUF_CONSTEXPR S_SpawnBullet::S_SpawnBullet(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.bullet_)*/nullptr
@@ -175,7 +188,7 @@ struct S_SyncBulletsDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S_SyncBulletsDefaultTypeInternal _S_SyncBullets_default_instance_;
 }  // namespace Protobuf
-static ::_pb::Metadata file_level_metadata_Protocol_2eproto[12];
+static ::_pb::Metadata file_level_metadata_Protocol_2eproto[13];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_Protocol_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_Protocol_2eproto = nullptr;
 
@@ -244,6 +257,13 @@ const uint32_t TableStruct_Protocol_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Protobuf::S_SyncPlayers, _impl_.objects_),
   ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Protobuf::S_SpawnEffect, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protobuf::S_SpawnEffect, _impl_.effect_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protobuf::S_SpawnBullet, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -275,9 +295,10 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 42, -1, -1, sizeof(::Protobuf::S_SpawnPlayer)},
   { 49, -1, -1, sizeof(::Protobuf::S_RemovePlayer)},
   { 56, -1, -1, sizeof(::Protobuf::S_SyncPlayers)},
-  { 63, -1, -1, sizeof(::Protobuf::S_SpawnBullet)},
-  { 70, -1, -1, sizeof(::Protobuf::S_RemoveBullet)},
-  { 77, -1, -1, sizeof(::Protobuf::S_SyncBullets)},
+  { 63, -1, -1, sizeof(::Protobuf::S_SpawnEffect)},
+  { 70, -1, -1, sizeof(::Protobuf::S_SpawnBullet)},
+  { 77, -1, -1, sizeof(::Protobuf::S_RemoveBullet)},
+  { 84, -1, -1, sizeof(::Protobuf::S_SyncBullets)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -290,6 +311,7 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::Protobuf::_S_SpawnPlayer_default_instance_._instance,
   &::Protobuf::_S_RemovePlayer_default_instance_._instance,
   &::Protobuf::_S_SyncPlayers_default_instance_._instance,
+  &::Protobuf::_S_SpawnEffect_default_instance_._instance,
   &::Protobuf::_S_SpawnBullet_default_instance_._instance,
   &::Protobuf::_S_RemoveBullet_default_instance_._instance,
   &::Protobuf::_S_SyncBullets_default_instance_._instance,
@@ -308,10 +330,12 @@ const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABL
   "\003(\0132\024.Protobuf.PlayerInfo\"\"\n\016S_RemovePla"
   "yer\022\020\n\010objectID\030\001 \001(\004\"6\n\rS_SyncPlayers\022%"
   "\n\007objects\030\001 \003(\0132\024.Protobuf.PlayerInfo\"5\n"
-  "\rS_SpawnBullet\022$\n\006bullet\030\001 \001(\0132\024.Protobu"
-  "f.BulletInfo\"\"\n\016S_RemoveBullet\022\020\n\010object"
-  "ID\030\001 \001(\004\"6\n\rS_SyncBullets\022%\n\007bullets\030\001 \003"
-  "(\0132\024.Protobuf.BulletInfob\006proto3"
+  "\rS_SpawnEffect\022$\n\006effect\030\001 \001(\0132\024.Protobu"
+  "f.EffectInfo\"5\n\rS_SpawnBullet\022$\n\006bullet\030"
+  "\001 \001(\0132\024.Protobuf.BulletInfo\"\"\n\016S_RemoveB"
+  "ullet\022\020\n\010objectID\030\001 \001(\004\"6\n\rS_SyncBullets"
+  "\022%\n\007bullets\030\001 \003(\0132\024.Protobuf.BulletInfob"
+  "\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_Protocol_2eproto_deps[2] = {
   &::descriptor_table_Enum_2eproto,
@@ -319,9 +343,9 @@ static const ::_pbi::DescriptorTable* const descriptor_table_Protocol_2eproto_de
 };
 static ::_pbi::once_flag descriptor_table_Protocol_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_Protocol_2eproto = {
-    false, false, 632, descriptor_table_protodef_Protocol_2eproto,
+    false, false, 687, descriptor_table_protodef_Protocol_2eproto,
     "Protocol.proto",
-    &descriptor_table_Protocol_2eproto_once, descriptor_table_Protocol_2eproto_deps, 2, 12,
+    &descriptor_table_Protocol_2eproto_once, descriptor_table_Protocol_2eproto_deps, 2, 13,
     schemas, file_default_instances, TableStruct_Protocol_2eproto::offsets,
     file_level_metadata_Protocol_2eproto, file_level_enum_descriptors_Protocol_2eproto,
     file_level_service_descriptors_Protocol_2eproto,
@@ -1662,6 +1686,205 @@ void S_SyncPlayers::InternalSwap(S_SyncPlayers* other) {
 
 // ===================================================================
 
+class S_SpawnEffect::_Internal {
+ public:
+  static const ::Protobuf::EffectInfo& effect(const S_SpawnEffect* msg);
+};
+
+const ::Protobuf::EffectInfo&
+S_SpawnEffect::_Internal::effect(const S_SpawnEffect* msg) {
+  return *msg->_impl_.effect_;
+}
+void S_SpawnEffect::clear_effect() {
+  if (GetArenaForAllocation() == nullptr && _impl_.effect_ != nullptr) {
+    delete _impl_.effect_;
+  }
+  _impl_.effect_ = nullptr;
+}
+S_SpawnEffect::S_SpawnEffect(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:Protobuf.S_SpawnEffect)
+}
+S_SpawnEffect::S_SpawnEffect(const S_SpawnEffect& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  S_SpawnEffect* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.effect_){nullptr}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  if (from._internal_has_effect()) {
+    _this->_impl_.effect_ = new ::Protobuf::EffectInfo(*from._impl_.effect_);
+  }
+  // @@protoc_insertion_point(copy_constructor:Protobuf.S_SpawnEffect)
+}
+
+inline void S_SpawnEffect::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.effect_){nullptr}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+S_SpawnEffect::~S_SpawnEffect() {
+  // @@protoc_insertion_point(destructor:Protobuf.S_SpawnEffect)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void S_SpawnEffect::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  if (this != internal_default_instance()) delete _impl_.effect_;
+}
+
+void S_SpawnEffect::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void S_SpawnEffect::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protobuf.S_SpawnEffect)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (GetArenaForAllocation() == nullptr && _impl_.effect_ != nullptr) {
+    delete _impl_.effect_;
+  }
+  _impl_.effect_ = nullptr;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* S_SpawnEffect::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // .Protobuf.EffectInfo effect = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          ptr = ctx->ParseMessage(_internal_mutable_effect(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* S_SpawnEffect::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:Protobuf.S_SpawnEffect)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .Protobuf.EffectInfo effect = 1;
+  if (this->_internal_has_effect()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, _Internal::effect(this),
+        _Internal::effect(this).GetCachedSize(), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Protobuf.S_SpawnEffect)
+  return target;
+}
+
+size_t S_SpawnEffect::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protobuf.S_SpawnEffect)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // .Protobuf.EffectInfo effect = 1;
+  if (this->_internal_has_effect()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.effect_);
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData S_SpawnEffect::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    S_SpawnEffect::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S_SpawnEffect::GetClassData() const { return &_class_data_; }
+
+
+void S_SpawnEffect::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<S_SpawnEffect*>(&to_msg);
+  auto& from = static_cast<const S_SpawnEffect&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protobuf.S_SpawnEffect)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_has_effect()) {
+    _this->_internal_mutable_effect()->::Protobuf::EffectInfo::MergeFrom(
+        from._internal_effect());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void S_SpawnEffect::CopyFrom(const S_SpawnEffect& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protobuf.S_SpawnEffect)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool S_SpawnEffect::IsInitialized() const {
+  return true;
+}
+
+void S_SpawnEffect::InternalSwap(S_SpawnEffect* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_.effect_, other->_impl_.effect_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata S_SpawnEffect::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_Protocol_2eproto_getter, &descriptor_table_Protocol_2eproto_once,
+      file_level_metadata_Protocol_2eproto[9]);
+}
+
+// ===================================================================
+
 class S_SpawnBullet::_Internal {
  public:
   static const ::Protobuf::BulletInfo& bullet(const S_SpawnBullet* msg);
@@ -1856,7 +2079,7 @@ void S_SpawnBullet::InternalSwap(S_SpawnBullet* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S_SpawnBullet::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_Protocol_2eproto_getter, &descriptor_table_Protocol_2eproto_once,
-      file_level_metadata_Protocol_2eproto[9]);
+      file_level_metadata_Protocol_2eproto[10]);
 }
 
 // ===================================================================
@@ -2034,7 +2257,7 @@ void S_RemoveBullet::InternalSwap(S_RemoveBullet* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S_RemoveBullet::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_Protocol_2eproto_getter, &descriptor_table_Protocol_2eproto_once,
-      file_level_metadata_Protocol_2eproto[10]);
+      file_level_metadata_Protocol_2eproto[11]);
 }
 
 // ===================================================================
@@ -2222,7 +2445,7 @@ void S_SyncBullets::InternalSwap(S_SyncBullets* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S_SyncBullets::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_Protocol_2eproto_getter, &descriptor_table_Protocol_2eproto_once,
-      file_level_metadata_Protocol_2eproto[11]);
+      file_level_metadata_Protocol_2eproto[12]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -2263,6 +2486,10 @@ Arena::CreateMaybeMessage< ::Protobuf::S_RemovePlayer >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::Protobuf::S_SyncPlayers*
 Arena::CreateMaybeMessage< ::Protobuf::S_SyncPlayers >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Protobuf::S_SyncPlayers >(arena);
+}
+template<> PROTOBUF_NOINLINE ::Protobuf::S_SpawnEffect*
+Arena::CreateMaybeMessage< ::Protobuf::S_SpawnEffect >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protobuf::S_SpawnEffect >(arena);
 }
 template<> PROTOBUF_NOINLINE ::Protobuf::S_SpawnBullet*
 Arena::CreateMaybeMessage< ::Protobuf::S_SpawnBullet >(Arena* arena) {

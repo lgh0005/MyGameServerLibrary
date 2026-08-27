@@ -319,28 +319,19 @@ namespace MGSL::Net
 		::Protobuf::S_RemoveBullet pkt;
 		pkt.set_objectid(objectID);
 
-		auto sendBuffer =
-			ServerPacketHandler::Make_S_RemoveBullet(pkt);
-
-		if (!sendBuffer)
-			return;
+		auto sendBuffer = ServerPacketHandler::Make_S_RemoveBullet(pkt);
+		if (!sendBuffer) return;
 
 		for (const auto& [playerID, playerController] : m_players)
 		{
 			if (!playerController)
 				continue;
 
-			Server::GameObject* player =
-				playerController->GetOwner();
+			Server::GameObject* player = playerController->GetOwner();
+			if (!player) continue;
 
-			if (!player)
-				continue;
-
-			GameSessionPtr session =
-				player->GetGameSession();
-
-			if (!session)
-				continue;
+			GameSessionPtr session = player->GetGameSession();
+			if (!session) continue;
 
 			session->GetSessionBuffer().Send(sendBuffer);
 		}
@@ -365,6 +356,28 @@ namespace MGSL::Net
 		{
 			if (!playerController) continue;
 			Server::GameObject* player = playerController->GetOwner();
+			if (!player) continue;
+
+			GameSessionPtr session = player->GetGameSession();
+			if (!session) continue;
+
+			session->GetSessionBuffer().Send(sendBuffer);
+		}
+	}
+
+	void GameRoom::BroadcastEffect(const ::Protobuf::EffectInfo& info)
+	{
+		::Protobuf::S_SpawnEffect pkt;
+		*pkt.mutable_effect() = info;
+
+		SendBufferPtr sendBuffer = ServerPacketHandler::Make_S_SpawnEffect(pkt);
+		if (!sendBuffer) return;
+
+		for (const auto& [objectID, controller] : m_players)
+		{
+			if (!controller) continue;
+
+			Server::GameObject* player = controller->GetOwner();
 			if (!player) continue;
 
 			GameSessionPtr session = player->GetGameSession();

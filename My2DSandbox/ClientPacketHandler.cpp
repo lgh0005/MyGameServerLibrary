@@ -63,6 +63,10 @@ namespace MGSL::Net
 		case Protocol::PacketID::S_SyncBullets:
 			Handle_S_SYNC_BULLETS(serverSession, buffer, len);
 			break;
+
+		case Protocol::PacketID::S_SpawnEffect:
+			Handle_S_SPAWN_EFFECT(serverSession, buffer, len);
+			break;
 		}
 	}
 
@@ -138,6 +142,15 @@ namespace MGSL::Net
 	void ClientPacketHandler::Handle_S_REMOVE_PLAYER(ServerSessionPtr session, BYTE* buffer, Shared::int32 len)
 	{
 		// TODO 
+	}
+
+	void ClientPacketHandler::Handle_S_SPAWN_EFFECT(ServerSessionPtr session, BYTE* buffer, Shared::int32 len)
+	{
+		Protocol::PacketHeader* header = reinterpret_cast<Protocol::PacketHeader*>(buffer);
+		const Shared::uint16 size = header->size;
+		::Protobuf::S_SpawnEffect pkt;
+		pkt.ParseFromArray(&header[1], size - sizeof(Protocol::PacketHeader));
+		MGSL_NETWORK_MGR.RunOnMainThread([pkt = std::move(pkt)]() { SpawnEffect(pkt); });
 	}
 
 	void ClientPacketHandler::Handle_S_SPAWN_BULLET(ServerSessionPtr session, BYTE* buffer, Shared::int32 len)
@@ -317,5 +330,14 @@ namespace MGSL::Net
 		Framework::BoxCollider* collider = bullet->GetComponent<Framework::BoxCollider>();
 		if (collider) MGSL_COLLIDE_MGR.Unregister(collider);
 		MGSL_OBJECT_MGR.UnregisterNetworkObject(scene, pkt.objectid());
+	}
+
+	void ClientPacketHandler::SpawnEffect(const ::Protobuf::S_SpawnEffect& pkt)
+	{
+		Framework::Scene* scene = g_Game2D.GetScene();
+		if (!scene) return;
+		const ::Protobuf::EffectInfo& info = pkt.effect();
+		const Shared::vec3 position { info.position().x(), info.position().y(), 0.0f };
+		Sandbox2D::PrefabUtils::CreateAttackEffect(scene, position, info.facing());
 	}
 }

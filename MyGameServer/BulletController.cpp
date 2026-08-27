@@ -71,7 +71,16 @@ namespace MGSL::Server
 			PlayerController* attacker = room->FindPlayer(m_info.ownerid());
 			if (!attacker) return;
 
+			// Damage
 			targetController->TakeDamage(1, attacker);
+
+			// Hit Effect
+			const Shared::vec3& position = bulletObject->GetTransform().GetPosition();
+			::Protobuf::EffectInfo effectInfo;
+			effectInfo.mutable_position()->set_x(position.x);
+			effectInfo.mutable_position()->set_y(position.y);
+			effectInfo.set_facing(m_info.facing());
+			room->BroadcastEffect(effectInfo);
 
 			DestroyBullet();
 			break;

@@ -73,6 +73,7 @@ namespace MGSL::Sandbox2D
 		static Framework::FlipbookControllerPtr MakeFighterController(const Framework::Texture2DPtr& texture);
 		static Framework::FlipbookControllerPtr MakePistolController(const Framework::Texture2DPtr& texture);
 		static Framework::FlipbookControllerPtr MakeSwordController(const Framework::Texture2DPtr& texture);
+		static Framework::FlipbookControllerPtr MakeHitEffectController(const Framework::Texture2DPtr& texture);
 	};
 }
 

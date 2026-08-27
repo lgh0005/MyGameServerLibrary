@@ -30,6 +30,7 @@ namespace MGSL::Net
 		void LeaveGameRoom(GameSessionPtr session);
 		void SpawnBullet(const ::Protobuf::BulletInfo& info);
 		void RemoveBullet(Shared::uint64 objectID);
+		void BroadcastEffect(const ::Protobuf::EffectInfo& info);
 
 	public:
 		Server::PlayerController* FindPlayer(Shared::uint64 objectID) const;

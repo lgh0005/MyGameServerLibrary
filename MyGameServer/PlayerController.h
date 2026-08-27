@@ -169,6 +169,12 @@ namespace MGSL::Server
 	//======================*/
 	private:
 		void HandleTrigger(BoxCollider* other);
+		void BroadcastHitEffect
+		(
+			BoxCollider* hitboxCollider, 
+			BoxCollider* targetCollider, 
+			PlayerController* attackerController
+		);
 
 #pragma endregion
 

@@ -44,5 +44,6 @@ namespace MGSL::Net
 		static SendBufferPtr Make_S_SpawnBullet(const ::Protobuf::S_SpawnBullet& pkt);
 		static SendBufferPtr Make_S_SyncBullets(const ::Protobuf::S_SyncBullets& pkt);
 		static SendBufferPtr Make_S_RemoveBullet(const ::Protobuf::S_RemoveBullet& pkt);
+		static SendBufferPtr Make_S_SpawnEffect(const ::Protobuf::S_SpawnEffect& pkt);
 	};		
 }

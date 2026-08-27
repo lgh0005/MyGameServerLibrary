@@ -205,5 +205,19 @@ namespace MGSL::Sandbox2D
 		return controller;
 	}
 
+	Framework::FlipbookControllerPtr FlipbookUtils::MakeHitEffectController(const Framework::Texture2DPtr& texture)
+	{
+		Framework::FlipbookControllerPtr controller = Framework::FlipbookController::Create(texture);
+		if (!controller) return nullptr;
 
+		constexpr Shared::uint32 stateIndex = 0;
+		constexpr Shared::usize frameCount = 4;
+		constexpr float fps = 16.0f;
+
+		Framework::FlipbookClipPtr clip = MakeHorizontalClip(frameCount, fps, false);
+		if (!clip) return nullptr;
+
+		if (!controller->SetClip(stateIndex, clip)) return nullptr;
+		return controller;
+	}
 }

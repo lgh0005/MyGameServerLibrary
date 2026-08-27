@@ -11,6 +11,7 @@
 
 #include "BulletNetworkState.h"
 #include "AttackEffect.h"
+#include "FlipbookUtils.h"
 
 namespace MGSL::Sandbox2D
 {
@@ -52,46 +53,48 @@ namespace MGSL::Sandbox2D
 		return bulletObject;
 	}
 
-	Framework::GameObject* PrefabUtils::CreateAttackEffect
-	(
-		Framework::Scene* scene,
-		const Shared::vec3& position,
-		::Protobuf::FACING_TYPE facing
-	)
+	Framework::GameObject* PrefabUtils::CreateAttackEffect(Framework::Scene* scene, const Shared::vec3& position, ::Protobuf::FACING_TYPE facing)
 	{
 		if (!scene) return nullptr;
 
 		/*========================//
 		//      Game Object       //
 		//========================*/
-		Framework::GameObject* effectObject = MGSL_OBJECT_MGR.CreateGameObject(scene); if (!effectObject) return nullptr;
+		Framework::GameObject* effectObject = MGSL_OBJECT_MGR.CreateGameObject(scene);
+		if (!effectObject) return nullptr;
 		effectObject->GetTransform().SetPosition(position);
 
 		/*========================//
 		//      Effect Atlas      //
 		//========================*/
-		Framework::Texture2DPtr effectAtlas = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Effect.HitEffect"); if (!effectAtlas) return nullptr;
-		Framework::FlipbookControllerPtr effectController = Framework::FlipbookController::Create(effectAtlas); if (!effectController) return nullptr;
-		Framework::FlipbookPlayer* flipbook = MGSL_OBJECT_MGR.AddComponent<Framework::FlipbookPlayer>(effectObject); if (!flipbook) return nullptr;
-
-		constexpr Shared::uint32 controllerIndex = 0;
-		if (!flipbook->SetController(controllerIndex, effectController)) return nullptr;
-		if (!flipbook->ChangeController(controllerIndex)) return nullptr;
-		flipbook->SetFlipX(facing == ::Protobuf::FACING_TYPE_LEFT);
+		Framework::Texture2DPtr effectAtlas = MGSL_RESOURCE_MGR.GetResource<Framework::Texture2D>("Sandbox2D.Effect.HitEffect");
+		if (!effectAtlas) return nullptr;
 
 		/*========================//
-		//		   Effect         //
+		//   Effect Controller    //
 		//========================*/
-		// 이후 EffectLifeTime 같은 컴포넌트를 만들면:
-		//
-		// EffectLifeTime* lifeTime =
-		//     MGSL_OBJECT_MGR.AddComponent<EffectLifeTime>(
-		//         effectObject);
-		//
-		// if (!lifeTime)
-		//     return nullptr;
-		//
-		// lifeTime->SetDuration(0.25f);
+		Framework::FlipbookControllerPtr effectController = FlipbookUtils::MakeHitEffectController(effectAtlas);
+		if (!effectController) return nullptr;
+
+		/*========================//
+		//    Flipbook Player     //
+		//========================*/
+		Framework::FlipbookPlayer* flipbook = MGSL_OBJECT_MGR.AddComponent<Framework::FlipbookPlayer>(effectObject);
+		if (!flipbook) return nullptr;
+
+		constexpr Shared::uint32 controllerIndex = 0;
+		constexpr Shared::uint32 stateIndex = 0;
+		if (!flipbook->SetController(controllerIndex, effectController)) return nullptr;
+		if (!flipbook->ChangeController(controllerIndex)) return nullptr;
+		if (!flipbook->SetState(stateIndex)) return nullptr;
+		flipbook->SetFlipX(facing == ::Protobuf::FACING_TYPE_LEFT);
+		flipbook->SetSize(Shared::vec2(0.5f, 0.5f));
+
+		/*========================//
+		//         Effect         //
+		//========================*/
+		AttackEffect* effect = MGSL_OBJECT_MGR.AddComponent<AttackEffect>(effectObject);
+		if (!effect) return nullptr;
 
 		return effectObject;
 	}

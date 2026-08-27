@@ -63,8 +63,22 @@ struct BulletInfoDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 BulletInfoDefaultTypeInternal _BulletInfo_default_instance_;
+PROTOBUF_CONSTEXPR EffectInfo::EffectInfo(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.position_)*/nullptr
+  , /*decltype(_impl_.facing_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct EffectInfoDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR EffectInfoDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~EffectInfoDefaultTypeInternal() {}
+  union {
+    EffectInfo _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 EffectInfoDefaultTypeInternal _EffectInfo_default_instance_;
 }  // namespace Protobuf
-static ::_pb::Metadata file_level_metadata_Struct_2eproto[2];
+static ::_pb::Metadata file_level_metadata_Struct_2eproto[3];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_Struct_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_Struct_2eproto = nullptr;
 
@@ -99,15 +113,25 @@ const uint32_t TableStruct_Struct_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(p
   PROTOBUF_FIELD_OFFSET(::Protobuf::BulletInfo, _impl_.velocity_),
   PROTOBUF_FIELD_OFFSET(::Protobuf::BulletInfo, _impl_.facing_),
   PROTOBUF_FIELD_OFFSET(::Protobuf::BulletInfo, _impl_.color_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Protobuf::EffectInfo, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protobuf::EffectInfo, _impl_.position_),
+  PROTOBUF_FIELD_OFFSET(::Protobuf::EffectInfo, _impl_.facing_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Protobuf::PlayerInfo)},
   { 18, -1, -1, sizeof(::Protobuf::BulletInfo)},
+  { 30, -1, -1, sizeof(::Protobuf::EffectInfo)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
   &::Protobuf::_PlayerInfo_default_instance_._instance,
   &::Protobuf::_BulletInfo_default_instance_._instance,
+  &::Protobuf::_EffectInfo_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_Struct_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -126,7 +150,9 @@ const char descriptor_table_protodef_Struct_2eproto[] PROTOBUF_SECTION_VARIABLE(
   "\003 \001(\0132\016.Protobuf.Vec2\022 \n\010velocity\030\004 \001(\0132"
   "\016.Protobuf.Vec2\022%\n\006facing\030\005 \001(\0162\025.Protob"
   "uf.FACING_TYPE\022\036\n\005color\030\006 \001(\0132\017.Protobuf"
-  ".Colorb\006proto3"
+  ".Color\"U\n\nEffectInfo\022 \n\010position\030\001 \001(\0132\016"
+  ".Protobuf.Vec2\022%\n\006facing\030\002 \001(\0162\025.Protobu"
+  "f.FACING_TYPEb\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_Struct_2eproto_deps[2] = {
   &::descriptor_table_Enum_2eproto,
@@ -134,9 +160,9 @@ static const ::_pbi::DescriptorTable* const descriptor_table_Struct_2eproto_deps
 };
 static ::_pbi::once_flag descriptor_table_Struct_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_Struct_2eproto = {
-    false, false, 614, descriptor_table_protodef_Struct_2eproto,
+    false, false, 701, descriptor_table_protodef_Struct_2eproto,
     "Struct.proto",
-    &descriptor_table_Struct_2eproto_once, descriptor_table_Struct_2eproto_deps, 2, 2,
+    &descriptor_table_Struct_2eproto_once, descriptor_table_Struct_2eproto_deps, 2, 3,
     schemas, file_default_instances, TableStruct_Struct_2eproto::offsets,
     file_level_metadata_Struct_2eproto, file_level_enum_descriptors_Struct_2eproto,
     file_level_service_descriptors_Struct_2eproto,
@@ -1060,6 +1086,239 @@ void BulletInfo::InternalSwap(BulletInfo* other) {
       file_level_metadata_Struct_2eproto[1]);
 }
 
+// ===================================================================
+
+class EffectInfo::_Internal {
+ public:
+  static const ::Protobuf::Vec2& position(const EffectInfo* msg);
+};
+
+const ::Protobuf::Vec2&
+EffectInfo::_Internal::position(const EffectInfo* msg) {
+  return *msg->_impl_.position_;
+}
+void EffectInfo::clear_position() {
+  if (GetArenaForAllocation() == nullptr && _impl_.position_ != nullptr) {
+    delete _impl_.position_;
+  }
+  _impl_.position_ = nullptr;
+}
+EffectInfo::EffectInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:Protobuf.EffectInfo)
+}
+EffectInfo::EffectInfo(const EffectInfo& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  EffectInfo* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.position_){nullptr}
+    , decltype(_impl_.facing_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  if (from._internal_has_position()) {
+    _this->_impl_.position_ = new ::Protobuf::Vec2(*from._impl_.position_);
+  }
+  _this->_impl_.facing_ = from._impl_.facing_;
+  // @@protoc_insertion_point(copy_constructor:Protobuf.EffectInfo)
+}
+
+inline void EffectInfo::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.position_){nullptr}
+    , decltype(_impl_.facing_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+EffectInfo::~EffectInfo() {
+  // @@protoc_insertion_point(destructor:Protobuf.EffectInfo)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void EffectInfo::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  if (this != internal_default_instance()) delete _impl_.position_;
+}
+
+void EffectInfo::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void EffectInfo::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protobuf.EffectInfo)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (GetArenaForAllocation() == nullptr && _impl_.position_ != nullptr) {
+    delete _impl_.position_;
+  }
+  _impl_.position_ = nullptr;
+  _impl_.facing_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* EffectInfo::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // .Protobuf.Vec2 position = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          ptr = ctx->ParseMessage(_internal_mutable_position(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .Protobuf.FACING_TYPE facing = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_facing(static_cast<::Protobuf::FACING_TYPE>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* EffectInfo::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:Protobuf.EffectInfo)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .Protobuf.Vec2 position = 1;
+  if (this->_internal_has_position()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, _Internal::position(this),
+        _Internal::position(this).GetCachedSize(), target, stream);
+  }
+
+  // .Protobuf.FACING_TYPE facing = 2;
+  if (this->_internal_facing() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      2, this->_internal_facing(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Protobuf.EffectInfo)
+  return target;
+}
+
+size_t EffectInfo::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protobuf.EffectInfo)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // .Protobuf.Vec2 position = 1;
+  if (this->_internal_has_position()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.position_);
+  }
+
+  // .Protobuf.FACING_TYPE facing = 2;
+  if (this->_internal_facing() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_facing());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData EffectInfo::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    EffectInfo::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*EffectInfo::GetClassData() const { return &_class_data_; }
+
+
+void EffectInfo::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<EffectInfo*>(&to_msg);
+  auto& from = static_cast<const EffectInfo&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protobuf.EffectInfo)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_has_position()) {
+    _this->_internal_mutable_position()->::Protobuf::Vec2::MergeFrom(
+        from._internal_position());
+  }
+  if (from._internal_facing() != 0) {
+    _this->_internal_set_facing(from._internal_facing());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void EffectInfo::CopyFrom(const EffectInfo& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protobuf.EffectInfo)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool EffectInfo::IsInitialized() const {
+  return true;
+}
+
+void EffectInfo::InternalSwap(EffectInfo* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(EffectInfo, _impl_.facing_)
+      + sizeof(EffectInfo::_impl_.facing_)
+      - PROTOBUF_FIELD_OFFSET(EffectInfo, _impl_.position_)>(
+          reinterpret_cast<char*>(&_impl_.position_),
+          reinterpret_cast<char*>(&other->_impl_.position_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata EffectInfo::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_Struct_2eproto_getter, &descriptor_table_Struct_2eproto_once,
+      file_level_metadata_Struct_2eproto[2]);
+}
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace Protobuf
 PROTOBUF_NAMESPACE_OPEN
@@ -1070,6 +1329,10 @@ Arena::CreateMaybeMessage< ::Protobuf::PlayerInfo >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::Protobuf::BulletInfo*
 Arena::CreateMaybeMessage< ::Protobuf::BulletInfo >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Protobuf::BulletInfo >(arena);
+}
+template<> PROTOBUF_NOINLINE ::Protobuf::EffectInfo*
+Arena::CreateMaybeMessage< ::Protobuf::EffectInfo >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protobuf::EffectInfo >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

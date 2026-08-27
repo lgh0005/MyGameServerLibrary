@@ -40,6 +40,7 @@ namespace MGSL::Net
 		static void Handle_S_SPAWN_BULLET(ServerSessionPtr session, BYTE* buffer, Shared::int32 len);
 		static void Handle_S_SYNC_BULLETS(ServerSessionPtr session, BYTE* buffer, Shared::int32 len);
 		static void Handle_S_REMOVE_BULLET(ServerSessionPtr session, BYTE* buffer, Shared::int32 len);
+		static void Handle_S_SPAWN_EFFECT(ServerSessionPtr session, BYTE* buffer, Shared::int32 len);
 
 	/*==========================//
 	//   works for main thread  //
@@ -52,5 +53,6 @@ namespace MGSL::Net
 		static void SpawnBullet(const ::Protobuf::S_SpawnBullet& pkt);
 		static void ApplySyncBullets(const ::Protobuf::S_SyncBullets& pkt);
 		static void RemoveBullet(const ::Protobuf::S_RemoveBullet& pkt);
+		static void SpawnEffect(const ::Protobuf::S_SpawnEffect& pkt);
 	};
 }
