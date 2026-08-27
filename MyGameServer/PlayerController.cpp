@@ -438,6 +438,19 @@ namespace MGSL::Server
             GameObject* attacker = hitboxObject->GetParent(); if (!attacker) return;
             PlayerController* attackerController = attacker->GetComponent<PlayerController>(); if (!attackerController) return;
 
+            /*========================//
+            //   Hitbox Direction     //
+            //========================*/
+            const AABB& hitboxBounds = other->GetBounds();
+            const float hitboxCenterX = (hitboxBounds.min.x + hitboxBounds.max.x) * 0.5f;
+            const float attackerX = attacker->GetTransform().GetPosition().x;
+            switch (attackerController->GetFacing())
+            {
+            case ::Protobuf::FACING_TYPE_LEFT: {  if (hitboxCenterX > attackerX) return; break; }
+            case ::Protobuf::FACING_TYPE_RIGHT: {  if (hitboxCenterX < attackerX) return;  break; }
+            default: return;
+            }
+
             // 실제 공격 중이 아니면 충돌은 있었어도 Hit로 인정하지 않음
             if (!attackerController->IsAttacking()) return;
 
