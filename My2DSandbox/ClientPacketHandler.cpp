@@ -15,6 +15,8 @@
 #include "MyPlayerStateMachine.h"
 #include "Sandbox2DGlobal.h"
 #include "FlipbookUtils.h"
+#include "PrefabUtils.h"
+#include "BulletNetworkState.h"
 
 namespace MGSL::Net
 {
@@ -44,6 +46,22 @@ namespace MGSL::Net
 
 		case Protocol::PacketID::S_SyncPlayers:
 			Handle_S_SYNC_PLAYERS(serverSession, buffer, len);
+			break;
+
+		case Protocol::PacketID::S_RemovePlayer:
+			Handle_S_REMOVE_PLAYER(serverSession, buffer, len);
+			break;
+
+		case Protocol::PacketID::S_SpawnBullet:
+			Handle_S_SPAWN_BULLET(serverSession, buffer, len);
+			break;
+
+		case Protocol::PacketID::S_RemoveBullet:
+			Handle_S_REMOVE_BULLET(serverSession, buffer, len);
+			break;
+
+		case Protocol::PacketID::S_SyncBullets:
+			Handle_S_SYNC_BULLETS(serverSession, buffer, len);
 			break;
 		}
 	}
@@ -103,28 +121,56 @@ namespace MGSL::Net
 	{
 		Protocol::PacketHeader* header = reinterpret_cast<Protocol::PacketHeader*>(buffer);
 		const Shared::uint16 size = header->size;
-
 		::Protobuf::S_SpawnPlayer pkt;
 		pkt.ParseFromArray(&header[1], size - sizeof(Protocol::PacketHeader));
-
-		MGSL_NETWORK_MGR.RunOnMainThread([pkt = std::move(pkt)]() { SpawnPlayers(std::move(pkt)); });
+		MGSL_NETWORK_MGR.RunOnMainThread([pkt = std::move(pkt)]() { SpawnPlayer(std::move(pkt)); });
 	}
 
 	void ClientPacketHandler::Handle_S_SYNC_PLAYERS(ServerSessionPtr session, BYTE* buffer, Shared::int32 len)
 	{
 		auto* header = reinterpret_cast<Protocol::PacketHeader*>(buffer);
 		const Shared::uint16 size = header->size;
-
 		::Protobuf::S_SyncPlayers pkt;
 		pkt.ParseFromArray(&header[1], size - sizeof(Protocol::PacketHeader));
-
 		MGSL_NETWORK_MGR.RunOnMainThread([pkt = std::move(pkt)]() { ApplySyncPlayers(pkt); });
+	}
+
+	void ClientPacketHandler::Handle_S_REMOVE_PLAYER(ServerSessionPtr session, BYTE* buffer, Shared::int32 len)
+	{
+		// TODO 
+	}
+
+	void ClientPacketHandler::Handle_S_SPAWN_BULLET(ServerSessionPtr session, BYTE* buffer, Shared::int32 len)
+	{
+		Protocol::PacketHeader* header = reinterpret_cast<Protocol::PacketHeader*>(buffer);
+		const Shared::uint16 size = header->size;
+		::Protobuf::S_SpawnBullet pkt;
+		pkt.ParseFromArray(&header[1], size - sizeof(Protocol::PacketHeader));
+		MGSL_NETWORK_MGR.RunOnMainThread([pkt = std::move(pkt)]() { SpawnBullet(pkt); });
+	}
+
+	void ClientPacketHandler::Handle_S_REMOVE_BULLET(ServerSessionPtr session, BYTE* buffer, Shared::int32 len)
+	{
+		Protocol::PacketHeader* header = reinterpret_cast<Protocol::PacketHeader*>(buffer);
+		const Shared::uint16 size = header->size;
+		::Protobuf::S_RemoveBullet pkt;
+		pkt.ParseFromArray(&header[1], size - sizeof(Protocol::PacketHeader));
+		MGSL_NETWORK_MGR.RunOnMainThread([pkt = std::move(pkt)]() { RemoveBullet(pkt); });
+	}
+
+	void ClientPacketHandler::Handle_S_SYNC_BULLETS(ServerSessionPtr session, BYTE* buffer, Shared::int32 len)
+	{
+		auto* header = reinterpret_cast<Protocol::PacketHeader*>(buffer);
+		const Shared::uint16 size = header->size;
+		::Protobuf::S_SyncBullets pkt;
+		pkt.ParseFromArray(&header[1], size - sizeof(Protocol::PacketHeader));
+		MGSL_NETWORK_MGR.RunOnMainThread([pkt = std::move(pkt)]() { ApplySyncBullets(pkt); });
 	}
 
 	/*==========================//
 	//   works for main thread  //
 	//==========================*/
-	void ClientPacketHandler::SpawnPlayers(const ::Protobuf::S_SpawnPlayer& pkt)
+	void ClientPacketHandler::SpawnPlayer(const ::Protobuf::S_SpawnPlayer& pkt)
 	{
 		Framework::Scene* scene = g_Game2D.GetScene();
 		if (!scene) return;
@@ -228,5 +274,48 @@ namespace MGSL::Net
 				body->SetServerGrounded(objectInfo.grounded());
 			}
 		}
+	}
+
+	void ClientPacketHandler::SpawnBullet(const ::Protobuf::S_SpawnBullet& pkt)
+	{
+		Framework::Scene* scene = g_Game2D.GetScene();
+		if (!scene) return;
+
+		const ::Protobuf::BulletInfo& bulletInfo = pkt.bullet();
+
+		// 중복 생성 방지
+		Framework::GameObject* existing = MGSL_OBJECT_MGR.FindNetworkObject(scene, bulletInfo.objectid());
+		if (existing) return;
+
+		Framework::GameObject* bullet = Sandbox2D::PrefabUtils::CreateBullet(scene, bulletInfo);
+		if (!bullet) return;
+
+		MGSL_OBJECT_MGR.RegisterNetworkObject(scene, bulletInfo.objectid(), bullet);
+	}
+
+	void ClientPacketHandler::ApplySyncBullets(const ::Protobuf::S_SyncBullets& pkt)
+	{
+		Framework::Scene* scene = g_Game2D.GetScene();
+		if (!scene) return;
+
+		for (const ::Protobuf::BulletInfo& bulletInfo : pkt.bullets())
+		{
+			Framework::GameObject* bullet = MGSL_OBJECT_MGR.FindNetworkObject(scene, bulletInfo.objectid()); if (!bullet) continue;
+			Sandbox2D::BulletNetworkState* networkState = bullet->GetComponent<Sandbox2D::BulletNetworkState>(); if (!networkState) continue;
+			networkState->ApplyInfo(bulletInfo);
+		}
+	}
+
+	void ClientPacketHandler::RemoveBullet(const ::Protobuf::S_RemoveBullet& pkt)
+	{
+		Framework::Scene* scene = g_Game2D.GetScene();
+		if (!scene) return;
+
+		Framework::GameObject* bullet = MGSL_OBJECT_MGR.FindNetworkObject(scene, pkt.objectid());
+		if (!bullet) return;
+
+		Framework::BoxCollider* collider = bullet->GetComponent<Framework::BoxCollider>();
+		if (collider) MGSL_COLLIDE_MGR.Unregister(collider);
+		MGSL_OBJECT_MGR.UnregisterNetworkObject(scene, pkt.objectid());
 	}
 }

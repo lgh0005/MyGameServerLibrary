@@ -16,9 +16,21 @@ namespace MGSL::Server
 	void VirtualScene::Update(float deltaTime)
 	{
 		/*========================//
+		//      Update Copy       //
+		//========================*/
+		Shared::List<GameObject*> updateObjects;
+		updateObjects.reserve(m_gameObjects.size());
+
+		/*========================//
 		//         Update         //
 		//========================*/
 		for (const GameObjectUPtr& gameObject : m_gameObjects)
+		{
+			if (!gameObject) continue;
+			updateObjects.push_back(gameObject.get());
+		}
+
+		for (GameObject* gameObject : updateObjects)
 		{
 			if (!gameObject) continue;
 			gameObject->Update(deltaTime);

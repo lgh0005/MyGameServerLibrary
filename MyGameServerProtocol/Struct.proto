@@ -24,7 +24,7 @@ message PlayerInfo
 }
 
 /*==========================//
-//   Client sync Packets    //
+//   Bullet sync Packets    //
 //==========================*/
 message BulletInfo
 {

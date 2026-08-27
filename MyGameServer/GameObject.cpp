@@ -1,27 +1,23 @@
 #include "ServerPch.h"
 #include "GameObject.h"
 #include "Component.h"
+#include "VirtualScene.h"
 
 namespace MGSL::Server
 {
-	GameObject::GameObject() = default;
+	GameObject::GameObject(VirtualScene* scene) : m_owner(scene) { }
 	GameObject::~GameObject() = default;
 
-	GameObjectUPtr GameObject::Create()
-	{
-		return GameObjectUPtr(new GameObject());
-	}
+	GameObjectUPtr GameObject::Create(VirtualScene* scene) { return GameObjectUPtr(new GameObject(scene)); }
+
+	VirtualScene* GameObject::GetOwner() const { return m_owner; }
 
 	/*===================================//
 	//   default lifecycle interfaces    //
 	//===================================*/
 	void GameObject::Update(float deltaTime) { for (const ComponentUPtr& component : m_components) component->Update(deltaTime); }
 	void GameObject::LateUpdate(float deltaTime) { for (const ComponentUPtr& component : m_components) component->LateUpdate(deltaTime); }
-
-	void GameObject::ClearComponents()
-	{
-		m_components.clear();
-	}
+	void GameObject::ClearComponents() { m_components.clear(); }
 
 	/*===============================//
 	//   hierarchy control methods   //

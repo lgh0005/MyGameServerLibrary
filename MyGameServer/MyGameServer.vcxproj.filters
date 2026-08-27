@@ -109,6 +109,9 @@
     <ClCompile Include="BulletController.cpp">
       <Filter>소스 파일\Clients</Filter>
     </ClCompile>
+    <ClCompile Include="PrefabUtils.cpp">
+      <Filter>소스 파일\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ServerPch.h">
@@ -188,6 +191,9 @@
     </ClInclude>
     <ClInclude Include="BulletController.h">
       <Filter>소스 파일\Clients</Filter>
+    </ClInclude>
+    <ClInclude Include="PrefabUtils.h">
+      <Filter>소스 파일\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

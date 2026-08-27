@@ -245,6 +245,7 @@ namespace MGSL::Framework
 
 	void FlipbookPlayer::ApplyCurrentFrame()
 	{
+		if (!m_currentFlipbookClip) return;
 		if (!m_currentFlipbookClip->IsValid()) return;
 
 		const Shared::uint32 frameCount = m_currentFlipbookClip->GetFrameCount();

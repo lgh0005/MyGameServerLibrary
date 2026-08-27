@@ -89,6 +89,19 @@ namespace MGSL::Server
 		float m_landDuration = 0.15f;
 #pragma endregion
 
+#pragma region SHOT
+	/*========================//
+	//          Shot          //
+	//========================*/
+	private:
+		void Shot();
+
+	private:
+		float m_bulletSpawnOffsetX = 0.45f;
+		float m_bulletSpawnOffsetY = -0.15f;
+
+#pragma endregion
+
 #pragma region MOVE
 	/*========================//
 	//          Move          //
@@ -190,4 +203,3 @@ namespace MGSL::Server
 #pragma endregion
 	};
 }
-

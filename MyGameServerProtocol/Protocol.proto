@@ -8,8 +8,10 @@ import "Struct.proto";
 //   Client Packets    //
 //=====================*/
 message C_EnterGame { }
-message C_Jump { }
-message C_Attack { }
+
+message C_Jump      { }
+
+message C_Attack    { }
 
 message C_Move
 {
@@ -26,6 +28,7 @@ message C_ChangeWeapon
 /*=====================//
 //   Server Packets    //
 //=====================*/
+/* Player Packets */
 message S_EnterGame
 {
 	bool success = 1;
@@ -39,7 +42,7 @@ message S_SpawnPlayer
 
 message S_RemovePlayer
 {
-
+    uint64 objectID = 1;
 }
 
 message S_SyncPlayers
@@ -47,18 +50,19 @@ message S_SyncPlayers
     repeated PlayerInfo objects = 1;
 }
 
+/* Bullet Packets */
 message S_SpawnBullet
 {
-
+    BulletInfo bullet = 1;
 }
 
 message S_RemoveBullet
 {
-
+    uint64 objectID = 1;
 }
 
-message S_SyncBullet
+message S_SyncBullets
 {
-
+    repeated BulletInfo bullets = 1;
 }
 

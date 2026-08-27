@@ -24,25 +24,25 @@ namespace MGSL::Net
 		br.Peek(&header);
 
 		auto gameSession = std::static_pointer_cast<GameSession>(session);
-		switch (static_cast<EPacketID>(header.id))
+		switch (static_cast<PacketID>(header.id))
 		{
-		case EPacketID::C_EnterGame:
+		case PacketID::C_EnterGame:
 			Handle_C_ENTER_GAME(gameSession, buffer, len);
 			break;
 
-		case EPacketID::C_Move:
+		case PacketID::C_Move:
 			Handle_C_MOVE(gameSession, buffer, len);
 			break;
 
-		case EPacketID::C_Jump:
+		case PacketID::C_Jump:
 			Handle_C_JUMP(gameSession, buffer, len);
 			break;
 
-		case EPacketID::C_ChangeWeapon:
+		case PacketID::C_ChangeWeapon:
 			Handle_C_CHANGE_WEAPON(gameSession, buffer, len);
 			break;
 
-		case EPacketID::C_Attack:
+		case PacketID::C_Attack:
 			Handle_C_ATTACK(gameSession, buffer, len);
 			break;
 
@@ -68,6 +68,7 @@ namespace MGSL::Net
 	/*========================//
 	//   Packet Test Methods  //
 	//========================*/
+	/* Handle */
 	void ServerPacketHandler::Handle_C_MOVE(GameSessionPtr session, BYTE* buffer, Shared::int32 len)
 	{
 		if (!session) return;
@@ -168,13 +169,16 @@ namespace MGSL::Net
 		playerController->Attack();
 	}
 
+	/* Create */
 	SendBufferPtr ServerPacketHandler::Make_S_SpawnPlayer(const ::Protobuf::S_SpawnPlayer& pkt)
 	{
 		return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::S_SpawnPlayer));
 	}
 
-	SendBufferPtr ServerPacketHandler::Make_S_SyncPlayers(const ::Protobuf::S_SyncPlayers& pkt)
-	{
-		return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::S_SyncPlayers));
-	}
+	SendBufferPtr ServerPacketHandler::Make_S_SyncPlayers(const ::Protobuf::S_SyncPlayers& pkt) { return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::S_SyncPlayers)); }
+	SendBufferPtr ServerPacketHandler::Make_S_RemovePlayer(const ::Protobuf::S_RemovePlayer& pkt) { return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::S_RemovePlayer)); }
+	SendBufferPtr ServerPacketHandler::Make_S_SpawnBullet(const ::Protobuf::S_SpawnBullet& pkt) { return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::S_SpawnBullet)); }
+	SendBufferPtr ServerPacketHandler::Make_S_SyncBullets(const ::Protobuf::S_SyncBullets& pkt) { return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::S_SyncBullets)); }
+	SendBufferPtr ServerPacketHandler::Make_S_RemoveBullet(const ::Protobuf::S_RemoveBullet& pkt) { return MakeSendBuffer(pkt, static_cast<Shared::uint16>(Protocol::PacketID::S_RemoveBullet)); }
+
 }

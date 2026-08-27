@@ -40,5 +40,9 @@ namespace MGSL::Net
 		/* Create */
 		static SendBufferPtr Make_S_SpawnPlayer(const ::Protobuf::S_SpawnPlayer& pkt);
 		static SendBufferPtr Make_S_SyncPlayers(const ::Protobuf::S_SyncPlayers& pkt);
+		static SendBufferPtr Make_S_RemovePlayer(const ::Protobuf::S_RemovePlayer& pkt);
+		static SendBufferPtr Make_S_SpawnBullet(const ::Protobuf::S_SpawnBullet& pkt);
+		static SendBufferPtr Make_S_SyncBullets(const ::Protobuf::S_SyncBullets& pkt);
+		static SendBufferPtr Make_S_RemoveBullet(const ::Protobuf::S_RemoveBullet& pkt);
 	};		
 }

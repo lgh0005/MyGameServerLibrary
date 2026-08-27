@@ -193,9 +193,6 @@
     <ClCompile Include="Game.cpp">
       <Filter>소스 파일\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleEmitter2D.cpp">
-      <Filter>소스 파일\Components</Filter>
-    </ClCompile>
     <ClCompile Include="BoxCollider.cpp">
       <Filter>소스 파일\Components</Filter>
     </ClCompile>
@@ -410,9 +407,6 @@
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>소스 파일\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleEmitter2D.h">
-      <Filter>소스 파일\Components</Filter>
     </ClInclude>
     <ClInclude Include="BoxCollider.h">
       <Filter>소스 파일\Components</Filter>

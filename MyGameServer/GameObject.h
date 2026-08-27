@@ -11,13 +11,15 @@ namespace MGSL::Server
 {
 	MGSL_CLASS_PTR(Component)
 	MGSL_CLASS_PTR(GameObject)
+	MGSL_CLASS_PTR(VirtualScene)
 
 	/* server's logical GameObject */
 	class GameObject
 	{
 	public:
 		virtual ~GameObject();
-		static GameObjectUPtr Create();
+		static GameObjectUPtr Create(VirtualScene* scene);
+		VirtualScene* GetOwner() const;
 
 	public:
 		void Update(float deltaTime);
@@ -63,7 +65,8 @@ namespace MGSL::Server
 		Net::GameSessionPtr GetGameSession() const { return m_gameSession.lock(); }
 
 	private:
-		GameObject();
+		GameObject(VirtualScene* scene);
+		VirtualScene* m_owner;
 
 		Net::GameRoomWPtr m_gameRoom;
 		Net::GameSessionWPtr m_gameSession;

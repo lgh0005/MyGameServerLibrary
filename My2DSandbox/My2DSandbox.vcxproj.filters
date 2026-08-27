@@ -67,11 +67,17 @@
     <ClCompile Include="MyPlayerNetworkState.cpp">
       <Filter>소스 파일\Scripts</Filter>
     </ClCompile>
-    <ClCompile Include="BulletState.cpp">
+    <ClCompile Include="BulletNetworkState.cpp">
       <Filter>소스 파일\Scripts</Filter>
     </ClCompile>
     <ClCompile Include="MainUIController.cpp">
       <Filter>소스 파일\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackEffect.cpp">
+      <Filter>소스 파일\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="PrefabUtils.cpp">
+      <Filter>소스 파일\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -117,11 +123,17 @@
     <ClInclude Include="MyPlayerNetworkState.h">
       <Filter>소스 파일\Scripts</Filter>
     </ClInclude>
-    <ClInclude Include="BulletState.h">
+    <ClInclude Include="BulletNetworkState.h">
       <Filter>소스 파일\Scripts</Filter>
     </ClInclude>
     <ClInclude Include="MainUIController.h">
       <Filter>소스 파일\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackEffect.h">
+      <Filter>소스 파일\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="PrefabUtils.h">
+      <Filter>소스 파일\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "CharacterBody2D.h"
 #include "BoxCollider.h"
+#include "GameRoom.h"
 
 namespace MGSL::Server
 {
@@ -147,7 +148,7 @@ namespace MGSL::Server
         // 사망
         if (nextLife == 0)
         {
-            attacker->AddKill();
+            if (attacker) attacker->AddKill();
             Death();
             return;
         }
@@ -211,6 +212,28 @@ namespace MGSL::Server
     }
 
 
+#pragma endregion
+
+#pragma region SHOT
+    void PlayerController::Shot()
+    {
+        GameObject* owner = GetOwner(); if (!owner) return;
+        Net::GameRoomPtr room = owner->GetGameRoom(); if (!room) return;
+        VirtualScene* scene = owner->GetOwner(); if (!scene) return;
+        const Shared::vec3& playerPosition = owner->GetTransform().GetPosition();
+        const float directionX = m_info.facing() == ::Protobuf::FACING_TYPE_LEFT ? -1.0f : 1.0f;
+
+        ::Protobuf::BulletInfo bulletInfo;
+        const Shared::vec2 spawnPosition(playerPosition.x + m_bulletSpawnOffsetX * directionX, playerPosition.y + m_bulletSpawnOffsetY);
+        bulletInfo.set_objectid(MGSL_OBJECT_MGR.GenerateNetworkObjectID());
+        bulletInfo.set_ownerid(GetObjectID());
+        bulletInfo.mutable_position()->set_x(spawnPosition.x);
+        bulletInfo.mutable_position()->set_y(spawnPosition.y);
+        bulletInfo.set_facing(m_info.facing());
+        *bulletInfo.mutable_color() = m_info.color();
+        
+        room->SpawnBullet(bulletInfo);
+    }
 #pragma endregion
 
 #pragma region MOVE
@@ -316,6 +339,7 @@ namespace MGSL::Server
         {
             m_comboIndex = 0;
             m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_AIR_ATTACK);
+            if (m_info.weapon() == ::Protobuf::WEAPON_TYPE_PISTOL) { Shot(); }
             return;
         }
 
@@ -330,6 +354,7 @@ namespace MGSL::Server
             case ::Protobuf::WEAPON_TYPE_PISTOL:
                 m_comboIndex = 0;
                 m_info.set_state(::Protobuf::OBJECT_STATE_TYPE_SHOT);
+                Shot();
                 break;
 
             default:

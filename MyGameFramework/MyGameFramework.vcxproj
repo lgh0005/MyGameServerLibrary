@@ -228,7 +228,6 @@ xcopy "$(ProjectDir)*.inl" "$(SolutionDir)ThirdParty\include\$(ProjectName)\" /D
     <ClInclude Include="NetworkState.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="ObjectRegistry.h" />
-    <ClInclude Include="ParticleEmitter2D.h" />
     <ClInclude Include="PostProcessingRenderPass2D.h" />
     <ClInclude Include="QuadMesh.h" />
     <ClInclude Include="RenderBatch.h" />
@@ -305,7 +304,6 @@ xcopy "$(ProjectDir)*.inl" "$(SolutionDir)ThirdParty\include\$(ProjectName)\" /D
     <ClCompile Include="NetworkState.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="ObjectRegistry.cpp" />
-    <ClCompile Include="ParticleEmitter2D.cpp" />
     <ClCompile Include="PostProcessingRenderPass2D.cpp" />
     <ClCompile Include="QuadMesh.cpp" />
     <ClCompile Include="RenderBatch.cpp" />

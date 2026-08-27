@@ -9,6 +9,8 @@
 #include "PlayerController.h"
 #include "CharacterBody2D.h"
 #include "BoxCollider.h"
+#include "BulletController.h"
+#include "PrefabUtils.h"
 
 namespace MGSL::Net
 {
@@ -54,9 +56,26 @@ namespace MGSL::Net
 		}
 
 		/*========================//
+		//     BulletInfo Sync    //
+		//========================*/
+		for (auto& [objectID, controller] : m_bullets)
+		{
+			if (!controller) continue;
+
+			Server::GameObject* bullet = controller->GetOwner();
+			if (!bullet) continue;
+
+			auto& info = controller->GetInfo();
+			const auto& position = bullet->GetTransform().GetPosition();
+			info.mutable_position()->set_x(position.x);
+			info.mutable_position()->set_y(position.y);
+		}
+
+		/*========================//
 		//      Network Sync      //
 		//========================*/
-		BroadcastSyncObjects();
+		BroadcastSyncPlayers();
+		BroadcastSyncBullets();
 	}
 
 	void GameRoom::EnterGameRoom(GameSessionPtr session)
@@ -126,7 +145,7 @@ namespace MGSL::Net
 		session->GetSessionBuffer().Send(ServerPacketHandler::Create_S_EnterGame(true, controller->GetInfo()));
 
 		// 7. 기존 플레이어들에게 신규 플레이어 전달
-		BroadcastSpawn(controller);
+		BroadcastPlayerSpawn(controller);
 
 		MGSL_LOG_INFO
 		(
@@ -140,6 +159,40 @@ namespace MGSL::Net
 
 	}
 
+	void GameRoom::RemoveBullet(Shared::uint64 objectID)
+	{
+		auto it = m_bullets.find(objectID);
+		if (it == m_bullets.end()) return;
+
+		Server::BulletController* controller = it->second;
+		if (!controller)
+		{
+			m_bullets.erase(it);
+			return;
+		}
+
+		Server::GameObject* bullet = controller->GetOwner();
+
+		// 1. Registry에서 먼저 제거
+		m_bullets.erase(it);
+
+		// 2. 클라이언트에 제거 통지
+		BroadcastRemoveBullet(objectID);
+
+		// 3. Scene에서 제거
+		MGSL_OBJECT_MGR.RemoveGameObject(m_virtualScene.get(), bullet);
+	}
+
+	Server::PlayerController* GameRoom::FindPlayer(Shared::uint64 objectID) const
+	{
+		auto it = m_players.find(objectID);
+		if (it == m_players.end()) return nullptr;
+		return it->second;
+	}
+
+	/*===========================//
+	//   Packet Sending Methods  //
+	//===========================*/
 	void GameRoom::SendExistingPlayers(GameSessionPtr session)
 	{
 		if (!session) return;
@@ -162,7 +215,7 @@ namespace MGSL::Net
 		session->GetSessionBuffer().Send(ServerPacketHandler::Make_S_SpawnPlayer(spawnPkt));
 	}
 
-	void GameRoom::BroadcastSpawn(Server::PlayerController* controller)
+	void GameRoom::BroadcastPlayerSpawn(Server::PlayerController* controller)
 	{
 		if (!controller) return;
 
@@ -184,7 +237,7 @@ namespace MGSL::Net
 		}
 	}
 
-	void GameRoom::BroadcastSyncObjects()
+	void GameRoom::BroadcastSyncPlayers()
 	{
 		::Protobuf::S_SyncPlayers pkt;
 
@@ -210,8 +263,116 @@ namespace MGSL::Net
 		}
 	}
 
-	GameRoomPtr GameRoom::GetGameRoom()
+	void GameRoom::SpawnBullet(const ::Protobuf::BulletInfo& info)
 	{
-		return shared_from_this();
+		if (!m_virtualScene) return;
+
+		Server::GameObject* bullet = Server::PrefabUtils::CreateBullet(m_virtualScene.get(), info);
+		if (!bullet) return;
+
+		Server::BulletController* controller = bullet->GetComponent<Server::BulletController>();
+		if (!controller) return;
+
+		bullet->SetGameRoom(GetGameRoom());
+		const Shared::uint64 objectID = controller->GetObjectID();
+		const auto [it, inserted] = m_bullets.emplace(objectID, controller);
+		if (!inserted) return;
+
+		BroadcastBulletSpawn(controller);
 	}
+
+	void GameRoom::SendExistingBullets(GameSessionPtr session)
+	{
+		if (!session) return;
+		for (const auto& [objectID, controller] : m_bullets)
+		{
+			if (!controller) continue;
+			::Protobuf::S_SpawnBullet pkt;
+			*pkt.mutable_bullet() = controller->GetInfo();
+			session->GetSessionBuffer().Send(ServerPacketHandler::Make_S_SpawnBullet(pkt));
+		}
+	}
+
+	void GameRoom::BroadcastBulletSpawn(Server::BulletController* controller)
+	{
+		if (!controller) return;
+
+		::Protobuf::S_SpawnBullet pkt;
+		*pkt.mutable_bullet() = controller->GetInfo();
+		auto sendBuffer = ServerPacketHandler::Make_S_SpawnBullet(pkt);
+		if (!sendBuffer) return;
+
+		for (const auto& [objectID, playerController] : m_players)
+		{
+			if (!playerController) continue;
+			Server::GameObject* player = playerController->GetOwner();
+			if (!player) continue;
+
+			GameSessionPtr session = player->GetGameSession();
+			if (!session) continue;
+			session->GetSessionBuffer().Send(sendBuffer);
+		}
+	}
+
+	void GameRoom::BroadcastRemoveBullet(Shared::uint64 objectID)
+	{
+		::Protobuf::S_RemoveBullet pkt;
+		pkt.set_objectid(objectID);
+
+		auto sendBuffer =
+			ServerPacketHandler::Make_S_RemoveBullet(pkt);
+
+		if (!sendBuffer)
+			return;
+
+		for (const auto& [playerID, playerController] : m_players)
+		{
+			if (!playerController)
+				continue;
+
+			Server::GameObject* player =
+				playerController->GetOwner();
+
+			if (!player)
+				continue;
+
+			GameSessionPtr session =
+				player->GetGameSession();
+
+			if (!session)
+				continue;
+
+			session->GetSessionBuffer().Send(sendBuffer);
+		}
+	}
+
+	void GameRoom::BroadcastSyncBullets()
+	{
+		::Protobuf::S_SyncBullets pkt;
+
+		for (const auto& [objectID, controller] : m_bullets)
+		{
+			if (!controller) continue;
+			*pkt.add_bullets() = controller->GetInfo();
+		}
+
+		if (pkt.bullets_size() == 0) return;
+
+		auto sendBuffer = ServerPacketHandler::Make_S_SyncBullets(pkt);
+		if (!sendBuffer) return;
+
+		for (const auto& [objectID, playerController] : m_players)
+		{
+			if (!playerController) continue;
+			Server::GameObject* player = playerController->GetOwner();
+			if (!player) continue;
+
+			GameSessionPtr session = player->GetGameSession();
+			if (!session) continue;
+
+			session->GetSessionBuffer().Send(sendBuffer);
+		}
+	}
+
+	GameRoomPtr GameRoom::GetGameRoom() { return shared_from_this(); }
 }

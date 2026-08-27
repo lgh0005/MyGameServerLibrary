@@ -13,10 +13,8 @@ namespace MGSL::Server
     GameObject* ObjectManager::CreateGameObject(VirtualScene* scene)
     {
         if (!scene) return nullptr;
-
-        GameObjectUPtr gameObject = GameObject::Create();
+        GameObjectUPtr gameObject = GameObject::Create(scene);
         if (!gameObject) return nullptr;
-        
         return scene->AddGameObject(std::move(gameObject));
     }
 

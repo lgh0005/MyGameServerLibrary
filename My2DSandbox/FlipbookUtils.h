@@ -9,9 +9,9 @@ namespace MGSL::Framework
 
 namespace MGSL::Sandbox2D
 {
-	/*=======================================//
-	//   temp filpbook util static methods   //
-	//=======================================*/
+	/*==================================//
+	//   filpbook util static methods   //
+	//==================================*/
 	class FlipbookUtils
 	{
 		MGSL_DISABLE_COPY(FlipbookUtils)

@@ -110,7 +110,9 @@ struct S_SpawnPlayerDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S_SpawnPlayerDefaultTypeInternal _S_SpawnPlayer_default_instance_;
 PROTOBUF_CONSTEXPR S_RemovePlayer::S_RemovePlayer(
-    ::_pbi::ConstantInitialized) {}
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.objectid_)*/uint64_t{0u}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
 struct S_RemovePlayerDefaultTypeInternal {
   PROTOBUF_CONSTEXPR S_RemovePlayerDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -134,7 +136,9 @@ struct S_SyncPlayersDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S_SyncPlayersDefaultTypeInternal _S_SyncPlayers_default_instance_;
 PROTOBUF_CONSTEXPR S_SpawnBullet::S_SpawnBullet(
-    ::_pbi::ConstantInitialized) {}
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.bullet_)*/nullptr
+  , /*decltype(_impl_._cached_size_)*/{}} {}
 struct S_SpawnBulletDefaultTypeInternal {
   PROTOBUF_CONSTEXPR S_SpawnBulletDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -145,7 +149,9 @@ struct S_SpawnBulletDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S_SpawnBulletDefaultTypeInternal _S_SpawnBullet_default_instance_;
 PROTOBUF_CONSTEXPR S_RemoveBullet::S_RemoveBullet(
-    ::_pbi::ConstantInitialized) {}
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.objectid_)*/uint64_t{0u}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
 struct S_RemoveBulletDefaultTypeInternal {
   PROTOBUF_CONSTEXPR S_RemoveBulletDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -155,17 +161,19 @@ struct S_RemoveBulletDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S_RemoveBulletDefaultTypeInternal _S_RemoveBullet_default_instance_;
-PROTOBUF_CONSTEXPR S_SyncBullet::S_SyncBullet(
-    ::_pbi::ConstantInitialized) {}
-struct S_SyncBulletDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR S_SyncBulletDefaultTypeInternal()
+PROTOBUF_CONSTEXPR S_SyncBullets::S_SyncBullets(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.bullets_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct S_SyncBulletsDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR S_SyncBulletsDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
-  ~S_SyncBulletDefaultTypeInternal() {}
+  ~S_SyncBulletsDefaultTypeInternal() {}
   union {
-    S_SyncBullet _instance;
+    S_SyncBullets _instance;
   };
 };
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S_SyncBulletDefaultTypeInternal _S_SyncBullet_default_instance_;
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S_SyncBulletsDefaultTypeInternal _S_SyncBullets_default_instance_;
 }  // namespace Protobuf
 static ::_pb::Metadata file_level_metadata_Protocol_2eproto[12];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_Protocol_2eproto = nullptr;
@@ -227,6 +235,7 @@ const uint32_t TableStruct_Protocol_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protobuf::S_RemovePlayer, _impl_.objectid_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protobuf::S_SyncPlayers, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -240,18 +249,21 @@ const uint32_t TableStruct_Protocol_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protobuf::S_SpawnBullet, _impl_.bullet_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protobuf::S_RemoveBullet, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protobuf::S_RemoveBullet, _impl_.objectid_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::Protobuf::S_SyncBullet, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::Protobuf::S_SyncBullets, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Protobuf::S_SyncBullets, _impl_.bullets_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Protobuf::C_EnterGame)},
@@ -262,10 +274,10 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 34, -1, -1, sizeof(::Protobuf::S_EnterGame)},
   { 42, -1, -1, sizeof(::Protobuf::S_SpawnPlayer)},
   { 49, -1, -1, sizeof(::Protobuf::S_RemovePlayer)},
-  { 55, -1, -1, sizeof(::Protobuf::S_SyncPlayers)},
-  { 62, -1, -1, sizeof(::Protobuf::S_SpawnBullet)},
-  { 68, -1, -1, sizeof(::Protobuf::S_RemoveBullet)},
-  { 74, -1, -1, sizeof(::Protobuf::S_SyncBullet)},
+  { 56, -1, -1, sizeof(::Protobuf::S_SyncPlayers)},
+  { 63, -1, -1, sizeof(::Protobuf::S_SpawnBullet)},
+  { 70, -1, -1, sizeof(::Protobuf::S_RemoveBullet)},
+  { 77, -1, -1, sizeof(::Protobuf::S_SyncBullets)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -280,7 +292,7 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::Protobuf::_S_SyncPlayers_default_instance_._instance,
   &::Protobuf::_S_SpawnBullet_default_instance_._instance,
   &::Protobuf::_S_RemoveBullet_default_instance_._instance,
-  &::Protobuf::_S_SyncBullet_default_instance_._instance,
+  &::Protobuf::_S_SyncBullets_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -293,10 +305,13 @@ const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABL
   "rotobuf.WEAPON_TYPE\"D\n\013S_EnterGame\022\017\n\007su"
   "ccess\030\001 \001(\010\022$\n\006player\030\002 \001(\0132\024.Protobuf.P"
   "layerInfo\"6\n\rS_SpawnPlayer\022%\n\007objects\030\001 "
-  "\003(\0132\024.Protobuf.PlayerInfo\"\020\n\016S_RemovePla"
-  "yer\"6\n\rS_SyncPlayers\022%\n\007objects\030\001 \003(\0132\024."
-  "Protobuf.PlayerInfo\"\017\n\rS_SpawnBullet\"\020\n\016"
-  "S_RemoveBullet\"\016\n\014S_SyncBulletb\006proto3"
+  "\003(\0132\024.Protobuf.PlayerInfo\"\"\n\016S_RemovePla"
+  "yer\022\020\n\010objectID\030\001 \001(\004\"6\n\rS_SyncPlayers\022%"
+  "\n\007objects\030\001 \003(\0132\024.Protobuf.PlayerInfo\"5\n"
+  "\rS_SpawnBullet\022$\n\006bullet\030\001 \001(\0132\024.Protobu"
+  "f.BulletInfo\"\"\n\016S_RemoveBullet\022\020\n\010object"
+  "ID\030\001 \001(\004\"6\n\rS_SyncBullets\022%\n\007bullets\030\001 \003"
+  "(\0132\024.Protobuf.BulletInfob\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_Protocol_2eproto_deps[2] = {
   &::descriptor_table_Enum_2eproto,
@@ -304,7 +319,7 @@ static const ::_pbi::DescriptorTable* const descriptor_table_Protocol_2eproto_de
 };
 static ::_pbi::once_flag descriptor_table_Protocol_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_Protocol_2eproto = {
-    false, false, 518, descriptor_table_protodef_Protocol_2eproto,
+    false, false, 632, descriptor_table_protodef_Protocol_2eproto,
     "Protocol.proto",
     &descriptor_table_Protocol_2eproto_once, descriptor_table_Protocol_2eproto_deps, 2, 12,
     schemas, file_default_instances, TableStruct_Protocol_2eproto::offsets,
@@ -1287,31 +1302,169 @@ class S_RemovePlayer::_Internal {
 
 S_RemovePlayer::S_RemovePlayer(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
   // @@protoc_insertion_point(arena_constructor:Protobuf.S_RemovePlayer)
 }
 S_RemovePlayer::S_RemovePlayer(const S_RemovePlayer& from)
-  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase() {
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
   S_RemovePlayer* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.objectid_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _this->_impl_.objectid_ = from._impl_.objectid_;
   // @@protoc_insertion_point(copy_constructor:Protobuf.S_RemovePlayer)
 }
 
+inline void S_RemovePlayer::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.objectid_){uint64_t{0u}}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
 
+S_RemovePlayer::~S_RemovePlayer() {
+  // @@protoc_insertion_point(destructor:Protobuf.S_RemovePlayer)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
 
+inline void S_RemovePlayer::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
 
+void S_RemovePlayer::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void S_RemovePlayer::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protobuf.S_RemovePlayer)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.objectid_ = uint64_t{0u};
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* S_RemovePlayer::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // uint64 objectID = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.objectid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* S_RemovePlayer::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:Protobuf.S_RemovePlayer)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 objectID = 1;
+  if (this->_internal_objectid() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt64ToArray(1, this->_internal_objectid(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Protobuf.S_RemovePlayer)
+  return target;
+}
+
+size_t S_RemovePlayer::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protobuf.S_RemovePlayer)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint64 objectID = 1;
+  if (this->_internal_objectid() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_objectid());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
 
 const ::PROTOBUF_NAMESPACE_ID::Message::ClassData S_RemovePlayer::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl,
-    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl,
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    S_RemovePlayer::MergeImpl
 };
 const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S_RemovePlayer::GetClassData() const { return &_class_data_; }
 
 
+void S_RemovePlayer::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<S_RemovePlayer*>(&to_msg);
+  auto& from = static_cast<const S_RemovePlayer&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protobuf.S_RemovePlayer)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
 
+  if (from._internal_objectid() != 0) {
+    _this->_internal_set_objectid(from._internal_objectid());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
 
+void S_RemovePlayer::CopyFrom(const S_RemovePlayer& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protobuf.S_RemovePlayer)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
 
+bool S_RemovePlayer::IsInitialized() const {
+  return true;
+}
 
+void S_RemovePlayer::InternalSwap(S_RemovePlayer* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_.objectid_, other->_impl_.objectid_);
+}
 
 ::PROTOBUF_NAMESPACE_ID::Metadata S_RemovePlayer::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
@@ -1511,35 +1664,194 @@ void S_SyncPlayers::InternalSwap(S_SyncPlayers* other) {
 
 class S_SpawnBullet::_Internal {
  public:
+  static const ::Protobuf::BulletInfo& bullet(const S_SpawnBullet* msg);
 };
 
+const ::Protobuf::BulletInfo&
+S_SpawnBullet::_Internal::bullet(const S_SpawnBullet* msg) {
+  return *msg->_impl_.bullet_;
+}
+void S_SpawnBullet::clear_bullet() {
+  if (GetArenaForAllocation() == nullptr && _impl_.bullet_ != nullptr) {
+    delete _impl_.bullet_;
+  }
+  _impl_.bullet_ = nullptr;
+}
 S_SpawnBullet::S_SpawnBullet(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
   // @@protoc_insertion_point(arena_constructor:Protobuf.S_SpawnBullet)
 }
 S_SpawnBullet::S_SpawnBullet(const S_SpawnBullet& from)
-  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase() {
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
   S_SpawnBullet* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.bullet_){nullptr}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  if (from._internal_has_bullet()) {
+    _this->_impl_.bullet_ = new ::Protobuf::BulletInfo(*from._impl_.bullet_);
+  }
   // @@protoc_insertion_point(copy_constructor:Protobuf.S_SpawnBullet)
 }
 
+inline void S_SpawnBullet::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.bullet_){nullptr}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
 
+S_SpawnBullet::~S_SpawnBullet() {
+  // @@protoc_insertion_point(destructor:Protobuf.S_SpawnBullet)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
 
+inline void S_SpawnBullet::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  if (this != internal_default_instance()) delete _impl_.bullet_;
+}
 
+void S_SpawnBullet::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void S_SpawnBullet::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protobuf.S_SpawnBullet)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (GetArenaForAllocation() == nullptr && _impl_.bullet_ != nullptr) {
+    delete _impl_.bullet_;
+  }
+  _impl_.bullet_ = nullptr;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* S_SpawnBullet::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // .Protobuf.BulletInfo bullet = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          ptr = ctx->ParseMessage(_internal_mutable_bullet(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* S_SpawnBullet::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:Protobuf.S_SpawnBullet)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .Protobuf.BulletInfo bullet = 1;
+  if (this->_internal_has_bullet()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, _Internal::bullet(this),
+        _Internal::bullet(this).GetCachedSize(), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Protobuf.S_SpawnBullet)
+  return target;
+}
+
+size_t S_SpawnBullet::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protobuf.S_SpawnBullet)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // .Protobuf.BulletInfo bullet = 1;
+  if (this->_internal_has_bullet()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.bullet_);
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
 
 const ::PROTOBUF_NAMESPACE_ID::Message::ClassData S_SpawnBullet::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl,
-    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl,
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    S_SpawnBullet::MergeImpl
 };
 const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S_SpawnBullet::GetClassData() const { return &_class_data_; }
 
 
+void S_SpawnBullet::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<S_SpawnBullet*>(&to_msg);
+  auto& from = static_cast<const S_SpawnBullet&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protobuf.S_SpawnBullet)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
 
+  if (from._internal_has_bullet()) {
+    _this->_internal_mutable_bullet()->::Protobuf::BulletInfo::MergeFrom(
+        from._internal_bullet());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
 
+void S_SpawnBullet::CopyFrom(const S_SpawnBullet& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protobuf.S_SpawnBullet)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
 
+bool S_SpawnBullet::IsInitialized() const {
+  return true;
+}
 
+void S_SpawnBullet::InternalSwap(S_SpawnBullet* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_.bullet_, other->_impl_.bullet_);
+}
 
 ::PROTOBUF_NAMESPACE_ID::Metadata S_SpawnBullet::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
@@ -1555,31 +1867,169 @@ class S_RemoveBullet::_Internal {
 
 S_RemoveBullet::S_RemoveBullet(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
   // @@protoc_insertion_point(arena_constructor:Protobuf.S_RemoveBullet)
 }
 S_RemoveBullet::S_RemoveBullet(const S_RemoveBullet& from)
-  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase() {
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
   S_RemoveBullet* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.objectid_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _this->_impl_.objectid_ = from._impl_.objectid_;
   // @@protoc_insertion_point(copy_constructor:Protobuf.S_RemoveBullet)
 }
 
+inline void S_RemoveBullet::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.objectid_){uint64_t{0u}}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
 
+S_RemoveBullet::~S_RemoveBullet() {
+  // @@protoc_insertion_point(destructor:Protobuf.S_RemoveBullet)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
 
+inline void S_RemoveBullet::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
 
+void S_RemoveBullet::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void S_RemoveBullet::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protobuf.S_RemoveBullet)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.objectid_ = uint64_t{0u};
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* S_RemoveBullet::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // uint64 objectID = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.objectid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* S_RemoveBullet::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:Protobuf.S_RemoveBullet)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 objectID = 1;
+  if (this->_internal_objectid() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt64ToArray(1, this->_internal_objectid(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Protobuf.S_RemoveBullet)
+  return target;
+}
+
+size_t S_RemoveBullet::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protobuf.S_RemoveBullet)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint64 objectID = 1;
+  if (this->_internal_objectid() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_objectid());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
 
 const ::PROTOBUF_NAMESPACE_ID::Message::ClassData S_RemoveBullet::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl,
-    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl,
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    S_RemoveBullet::MergeImpl
 };
 const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S_RemoveBullet::GetClassData() const { return &_class_data_; }
 
 
+void S_RemoveBullet::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<S_RemoveBullet*>(&to_msg);
+  auto& from = static_cast<const S_RemoveBullet&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protobuf.S_RemoveBullet)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
 
+  if (from._internal_objectid() != 0) {
+    _this->_internal_set_objectid(from._internal_objectid());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
 
+void S_RemoveBullet::CopyFrom(const S_RemoveBullet& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protobuf.S_RemoveBullet)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
 
+bool S_RemoveBullet::IsInitialized() const {
+  return true;
+}
 
+void S_RemoveBullet::InternalSwap(S_RemoveBullet* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_.objectid_, other->_impl_.objectid_);
+}
 
 ::PROTOBUF_NAMESPACE_ID::Metadata S_RemoveBullet::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
@@ -1589,39 +2039,187 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S_RemoveBullet::GetClassData()
 
 // ===================================================================
 
-class S_SyncBullet::_Internal {
+class S_SyncBullets::_Internal {
  public:
 };
 
-S_SyncBullet::S_SyncBullet(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+void S_SyncBullets::clear_bullets() {
+  _impl_.bullets_.Clear();
+}
+S_SyncBullets::S_SyncBullets(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
-  // @@protoc_insertion_point(arena_constructor:Protobuf.S_SyncBullet)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:Protobuf.S_SyncBullets)
 }
-S_SyncBullet::S_SyncBullet(const S_SyncBullet& from)
-  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase() {
-  S_SyncBullet* const _this = this; (void)_this;
+S_SyncBullets::S_SyncBullets(const S_SyncBullets& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  S_SyncBullets* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.bullets_){from._impl_.bullets_}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  // @@protoc_insertion_point(copy_constructor:Protobuf.S_SyncBullet)
+  // @@protoc_insertion_point(copy_constructor:Protobuf.S_SyncBullets)
 }
 
+inline void S_SyncBullets::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.bullets_){arena}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
 
+S_SyncBullets::~S_SyncBullets() {
+  // @@protoc_insertion_point(destructor:Protobuf.S_SyncBullets)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
 
+inline void S_SyncBullets::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.bullets_.~RepeatedPtrField();
+}
 
+void S_SyncBullets::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData S_SyncBullet::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl,
-    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl,
+void S_SyncBullets::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protobuf.S_SyncBullets)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.bullets_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* S_SyncBullets::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // repeated .Protobuf.BulletInfo bullets = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_bullets(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* S_SyncBullets::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:Protobuf.S_SyncBullets)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // repeated .Protobuf.BulletInfo bullets = 1;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_bullets_size()); i < n; i++) {
+    const auto& repfield = this->_internal_bullets(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(1, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Protobuf.S_SyncBullets)
+  return target;
+}
+
+size_t S_SyncBullets::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protobuf.S_SyncBullets)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .Protobuf.BulletInfo bullets = 1;
+  total_size += 1UL * this->_internal_bullets_size();
+  for (const auto& msg : this->_impl_.bullets_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData S_SyncBullets::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    S_SyncBullets::MergeImpl
 };
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S_SyncBullet::GetClassData() const { return &_class_data_; }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S_SyncBullets::GetClassData() const { return &_class_data_; }
 
 
+void S_SyncBullets::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<S_SyncBullets*>(&to_msg);
+  auto& from = static_cast<const S_SyncBullets&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protobuf.S_SyncBullets)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
 
+  _this->_impl_.bullets_.MergeFrom(from._impl_.bullets_);
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
 
+void S_SyncBullets::CopyFrom(const S_SyncBullets& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protobuf.S_SyncBullets)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
 
+bool S_SyncBullets::IsInitialized() const {
+  return true;
+}
 
+void S_SyncBullets::InternalSwap(S_SyncBullets* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.bullets_.InternalSwap(&other->_impl_.bullets_);
+}
 
-::PROTOBUF_NAMESPACE_ID::Metadata S_SyncBullet::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata S_SyncBullets::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_Protocol_2eproto_getter, &descriptor_table_Protocol_2eproto_once,
       file_level_metadata_Protocol_2eproto[11]);
@@ -1674,9 +2272,9 @@ template<> PROTOBUF_NOINLINE ::Protobuf::S_RemoveBullet*
 Arena::CreateMaybeMessage< ::Protobuf::S_RemoveBullet >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Protobuf::S_RemoveBullet >(arena);
 }
-template<> PROTOBUF_NOINLINE ::Protobuf::S_SyncBullet*
-Arena::CreateMaybeMessage< ::Protobuf::S_SyncBullet >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::Protobuf::S_SyncBullet >(arena);
+template<> PROTOBUF_NOINLINE ::Protobuf::S_SyncBullets*
+Arena::CreateMaybeMessage< ::Protobuf::S_SyncBullets >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protobuf::S_SyncBullets >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 
