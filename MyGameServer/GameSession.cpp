@@ -19,7 +19,16 @@ namespace MGSL::Net
 	void GameSession::OnDisconnected()
 	{
 		MGSL_LOG_INFO("GameSession disconnected.");
-		MGSL_SESSION_MGR.Remove(GetGameSession());
+
+		GameSessionPtr session = GetGameSession();
+		Server::GameObject* gameObject = GetGameObject();
+		if (gameObject)
+		{
+			GameRoomPtr room = gameObject->GetGameRoom();
+			if (room) room->LeaveGameRoom(session);
+		}
+
+		MGSL_SESSION_MGR.Remove(session);
 	}
 
 	void GameSession::OnRecvPacket(BYTE* buffer, Shared::int32 len)

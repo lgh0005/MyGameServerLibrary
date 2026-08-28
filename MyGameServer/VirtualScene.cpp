@@ -1,12 +1,11 @@
 #include "ServerPch.h"
 #include "VirtualScene.h"
 #include "GameObject.h"
-#include "BoxCollider.h"
 
 namespace MGSL::Server
 {
 	VirtualScene::VirtualScene() = default;
-	VirtualScene::~VirtualScene() { ClearGameObjects(); }
+	VirtualScene::~VirtualScene() = default;
 
 	void VirtualScene::Init()
 	{
@@ -49,11 +48,29 @@ namespace MGSL::Server
 			if (!gameObject) continue;
 			gameObject->LateUpdate(deltaTime);
 		}
+
+		/*========================//
+		//         Remove         //
+		//========================*/
+		FlushRemoveObjects();
 	}
 
 	void VirtualScene::Destroy()
 	{
-		ClearGameObjects();
+		m_pendingRemoveObjects.clear();
+
+		while (!m_gameObjects.empty())
+		{
+			GameObject* gameObject = m_gameObjects.back().get();
+			if (!gameObject)
+			{
+				m_gameObjects.pop_back();
+				continue;
+			}
+
+			gameObject->OnDestroy();
+			m_gameObjects.pop_back();
+		}
 	}
 
 	GameObject* VirtualScene::AddGameObject(GameObjectUPtr&& gameObject)
@@ -67,35 +84,42 @@ namespace MGSL::Server
 	void VirtualScene::RemoveGameObject(GameObject* gameObject)
 	{
 		if (!gameObject) return;
-		for (auto it = m_gameObjects.begin(); it != m_gameObjects.end(); ++it)
-		{
-			if (it->get() != gameObject) continue;
-			
-			// 등록된 컴포넌트를 해제
-			// TODO : 이후에 이건 클라이언트도 똑같은데,
-			// 컴포넌트를 정리하기 위해 자신이 들고 있는 컴포넌트 배열을 반환, 그걸 순회해서
-			// 해제하는 로직이 필요할 수 있음.
-			// 아마, Component 클래스 단에서 등록 해제와 관련된 메서드를 두고 그걸 오버라이딩 시켜야 할 수도.
-			BoxCollider* collider = gameObject->GetComponent<BoxCollider>();
-			if (collider) MGSL_SERVER_COLLISION_MGR.Unregister(collider);
-
-			m_gameObjects.erase(it);
-			return;
-		}
+		const auto it = std::find
+		(m_pendingRemoveObjects.begin(), m_pendingRemoveObjects.end(), gameObject);
+		if (it != m_pendingRemoveObjects.end()) return;
+		m_pendingRemoveObjects.push_back(gameObject);
 	}
 
-	void VirtualScene::ClearGameObjects()
+	void VirtualScene::FlushRemoveObjects()
 	{
-		// 등록된 충돌체 정리
-		for (const GameObjectUPtr& gameObject : m_gameObjects)
-		{
-			if (!gameObject) continue;
+		if (m_pendingRemoveObjects.empty())
+			return;
 
-			BoxCollider* collider = gameObject->GetComponent<BoxCollider>();
-			if (collider) MGSL_SERVER_COLLISION_MGR.Unregister(collider);
-		}
+		m_gameObjects.erase
+		(
+			std::remove_if
+			(
+				m_gameObjects.begin(),
+				m_gameObjects.end(),
 
-		// 게임 오브젝트 정리
-		m_gameObjects.clear();
+				[this](const GameObjectUPtr& gameObject)
+				{
+					if (!gameObject) return false;
+					const auto it = std::find
+					(
+						m_pendingRemoveObjects.begin(),
+						m_pendingRemoveObjects.end(),
+						gameObject.get()
+					);
+
+					if (it == m_pendingRemoveObjects.end()) return false;
+					gameObject->OnDestroy();
+					return true;
+				}
+			),
+			m_gameObjects.end()
+		);
+
+		m_pendingRemoveObjects.clear();
 	}
 }

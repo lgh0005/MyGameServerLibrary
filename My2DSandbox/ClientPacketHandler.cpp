@@ -141,7 +141,11 @@ namespace MGSL::Net
 
 	void ClientPacketHandler::Handle_S_REMOVE_PLAYER(ServerSessionPtr session, BYTE* buffer, Shared::int32 len)
 	{
-		// TODO 
+		Protocol::PacketHeader* header = reinterpret_cast<Protocol::PacketHeader*>(buffer);
+		const Shared::uint16 size = header->size;
+		::Protobuf::S_RemovePlayer pkt;
+		pkt.ParseFromArray(&header[1], size - sizeof(Protocol::PacketHeader));
+		MGSL_NETWORK_MGR.RunOnMainThread([pkt = std::move(pkt)]() { RemovePlayer(pkt); });
 	}
 
 	void ClientPacketHandler::Handle_S_SPAWN_EFFECT(ServerSessionPtr session, BYTE* buffer, Shared::int32 len)
@@ -287,6 +291,21 @@ namespace MGSL::Net
 				body->SetServerGrounded(objectInfo.grounded());
 			}
 		}
+	}
+
+	void ClientPacketHandler::RemovePlayer(const ::Protobuf::S_RemovePlayer& pkt)
+	{
+		Framework::Scene* scene = g_Game2D.GetScene();
+		if (!scene) return;
+
+		Framework::GameObject* player = MGSL_OBJECT_MGR.FindNetworkObject(scene, pkt.objectid());
+		if (!player) return;
+
+		Framework::BoxCollider* collider = player->GetComponent<Framework::BoxCollider>();
+		if (collider) MGSL_COLLIDE_MGR.Unregister(collider);
+
+		MGSL_OBJECT_MGR.UnregisterNetworkObject(scene, pkt.objectid());
+		MGSL_OBJECT_MGR.RemoveGameObject(scene, player);
 	}
 
 	void ClientPacketHandler::SpawnBullet(const ::Protobuf::S_SpawnBullet& pkt)

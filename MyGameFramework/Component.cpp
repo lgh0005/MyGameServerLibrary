@@ -12,6 +12,7 @@ namespace MGSL::Framework
 	void Component::Update(float deltaTime)		{ }
 	void Component::LateUpdate(float deltaTime) { }
 	void Component::Submit()					{ }
+	void Component::OnDestroy()					{ }
 
 	GameObject* Component::GetOwner()
 	{

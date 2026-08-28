@@ -25,6 +25,6 @@ namespace MGSL::Sandbox2D
 
 		// Effect 애니메이션이 끝나면 GameObject 삭제
 		if (!flipbook->IsPlaying())
-			MGSL_OBJECT_MGR.RemoveGameObject(owner);
+			MGSL_OBJECT_MGR.RemoveGameObject(owner->GetOwner(), owner);
 	}
 }

@@ -51,6 +51,27 @@ namespace MGSL::Framework
 	{
 		if (!go) return;
 		if (IsPendingRemove(go)) return;
+
+		/*========================//
+		//       Children         //
+		//========================*/
+		const auto children = go->GetChildren();
+
+		for (GameObject* child : children)
+		{
+			if (!child) continue;
+			Remove(child);
+		}
+
+		/*========================//
+	   //        Parent          //
+	   //========================*/
+		GameObject* parent = go->GetParent();
+		if (parent) parent->RemoveChild(go);
+
+		/*========================//
+		//        Remove          //
+		//========================*/
 		m_pendingRemoveObjects.push_back(go);
 	}
 
@@ -117,7 +138,13 @@ namespace MGSL::Framework
 			std::remove_if
 			(
 				m_pendingAddObjects.begin(), m_pendingAddObjects.end(),
-				[this](const GameObjectUPtr& gameObject) { return IsPendingRemove( gameObject.get() ); }
+				[this](const GameObjectUPtr& gameObject)
+				{
+					if (!gameObject) return false;
+					if (!IsPendingRemove(gameObject.get())) return false;
+					gameObject->OnDestroy();
+					return true;
+				}
 			),
 			m_pendingAddObjects.end()
 		);
@@ -128,7 +155,13 @@ namespace MGSL::Framework
 			std::remove_if
 			(
 				m_gameObjects.begin(), m_gameObjects.end(),
-				[this](const GameObjectUPtr& gameObject) { return IsPendingRemove(gameObject.get()); }
+				[this](const GameObjectUPtr& gameObject)
+				{
+					if (!gameObject) return false;
+					if (!IsPendingRemove(gameObject.get())) return false;
+					gameObject->OnDestroy();
+					return true;
+				}
 			),
 			m_gameObjects.end()
 		);

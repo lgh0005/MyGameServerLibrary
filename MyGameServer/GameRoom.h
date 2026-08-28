@@ -24,6 +24,7 @@ namespace MGSL::Net
 	public:
 		void Init();
 		void Update(float deltaTime);
+		void Clear();
 
 	public:
 		void EnterGameRoom(GameSessionPtr session);
@@ -41,6 +42,7 @@ namespace MGSL::Net
 	private:
 		void SendExistingPlayers(GameSessionPtr session);
 		void BroadcastPlayerSpawn(Server::PlayerController* controller);
+		void BroadcastPlayerRemove(Shared::uint64 objectID);
 		void BroadcastSyncPlayers();
 
 		void SendExistingBullets(GameSessionPtr session);

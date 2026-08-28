@@ -16,6 +16,7 @@ namespace MGSL::Server
 	public:
 		virtual void Update(float deltaTime);
 		virtual void LateUpdate(float deltaTime);
+		virtual void OnDestroy();
 
 	public:
 		GameObject* GetOwner();

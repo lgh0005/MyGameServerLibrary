@@ -27,6 +27,20 @@ namespace MGSL::Server
     {
         if (!scene) return;
         if (!gameObject) return;
+
+        // 자식 먼저 제거
+        const auto children = gameObject->GetChildren();
+        for (GameObject* child : children)
+        {
+            if (!child) continue;
+            RemoveGameObject(scene, child);
+        }
+
+        // 부모와 관계 제거
+        GameObject* parent = gameObject->GetParent();
+        if (parent) parent->RemoveChild(gameObject);
+
+        // 실제 Scene에서 자기 자신 제거
         scene->RemoveGameObject(gameObject);
     }
 }

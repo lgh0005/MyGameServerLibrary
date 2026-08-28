@@ -18,6 +18,7 @@ namespace MGSL::Server
 	public:
 		virtual ~BoxCollider() override;
 		static BoxColliderUPtr Create(GameObject* owner);
+		virtual void OnDestroy() override;
 
 	public:
 		void SetSize(const Shared::vec2& size);

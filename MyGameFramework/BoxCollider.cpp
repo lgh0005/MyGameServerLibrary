@@ -36,6 +36,11 @@ namespace MGSL::Framework
 		GetTransform().SetPosition(correctedPosition);
 	}
 
+	void BoxCollider::OnDestroy()
+	{
+		MGSL_COLLIDE_MGR.Unregister(this);
+	}
+
 	void BoxCollider::SetServerPosition(const Shared::vec3& position)
 	{
 		m_serverPosition = position;

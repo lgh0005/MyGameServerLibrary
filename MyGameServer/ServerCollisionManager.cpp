@@ -113,6 +113,22 @@ namespace MGSL::Server
 		std::erase_if(m_currentCollisions, [collider](const CollisionPair& pair) { return pair.first == collider || pair.second == collider; });
 	}
 
+	void ServerCollisionManager::Unregister(GameObject* gameObject)
+	{
+		if (!gameObject) return;
+
+		// 자신의 Collider 제거
+		BoxCollider* collider = gameObject->GetComponent<BoxCollider>();
+		if (collider) Unregister(collider);
+
+		// 자식들도 재귀적으로 제거
+		for (GameObject* child : gameObject->GetChildren())
+		{
+			if (!child) continue;
+			Unregister(child);
+		}
+	}
+
 	/*===========================//
 	//   collision managements   //
 	//===========================*/

@@ -327,22 +327,6 @@ namespace MGSL::Sandbox2D
 		player->AddChild(rightHitbox);
 		MGSL_COLLIDE_MGR.Register(rHitbox);
 
-		// BulletSpawner : Left
-		Framework::GameObject* leftBulletSpawner = MGSL_OBJECT_MGR.CreateGameObject(this);
-		leftBulletSpawner->GetTransform().SetPosition(Shared::vec3(-0.45f, -0.15f, 0.0f));
-		Framework::SpriteRenderer* leftSpawnerGizmo = MGSL_OBJECT_MGR.AddComponent<Framework::SpriteRenderer>(leftBulletSpawner); if (!leftSpawnerGizmo) return;
-		leftSpawnerGizmo->SetAtlasTexture(background3);
-		leftSpawnerGizmo->SetSize(Shared::vec2(0.0625f, 0.0625f));
-		player->AddChild(leftBulletSpawner);
-
-		// BulletSpawner : Right
-		Framework::GameObject* rightBulletSpawner = MGSL_OBJECT_MGR.CreateGameObject(this);
-		rightBulletSpawner->GetTransform().SetPosition(Shared::vec3(0.45f, -0.15f, 0.0f));
-		Framework::SpriteRenderer* rightSpawnerGizmo = MGSL_OBJECT_MGR.AddComponent<Framework::SpriteRenderer>(rightBulletSpawner); if (!rightSpawnerGizmo) return;
-		rightSpawnerGizmo->SetAtlasTexture(background3);
-		rightSpawnerGizmo->SetSize(Shared::vec2(0.0625f, 0.0625f));
-		player->AddChild(rightBulletSpawner);
-
 		/*===========================//
 		//   Scene camera creation   //
 		//===========================*/
@@ -370,10 +354,9 @@ namespace MGSL::Sandbox2D
 		canvas->SetCanvasSize(referenceResolution);
 		MainUIController* uiController = MGSL_OBJECT_MGR.AddComponent<MainUIController>(hudCanvas); if (!uiController) return;
 
-		// TEMP : Face
+		// UI : Face
 		Framework::GameObject* faceObject = MGSL_OBJECT_MGR.CreateGameObject(this); if (!faceObject) return;
 		faceObject->GetTransform().SetPosition(Shared::vec3(-560.0f, 300.0f, 0.0f));
-
 		Framework::UIImage* faceImage = MGSL_OBJECT_MGR.AddComponent<Framework::UIImage>(faceObject); if (!faceImage) return;
 		faceImage->SetCanvas(canvas);
 		faceImage->SetTexture(uiFace);
@@ -383,7 +366,7 @@ namespace MGSL::Sandbox2D
 		hudCanvas->AddChild(faceObject);
 		uiController->SetFaceImage(faceImage);
 
-		// TEMP : hearts
+		// UI : Hearts
 		constexpr Shared::uint32 heartCount = 5;
 		const float heartSize = 56.0f;
 		const float heartSpacing = 8.0f;
@@ -394,7 +377,6 @@ namespace MGSL::Sandbox2D
 		{
 			Framework::GameObject* heartObject = MGSL_OBJECT_MGR.CreateGameObject(this); if (!heartObject) return;
 			const float x = startX + static_cast<float>(i) * (heartSize + heartSpacing);
-
 			heartObject->GetTransform().SetPosition(Shared::vec3(x, startY, 0.0f));
 			Framework::UIImage* heartImage = MGSL_OBJECT_MGR.AddComponent<Framework::UIImage>(heartObject);
 			if (!heartImage) return;
@@ -402,14 +384,12 @@ namespace MGSL::Sandbox2D
 			heartImage->SetTexture(uiHeart);
 			heartImage->SetSize(Shared::vec2(heartSize, heartSize));
 			heartImage->SetColor(Shared::vec4(1.0f));
-
-			// 실제 Heart가 UI Atlas 안에 들어있는 위치로 변경
 			heartImage->SetUVRect(Shared::vec4(0.0f, 0.0f, 1.0f, 1.0f));
 			hudCanvas->AddChild(heartObject);
 			uiController->AddHeartImage(heartImage);
 		}
 
-		// TEMP : Text_Kill count
+		// UI : Text_Kill count
 		Framework::GameObject* killCountObject = MGSL_OBJECT_MGR.CreateGameObject(this); if (!killCountObject) return;
 		killCountObject->GetTransform().SetPosition(Shared::vec3(430.0f, 300.0f, 0.0f));
 		Framework::UIText* killCountText = MGSL_OBJECT_MGR.AddComponent<Framework::UIText>(killCountObject); if (!killCountText) return;
@@ -420,7 +400,7 @@ namespace MGSL::Sandbox2D
 		hudCanvas->AddChild(killCountObject);
 		uiController->SetKillCountText(killCountText);
 
-		// TEMP : Current weapon state
+		// UI : Current weapon state
 		Framework::GameObject* weaponStateObject = MGSL_OBJECT_MGR.CreateGameObject(this);if (!weaponStateObject) return;
 		weaponStateObject->GetTransform().SetPosition(Shared::vec3(400.0f, -310.0f, 0.0f));
 		Framework::UIText* weaponStateText = MGSL_OBJECT_MGR.AddComponent<Framework::UIText>(weaponStateObject); if (!weaponStateText) return;
@@ -431,7 +411,7 @@ namespace MGSL::Sandbox2D
 		hudCanvas->AddChild(weaponStateObject);
 		uiController->SetWeaponTypeText(weaponStateText);
 
-		// UIController 세팅
+		// UI 세팅
 		uiController->SetHeartCount(heartCount);
 		uiController->SetKillCount(0);
 	}

@@ -16,19 +16,26 @@ namespace MGSL::Sandbox2D
 	{
         switch (message)
         {
+        case WM_CLOSE:
+        {
+            MGSL_NETWORK_MGR.Clear();
+            ::DestroyWindow(hWnd);
+            return 0;
+        }
+
         case WM_SIZE:
         {
             int width = LOWORD(lParam);
             int height = HIWORD(lParam);
             if (height == 0) height = 1;
             ::glViewport(0, 0, width, height);
+            return 0;
         }
-        return 0;
 
         case WM_KEYDOWN:
             if (wParam == VK_ESCAPE)
             {
-                ::DestroyWindow(hWnd);
+                ::PostMessage(hWnd, WM_CLOSE, 0, 0);
                 return 0;
             }
             break;

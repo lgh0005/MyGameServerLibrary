@@ -78,6 +78,13 @@ namespace MGSL::Net
 		BroadcastSyncBullets();
 	}
 
+	void GameRoom::Clear()
+	{
+		m_players.clear();
+		m_bullets.clear();
+		m_virtualScene->Destroy();
+	}
+
 	void GameRoom::EnterGameRoom(GameSessionPtr session)
 	{
 		// 0. 세션 검증 및 중복 입장 방지
@@ -156,7 +163,41 @@ namespace MGSL::Net
 
 	void GameRoom::LeaveGameRoom(GameSessionPtr session)
 	{
+		if (!session) return;
+		if (!m_virtualScene) return;
 
+		/*========================//
+		//     Find Player        //
+		//========================*/
+		Server::GameObject* player = session->GetGameObject(); 
+		if (!player) return;
+		
+		Server::PlayerController* controller = player->GetComponent<Server::PlayerController>();
+		if (!controller) return;
+
+		const Shared::uint64 objectID = controller->GetObjectID();
+
+		/*========================//
+		//    Room Registry       //
+		//========================*/
+		auto it = m_players.find(objectID);
+		if (it != m_players.end()) m_players.erase(it);
+
+		/*========================//
+		//   Session Connection   //
+		//========================*/
+		session->SetGameObject(nullptr);
+		player->SetGameSession(nullptr);
+		player->SetGameRoom(nullptr);
+
+		// 플레이어 제거 브로드캐스팅
+		BroadcastPlayerRemove(objectID);
+
+		/*========================//
+		//     Scene Object       //
+		//========================*/
+		MGSL_OBJECT_MGR.RemoveGameObject(m_virtualScene.get(), player);
+		MGSL_LOG_INFO("Player left GameRoom. ObjectID = {}", objectID);
 	}
 
 	void GameRoom::RemoveBullet(Shared::uint64 objectID)
@@ -234,6 +275,29 @@ namespace MGSL::Net
 			GameSessionPtr otherSession = otherPlayer->GetGameSession();
 			if (!otherSession) continue;
 			otherSession->GetSessionBuffer().Send(ServerPacketHandler::Make_S_SpawnPlayer(spawnPkt));
+		}
+	}
+
+	void GameRoom::BroadcastPlayerRemove(Shared::uint64 objectID)
+	{
+		::Protobuf::S_RemovePlayer pkt;
+		pkt.set_objectid(objectID);
+
+		auto sendBuffer = ServerPacketHandler::Make_S_RemovePlayer(pkt);
+
+		if (!sendBuffer) return;
+
+		for (const auto& [playerID, controller] : m_players)
+		{
+			if (!controller) continue;
+
+			Server::GameObject* player = controller->GetOwner();
+			if (!player) continue;
+
+			GameSessionPtr session = player->GetGameSession();
+			if (!session) continue;
+
+			session->GetSessionBuffer().Send(sendBuffer);
 		}
 	}
 

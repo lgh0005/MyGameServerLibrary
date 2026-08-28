@@ -4,6 +4,7 @@
 
 namespace MGSL::Server
 {
+	MGSL_CLASS_PTR(GameObject)
 	MGSL_CLASS_PTR(BoxCollider)
 	MGSL_CLASS_PTR(CharacterBody2D)
 	MGSL_CLASS_PTR(ClientBehaviour)
@@ -32,6 +33,7 @@ namespace MGSL::Server
 	public:
 		void Register(BoxCollider* collider);
 		void Unregister(BoxCollider* collider);
+		void Unregister(GameObject* go);
 
 	/*===========================//
 	//   collision managements   //

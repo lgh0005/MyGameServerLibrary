@@ -26,7 +26,7 @@ namespace MGSL::Framework
         if (!::RegisterClassExW(&wcx)) return false;
 
         // 윈도우 스타일 및 크기 조정
-        DWORD style = WS_OVERLAPPEDWINDOW;
+        DWORD style = WS_OVERLAPPEDWINDOW & ~WS_MAXIMIZEBOX & ~WS_THICKFRAME;
         RECT rect = { 0, 0, m_desc.width, m_desc.height };
         ::AdjustWindowRect(&rect, style, FALSE);
 

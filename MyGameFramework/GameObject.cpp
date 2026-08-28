@@ -30,6 +30,15 @@ namespace MGSL::Framework
 	void GameObject::Update(float deltaTime) { for (const ComponentUPtr& component : m_components) component->Update(deltaTime); }
 	void GameObject::LateUpdate(float deltaTime) { for (const ComponentUPtr& component : m_components) component->LateUpdate(deltaTime); }
 	void GameObject::Submit() { for (const ComponentUPtr& component : m_components) component->Submit(); }
+	void GameObject::OnDestroy() 
+	{
+		for (const auto& component : m_components)
+		{
+			if (!component) continue;
+			component->OnDestroy();
+		}
+		m_components.clear();
+	}
 
 	/*===============================//
 	//   component control methods   //

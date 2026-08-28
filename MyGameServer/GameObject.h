@@ -24,11 +24,11 @@ namespace MGSL::Server
 	public:
 		void Update(float deltaTime);
 		void LateUpdate(float deltaTime);
+		void OnDestroy();
 
 	public:
 		template<typename T, typename... Args> T* AddComponent(Args&&... args);
 		template<typename T> T* GetComponent();
-		void ClearComponents();
 
 	/*===============================//
 	//   hierarchy control methods   //

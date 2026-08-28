@@ -18,7 +18,8 @@ namespace MGSL::Framework
 	public:
 		virtual ~BoxCollider() override;
 		static BoxColliderUPtr Create(GameObject* owner);
-		void Update(float deltaTime) override;
+		virtual void Update(float deltaTime) override;
+		virtual void OnDestroy() override;
 
 	public:
 		void SetServerPosition(const Shared::vec3& position);

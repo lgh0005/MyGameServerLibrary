@@ -25,10 +25,13 @@ namespace MGSL::Server
 	public:
 		GameObject* AddGameObject(GameObjectUPtr&& gameObject);
 		void RemoveGameObject(GameObject* gameObject);
-		void ClearGameObjects();
+
+	private:
+		void FlushRemoveObjects();
 
 	private:
 		Shared::List<GameObjectUPtr> m_gameObjects;
+		Shared::List<GameObject*> m_pendingRemoveObjects;
 	};
 }
 

@@ -14,6 +14,11 @@ namespace MGSL::Server
 		return BoxColliderUPtr(new BoxCollider(owner));
 	}
 
+	void BoxCollider::OnDestroy()
+	{
+		MGSL_SERVER_COLLISION_MGR.Unregister(this);
+	}
+
 	void BoxCollider::SetSize(const Shared::vec2& size)
 	{
 		m_size = size;

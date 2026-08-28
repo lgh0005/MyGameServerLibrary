@@ -62,6 +62,7 @@ namespace MGSL::Server
 
 	void Server::Clear()
 	{
+		m_gameRoom->Clear();
 		MGSL_SERVER_COLLISION_MGR.Clear();
 		MGSL_THREAD_MGR.Join();
 		Net::SocketUtils::Clear();

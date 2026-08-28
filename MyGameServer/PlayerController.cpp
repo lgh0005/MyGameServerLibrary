@@ -4,6 +4,7 @@
 #include "CharacterBody2D.h"
 #include "BoxCollider.h"
 #include "GameRoom.h"
+#include "GameSession.h"
 
 namespace MGSL::Server
 {
@@ -67,6 +68,7 @@ namespace MGSL::Server
         if (m_isDead) return;
 
         m_isDead = true;
+        m_deathElapsedTime = 0.0f;
 
         // Network State
         m_info.set_life(0);
@@ -94,22 +96,29 @@ namespace MGSL::Server
         m_isRunning = false;
     }
 
-    bool PlayerController::UpdateDeath(float /*deltaTime*/)
+    bool PlayerController::UpdateDeath(float deltaTime)
     {
-        return IsDead();
+        if (!m_isDead)
+            return false;
 
-        // TODO : 연결을 끊을 시간을 마련해준다.
-        //if (!m_isDead)
-        //    return false;
+        m_deathElapsedTime += deltaTime;
 
-        //m_deathElapsedTime += deltaTime;
+        if (m_deathElapsedTime < m_deathDuration)
+            return true;
 
-        //if (m_deathElapsedTime >= m_deathDuration)
-        //{
-        //    // Disconnect
-        //}
+        GameObject* owner = GetOwner();
+        if (!owner)
+            return true;
 
-        //return true;
+        Net::GameSessionPtr session =
+            owner->GetGameSession();
+
+        if (!session)
+            return true;
+
+        session->Disconnect("Player {} Dead.");
+
+        return true;
     }
 #pragma endregion
 

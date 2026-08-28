@@ -24,6 +24,7 @@ namespace MGSL::Framework
 		void Update(float deltaTime);
 		void LateUpdate(float deltaTime);
 		void Submit();
+		void OnDestroy();
 
 	/*===============================//
 	//   component control methods   //

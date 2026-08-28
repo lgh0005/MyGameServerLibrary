@@ -30,12 +30,21 @@ namespace MGSL::Framework
 		return scene->AddGameObject(std::move(gameObject));
 	}
 
-	void ObjectManager::RemoveGameObject(GameObject* gameObject)
+	void ObjectManager::RemoveGameObject(Scene* scene, GameObject* gameObject)
 	{
-		if (gameObject == nullptr) return;
+		if (!scene) return;
+		if (!gameObject) return;
 
-		Scene* scene = gameObject->GetOwner();
-		if (scene == nullptr) return;
+		const auto children = gameObject->GetChildren();
+		for (GameObject* child : children)
+		{
+			if (!child) continue;
+			RemoveGameObject(scene, child);
+		}
+
+		GameObject* parent = gameObject->GetParent();
+		if (parent) parent->RemoveChild(gameObject);
+
 		scene->RemoveGameObject(gameObject);
 	}
 

@@ -24,7 +24,7 @@ namespace MGSL::Framework
 	//============================*/
 	public:
 		GameObject* AddGameObject(GameObjectUPtr go);
-		void RemoveGameObject(GameObject* go);
+		void RemoveGameObject(Scene* scene, GameObject* go);
 		template<typename T> GameObject* FindGameObjectWithComponent(Scene* scene);
 
 		bool RegisterNetworkObject(Scene* scene, Shared::uint64 objectID, GameObject* gameObject);

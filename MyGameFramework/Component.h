@@ -19,6 +19,7 @@ namespace MGSL::Framework
 		virtual void Update(float deltaTime);
 		virtual void LateUpdate(float deltaTime);
 		virtual void Submit();
+		virtual void OnDestroy();
 
 	public:
 		GameObject* GetOwner();

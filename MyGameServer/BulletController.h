@@ -29,6 +29,7 @@ namespace MGSL::Server
 		float m_elapsedTime = 0.0f;
 		float m_lifeTime = 3.0f;
 
+#pragma region NETWORK_STATE_INTERFACE_IMPL
 	/*=======================================//
 	//   INetworkState interface overrides   //
 	//=======================================*/
@@ -45,5 +46,6 @@ namespace MGSL::Server
 
 		::Protobuf::BulletInfo m_info;
 	};
+#pragma endregion
 }
 

@@ -51,6 +51,8 @@ namespace MGSL::Server
 
 	private:
 		bool m_isDead = false;
+		float m_deathElapsedTime = 0.0f;
+		float m_deathDuration = 1.0f;
 #pragma endregion
 
 #pragma region HIT

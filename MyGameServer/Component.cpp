@@ -9,6 +9,7 @@ namespace MGSL::Server
 
 	void Component::Update(float deltaTime)		{ }
 	void Component::LateUpdate(float deltaTime) { }
+	void Component::OnDestroy()					{ }
 
 	GameObject* Component::GetOwner()
 	{
