@@ -2,6 +2,7 @@
 #include "PostProcessingRenderPass2D.h"
 #include "GLFramebuffer.h"
 #include "GLSampler.h"
+#include "GLBuffer.h"
 #include "QuadMesh.h"
 #include "Shader.h"
 
@@ -51,7 +52,7 @@ namespace MGSL::Framework
 		if (!m_framebuffer) return false;
 
 		m_framebuffer->AttachColorTexture(m_colorTextureID, 0);
-		 m_framebuffer->AttachDepthStencilTexture(m_depthStencilTextureID);
+		m_framebuffer->AttachDepthStencilTexture(m_depthStencilTextureID);
 		m_framebuffer->SetDrawBuffer(0);
 		m_framebuffer->SetReadBuffer(0);
 		if (!m_framebuffer->IsAttachmentComplete()) return false;
@@ -66,13 +67,23 @@ namespace MGSL::Framework
 		m_screenQuad = QuadMesh::Create();
 		if (!m_screenQuad) return false;
 
+		// 포스트 프로세싱 유니폼 버퍼 생성
+		m_postProcessingData.time = MGSL_TIME_MGR.GetDeltaTime();
+		m_postProcessingData.vignetteIntensity = 0.0f;                // 맞을 때 0.8f
+		m_postProcessingData.chromaticAberrationStrength = 0.0075f;   // 맞을 때 0.05f, 평소 0.0075f
+		m_postProcessingData.pad0 = 0.0f;
+		if (!CreateUniformBuffer()) return false;
+
 		return true;
 	}
 
 	void PostProcessingRenderPass2D::Render()
 	{
-		if (!m_postProcessingShader  || !m_screenQuad || 
+		if (!m_postProcessingShader || !m_screenQuad ||
 			!m_postProcessingSampler || m_colorTextureID == 0) return;
+
+		// 유니폼 바인딩
+		UpdateUniformBuffer();
 
 		// 셰이더 바인딩
 		::glDisable(GL_DEPTH_TEST);
@@ -125,5 +136,44 @@ namespace MGSL::Framework
 	{
 		m_width = width;
 		m_height = height;
+	}
+
+	/*===============================================//
+	//   PostProcessingRenderPass2D uniform setters  //
+	//===============================================*/
+	void PostProcessingRenderPass2D::SetTime(float time)
+	{
+		m_postProcessingData.time = time;
+	}
+
+	void PostProcessingRenderPass2D::SetVignetteIntensity(float intensity)
+	{
+		m_postProcessingData.vignetteIntensity = glm::clamp(intensity, 0.0f, 1.0f);
+	}
+
+	void PostProcessingRenderPass2D::SetChromaticAberrationStrength(float strength)
+	{
+		m_postProcessingData.chromaticAberrationStrength = std::max(0.0f, strength);
+	}
+
+	bool PostProcessingRenderPass2D::CreateUniformBuffer()
+	{
+		m_uniformBuffer = GLBuffer::Create(sizeof(PostProcessingData), nullptr, GL_DYNAMIC_STORAGE_BIT);
+		if (!m_uniformBuffer) return false;
+	
+		BindUniformBuffer();
+		return true;
+	}
+
+	void PostProcessingRenderPass2D::BindUniformBuffer() const
+	{
+		if (!m_uniformBuffer) return;
+		m_uniformBuffer->BindBase(GL_UNIFORM_BUFFER, static_cast<Shared::uint32>(EUniformBinding::POST_PROCESSING));
+	}
+
+	void PostProcessingRenderPass2D::UpdateUniformBuffer()
+	{
+		if (!m_uniformBuffer) return;
+		m_uniformBuffer->SetData(0, sizeof(PostProcessingData), &m_postProcessingData);
 	}
 }

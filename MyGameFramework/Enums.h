@@ -43,7 +43,8 @@ namespace MGSL::Framework
 	enum class EUniformBinding : Shared::uint8
 	{
 		CAMERA,
-		UI
+		UI,
+		POST_PROCESSING
 	};
 
 	enum class EUIButtonState : Shared::uint8

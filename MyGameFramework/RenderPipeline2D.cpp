@@ -19,7 +19,6 @@ namespace MGSL::Framework
 		auto postProcessingRenderPass = PostProcessingRenderPass2D::Create();
 		auto uiRenderPass = UIRenderPass::Create();
 
-		// TEMP
 		auto debugRenderPass = DebugRenderPass::Create();
 		if (!debugRenderPass) return nullptr;
 		renderPipeline2D->m_debugRenderPass = std::move(debugRenderPass);

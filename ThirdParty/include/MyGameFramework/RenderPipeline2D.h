@@ -45,8 +45,6 @@ namespace MGSL::Framework
 		SpriteRenderPass* GetSpriteRenderPass() { return m_spriteRenderPass.get(); }
 		PostProcessingRenderPass2D* GetPostProcessingRenderPass2D() { return m_postProcessingRenderPass2D.get(); }
 		UIRenderPass* GetUIRenderPass() { return m_uiRenderPass.get(); }
-
-		// TEMP
 		DebugRenderPass* GetDebugRenderPass() { return m_debugRenderPass.get(); }
 
 	private:
@@ -55,8 +53,6 @@ namespace MGSL::Framework
 		SpriteRenderPassUPtr m_spriteRenderPass;
 		PostProcessingRenderPass2DUPtr m_postProcessingRenderPass2D;
 		UIRenderPassUPtr m_uiRenderPass;
-
-		// TEMP
 		DebugRenderPassUPtr m_debugRenderPass;
 	};
 }

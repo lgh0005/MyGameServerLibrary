@@ -1,5 +1,6 @@
 #pragma once
 #include "RenderPass.h"
+#include "Uniform.h"
 
 namespace MGSL::Framework
 {
@@ -33,12 +34,25 @@ namespace MGSL::Framework
 		void BeginRenderTarget() const;
 		void EndRenderTarget() const;
 
-	/*============================================//
+	/*==============================================//
 	//   PostProcessingRenderPass2D shader setters  //
-	//============================================*/
+	//==============================================*/
 	public:
 		void SetPostProcessingShader(ShaderPtr shader);
 		void SetRenderSize(Shared::int32 width, Shared::int32 height);
+
+	/*===============================================//
+	//   PostProcessingRenderPass2D uniform setters  //
+	//===============================================*/
+	public:
+		void SetTime(float time);
+		void SetVignetteIntensity(float intensity);
+		void SetChromaticAberrationStrength(float strength);
+
+	private:
+		bool CreateUniformBuffer();
+		void BindUniformBuffer() const;
+		void UpdateUniformBuffer();
 
 	private:
 		PostProcessingRenderPass2D();
@@ -51,9 +65,11 @@ namespace MGSL::Framework
 		Shared::uint32 m_colorTextureID = 0;
 		Shared::uint32 m_depthStencilTextureID = 0;
 
-		// TODO : 이거 나중에 해당 정보를 가지고 있는 곳에서 가져올 필요가 있음
 		Shared::int32 m_width = 1280;
 		Shared::int32 m_height = 720;
+
+		PostProcessingData m_postProcessingData{};
+		GLBufferUPtr m_uniformBuffer;
 	};
 }
 

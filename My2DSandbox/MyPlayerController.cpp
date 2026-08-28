@@ -23,10 +23,14 @@ namespace MGSL::Sandbox2D
 	{
 		m_playerNetworkState = GetOwner()->GetComponent<MyPlayerNetworkState>();
 		m_characterBody = GetOwner()->GetComponent<Framework::CharacterBody2D>();
+		if (m_playerNetworkState) m_prevState = m_playerNetworkState->GetState();
 	}
 
 	void MyPlayerController::Update(float deltaTime)
 	{
+		// 피격 포스트 프로세싱
+		UpdateHitEffect(deltaTime);
+
 		// 죽었는 지 판정
 		if (Dead()) return;
 
@@ -43,8 +47,6 @@ namespace MGSL::Sandbox2D
 	{
 		Move(keyboard);
 		Jump(keyboard);
-		Dash(keyboard);
-		Slide(keyboard);
 	}
 
 	void MyPlayerController::HandleWeaponInput(Framework::KeyboardDevice* keyboard)
@@ -102,16 +104,6 @@ namespace MGSL::Sandbox2D
 		SendJumpPacket();
 	}
 
-	void MyPlayerController::Dash(Framework::KeyboardDevice* keyboard)
-	{
-		// TODO : aa 또는 dd를 연타할 경우, body를 해당 방향으로 AddForce
-	}
-
-	void MyPlayerController::Slide(Framework::KeyboardDevice* keyboard)
-	{
-		// TODO : sa 또는 sd를 누를 경우, 눕는 상태로 전환되면서 AddForce
-	}
-
 	bool MyPlayerController::Dead()
 	{
 		if (m_playerNetworkState->GetState() != Protobuf::OBJECT_STATE_TYPE_DEATH)
@@ -121,6 +113,52 @@ namespace MGSL::Sandbox2D
 		m_characterBody->SetVerticalVelocity(0.0f);
 		return true;
 	}
+
+
+
+
+	void MyPlayerController::PlayHitEffect()
+	{
+		m_hitEffectElapsedTime = 0.0f;
+		m_isHitEffectPlaying = true;
+		MGSL_RENDER_MGR.SetVignetteIntensity(0.8f);
+		MGSL_RENDER_MGR.SetChromaticAberrationStrength(0.05f);
+	}
+
+	void MyPlayerController::UpdateHitEffect(float deltaTime)
+	{
+		if (!m_playerNetworkState) return;
+
+		const ::Protobuf::OBJECT_STATE_TYPE currentState = m_playerNetworkState->GetState();
+
+		// HIT 상태로 처음 진입했을 때만 발동
+		if (currentState == ::Protobuf::OBJECT_STATE_TYPE_HIT &&
+			m_prevState != ::Protobuf::OBJECT_STATE_TYPE_HIT)
+			PlayHitEffect();
+
+		m_prevState = currentState;
+
+		if (!m_isHitEffectPlaying) return;
+
+		m_hitEffectElapsedTime += deltaTime;
+
+		float t = m_hitEffectElapsedTime / m_hitEffectDuration;
+		t = glm::clamp(t, 0.0f, 1.0f);
+
+		const float vignetteIntensity = glm::mix(0.8f, 0.0f, t);
+		const float chromaticAberrationStrength = glm::mix(0.05f, 0.0075f, t);
+		MGSL_RENDER_MGR.SetVignetteIntensity(vignetteIntensity);
+		MGSL_RENDER_MGR.SetChromaticAberrationStrength(chromaticAberrationStrength);
+
+		if (t >= 1.0f)
+		{
+			m_isHitEffectPlaying = false;
+			m_hitEffectElapsedTime = 0.0f;
+			MGSL_RENDER_MGR.SetVignetteIntensity(0.0f);
+			MGSL_RENDER_MGR.SetChromaticAberrationStrength(0.0075f);
+		}
+	}
+
 #pragma endregion
 
 #pragma region PACKET_SENDINGS

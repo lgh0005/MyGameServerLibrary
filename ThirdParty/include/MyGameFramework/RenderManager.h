@@ -60,10 +60,17 @@ namespace MGSL::Framework
 		void UpdateCameraBuffer();
 		void BindCameraBuffer() const;
 
+	/*==================================//
+	//   post-processing value setters  //
+	//==================================*/
+	public:
+		void SetPostProcessingTime(float time);
+		void SetVignetteIntensity(float intensity);
+		void SetChromaticAberrationStrength(float strength);
+
 	private:
 		Camera* m_mainCamera		= nullptr;
 		GLBufferUPtr m_cameraBuffer = nullptr;
-
 		RenderPipeline2DUPtr m_renderPipeline2D;
 	};
 }

@@ -43,9 +43,11 @@ namespace MGSL::Sandbox2D
 	private:
 		void Move(Framework::KeyboardDevice* keyboard);
 		void Jump(Framework::KeyboardDevice* keyboard);
-		void Dash(Framework::KeyboardDevice* keyboard);
-		void Slide(Framework::KeyboardDevice* keyboard);
 		bool Dead();
+
+	private:
+		void UpdateHitEffect(float deltaTime);
+		void PlayHitEffect();
 
 	private:
 		explicit MyPlayerController(Framework::GameObject* owner);
@@ -61,6 +63,12 @@ namespace MGSL::Sandbox2D
 		::Protobuf::DIR_TYPE m_prevHorizontalDir = ::Protobuf::DIR_TYPE_NONE;
 		::Protobuf::DIR_TYPE m_prevVerticalDir = ::Protobuf::DIR_TYPE_NONE;
 		Framework::CharacterBody2D* m_characterBody = nullptr;
+
+		// 피격 포스트 프로세싱
+		::Protobuf::OBJECT_STATE_TYPE m_prevState = ::Protobuf::OBJECT_STATE_TYPE_IDLE;
+		float m_hitEffectElapsedTime = 0.0f;
+		float m_hitEffectDuration = 1.0f;
+		bool m_isHitEffectPlaying = false;
 
 #pragma region PACKET_SENDINGS
 	/*========================//

@@ -6,10 +6,18 @@ namespace MGSL::Framework
 	{
 		Shared::mat4 view					  { 1.0 };
 		Shared::mat4 projection				  { 1.0 };
-		Shared::mat4 viewProjection				  { 1.0 };
+		Shared::mat4 viewProjection			  { 1.0 };
 
 		// xyz : Camera World Position
 		// w   : Padding
-		Shared::vec4 worldPosition				  { 0.0f, 0.0f, 0.0f, 1.0f };
+		Shared::vec4 worldPosition			  { 0.0f, 0.0f, 0.0f, 1.0f };
+	};
+
+	struct alignas(OPENGL_MEMORY_ALIGNMNET) PostProcessingData
+	{
+		float time;
+		float vignetteIntensity;
+		float chromaticAberrationStrength;
+		float pad0;
 	};
 }

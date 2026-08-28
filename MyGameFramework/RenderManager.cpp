@@ -131,5 +131,32 @@ namespace MGSL::Framework
 		if (!m_cameraBuffer) return;
 		m_cameraBuffer->BindBase(GL_UNIFORM_BUFFER, (Shared::uint32)EUniformBinding::CAMERA);
 	}
+
+	/*==================================//
+	//   post-processing value setters  //
+	//==================================*/
+	void RenderManager::SetPostProcessingTime(float time)
+	{
+		if (!m_renderPipeline2D) return;
+		auto* renderPass = m_renderPipeline2D->GetPostProcessingRenderPass2D();
+		if (!renderPass) return;
+		renderPass->SetTime(time);
+	}
+
+	void RenderManager::SetVignetteIntensity(float intensity)
+	{
+		if (!m_renderPipeline2D) return;
+		auto* renderPass = m_renderPipeline2D->GetPostProcessingRenderPass2D();
+		if (!renderPass) return;
+		renderPass->SetVignetteIntensity(intensity);
+	}
+
+	void RenderManager::SetChromaticAberrationStrength(float strength)
+	{
+		if (!m_renderPipeline2D) return;
+		auto* renderPass = m_renderPipeline2D->GetPostProcessingRenderPass2D();
+		if (!renderPass) return;
+		renderPass->SetChromaticAberrationStrength(strength);
+	}
 }
 
